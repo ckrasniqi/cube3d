@@ -1,0 +1,6 @@
+.vscode/
+build/
+MLX42
+*.o
+*.a
+cube3d
