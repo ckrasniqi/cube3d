@@ -6,15 +6,26 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 14:32:10 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 18:19:54 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-static void	ft_error(void)
+void	ft_error(char *error)
 {
-	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
+	const char	*msg;
+
+	if (error)
+	{
+		ft_putendl_fd(error, STDERR_FILENO);
+		ft_putstr_fd(error, STDOUT_FILENO);
+		exit(EXIT_FAILURE);
+	}
+	msg = mlx_strerror(mlx_errno);
+	if (!msg)
+		msg = "Unknown MLX error";
+	ft_putendl_fd(msg, STDERR_FILENO);
 	exit(EXIT_FAILURE);
 }
 
@@ -74,16 +85,16 @@ void	game_init(t_game *game, const char *cub_file)
 	(void)cub_file;
 
 	if (ft_memset(game, 0, sizeof(t_game)) == NULL)
-		ft_error();
+		ft_error("Error: initializing game structure.\n");
 	game->mlx = mlx_init(WIDTH, HEIGHT, "Game", false);
 	if (!game->mlx)
-		ft_error();
+		ft_error("Error: initializing MLX.\n");
 	game->image = mlx_new_image(game->mlx, 128, 128);
 	if (!game->image)
-		ft_error();
+		ft_error("Error: creating new image.\n");
 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
-		ft_error();
-	parse_map(cub_file);
+		ft_error("Error: putting image to window.\n");
+	parse_map(cub_file, &game->map_data);
 }
 
 int32_t	main(int ac, char **av)
