@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 18:19:49 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:57:47 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,10 @@ typedef struct s_map_data
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
+	int			parsed_textures;
 	uint32_t	floor_color;
 	uint32_t	ceiling_color;
+	int			parsed_colors;
 	int			**map;
 	size_t		map_rows;
 	size_t		map_cols;
@@ -49,7 +51,17 @@ typedef struct s_game
 
 }				t_game;
 
-void			parse_map(const char *filename, t_map_data *map_data);
-void			ft_error(char *error);
+// Parsing functions
+void			parse_cub_file(const char *filename, t_map_data *map_data);
+
+// Error handling
+void			ft_error(char *msg);
+void			error_msg(char *msg);
+
+// Utility functions
+int				ft_isspace(char c);
+char			*ft_skip_whitespace(const char *str);
+
+
 
 #endif

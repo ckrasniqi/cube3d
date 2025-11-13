@@ -6,7 +6,7 @@
 #    By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/11/13 13:50:36 by ckrasniq         ###   ########.fr        #
+#    Updated: 2025/11/13 20:49:18 by ckrasniq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,12 +32,10 @@ LIBDIR := build/lib
 
 LIBFT_A := $(LIBDIR)/libft.a
 
-SRCS := src/main.c src/parsing/parse_input.c
+SRCS := src/main.c src/parsing/parse_input.c src/utils.c
 OBJS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 
-GNL_SRCS := $(GNL_DIR)/get_next_line.c $(GNL_DIR)/get_next_line_utils.c
-GNL_OBJS := $(patsubst $(GNL_DIR)/%.c,$(OBJDIR)/gnl/%.o,$(GNL_SRCS))
 
 all: libmlx libft $(NAME)
 

@@ -6,28 +6,12 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 18:19:54 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 20:47:51 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
 
-void	ft_error(char *error)
-{
-	const char	*msg;
-
-	if (error)
-	{
-		ft_putendl_fd(error, STDERR_FILENO);
-		ft_putstr_fd(error, STDOUT_FILENO);
-		exit(EXIT_FAILURE);
-	}
-	msg = mlx_strerror(mlx_errno);
-	if (!msg)
-		msg = "Unknown MLX error";
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
-}
 
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
@@ -94,7 +78,7 @@ void	game_init(t_game *game, const char *cub_file)
 		ft_error("Error: creating new image.\n");
 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
 		ft_error("Error: putting image to window.\n");
-	parse_map(cub_file, &game->map_data);
+	parse_cub_file(cub_file, &game->map_data);
 }
 
 int32_t	main(int ac, char **av)
