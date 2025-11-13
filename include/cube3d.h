@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 13:56:48 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:18:31 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "MLX42/MLX42.h"
 # include <fcntl.h>
-# include <libft.h>
+# include <libft/libft.h>
 # include <stdbool.h>
 # include <stdint.h>
 # include <stdio.h>
@@ -25,6 +25,7 @@
 # include <time.h>
 # define WIDTH 1080
 # define HEIGHT 720
+#define BPP sizeof(int32_t)
 
 typedef struct s_map_data
 {

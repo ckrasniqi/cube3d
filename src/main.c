@@ -6,24 +6,17 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 13:56:48 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 14:32:10 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-#include <string.h>
-#define BPP sizeof(int32_t)
 
-// Exit the program as failure.
 static void	ft_error(void)
 {
 	fprintf(stderr, "%s", mlx_strerror(mlx_errno));
 	exit(EXIT_FAILURE);
 }
-
-static mlx_image_t	*image;
-
-// -----------------------------------------------------------------------------
 
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
@@ -32,74 +25,84 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 
 void	ft_randomize(void *param)
 {
-	(void)param;
-	for (uint32_t i = 0; i < image->width; ++i)
+	t_game *game = param;
+	mlx_image_t *img;
+
+	if (!game)
+		return;
+	img = game->image;
+	if (!img)
+		return;
+	for (uint32_t i = 0; i < img->width; ++i)
 	{
-		for (uint32_t y = 0; y < image->height; ++y)
+		for (uint32_t y = 0; y < img->height; ++y)
 		{
 			uint32_t color = ft_pixel(rand() % 0xFF, // R
 										rand() % 0xFF, // G
 										rand() % 0xFF, // B
 										rand() % 0xFF  // A
 			);
-			mlx_put_pixel(image, i, y, color);
+			mlx_put_pixel(img, i, y, color);
 		}
 	}
 }
 
 void	ft_hook(void *param)
 {
-	mlx_t	*mlx;
+	t_game *game = param;
+	mlx_t *mlx;
 
-	mlx = param;
+	if (!game)
+		return;
+	mlx = game->mlx;
+	if (!mlx)
+		return;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-		image->instances[0].y -= 5;
+		game->image->instances[0].y -= 5;
 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-		image->instances[0].y += 5;
+		game->image->instances[0].y += 5;
 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-		image->instances[0].x -= 5;
+		game->image->instances[0].x -= 5;
 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-		image->instances[0].x += 5;
+		game->image->instances[0].x += 5;
 }
 
-// -----------------------------------------------------------------------------
+void	game_init(t_game *game, const char *cub_file)
+{
+	(void)cub_file;
+
+	if (ft_memset(game, 0, sizeof(t_game)) == NULL)
+		ft_error();
+	game->mlx = mlx_init(WIDTH, HEIGHT, "Game", false);
+	if (!game->mlx)
+		ft_error();
+	game->image = mlx_new_image(game->mlx, 128, 128);
+	if (!game->image)
+		ft_error();
+	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
+		ft_error();
+	parse_map(cub_file);
+}
 
 int32_t	main(int ac, char **av)
 {
-	mlx_t	*mlx;
+	t_game		game;
+	const char	*cub_file;
 
-	if (ac == 2)
-		parse_map(av[1]);
-	else
+	if (ac != 2)
 	{
-		printf("Error\n");
+		printf("Error, Usage: ./cube3d [filename].cub \n");
 		return (EXIT_FAILURE);
 	}
-	// Gotta error check this stuff
-	if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	{
-		puts(mlx_strerror(mlx_errno));
-		ft_error();
-		return (EXIT_FAILURE);
-	}
-	if (!(image = mlx_new_image(mlx, 128, 128)))
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return (EXIT_FAILURE);
-	}
-	if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	{
-		mlx_close_window(mlx);
-		puts(mlx_strerror(mlx_errno));
-		return (EXIT_FAILURE);
-	}
-	mlx_loop_hook(mlx, ft_randomize, mlx);
-	mlx_loop_hook(mlx, ft_hook, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	cub_file = av[1];
+
+	game_init(&game, cub_file);
+	mlx_loop_hook(game.mlx, ft_randomize, &game);
+	mlx_loop_hook(game.mlx, ft_hook, &game);
+	mlx_loop(game.mlx);
+	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);
 }
 
@@ -113,7 +116,7 @@ int32_t	main(int ac, char **av)
 // int32_t	main(void)
 // {
 //
-	// Init mlx with a canvas size of 256x256 and the ability to resize the window.
+// Init mlx with a canvas size of 256x256 and the ability to resize the window.
 //     mlx_t* mlx = mlx_init(256, 256, "MLX42", true);
 
 //     if (!mlx) exit(EXIT_FAILURE);
@@ -122,7 +125,7 @@ int32_t	main(int ac, char **av)
 //     mlx_image_t* img = mlx_new_image(mlx, 10, 10);
 
 //
-	// Set the channels of each pixel in our image to the maximum byte value of 255.
+// Set the channels of each pixel in our image to the maximum byte value of 255.
 //     memset(img->pixels, 255, img->width * img->height * BPP);
 
 //     // Draw the image at coordinate (0, 0).
