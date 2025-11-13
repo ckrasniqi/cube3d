@@ -6,11 +6,39 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:39:41 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 21:06:21 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:46:08 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
+
+void	free_map_data(t_map_data *map_data)
+{
+	size_t	i;
+
+	if (!map_data)
+		return;
+	if (map_data->no_path)
+		free(map_data->no_path);
+	if (map_data->so_path)
+		free(map_data->so_path);
+	if (map_data->we_path)
+		free(map_data->we_path);
+	if (map_data->ea_path)
+		free(map_data->ea_path);
+	if (map_data->map)
+	{
+		i = 0;
+		while (i < map_data->map_rows)
+		{
+			if (map_data->map[i])
+				free(map_data->map[i]);
+			i++;
+		}
+		free(map_data->map);
+	}
+	ft_memset(map_data, 0, sizeof(t_map_data));
+}
 
 int	ft_isspace(char c)
 {
@@ -25,28 +53,18 @@ char *ft_skip_whitespace(const char *str)
 	return (char *)str;
 }
 
-void	error_msg(char *msg)
+void	free_lines(char **lines, int line_count)
 {
-	if (msg)
-	{
-		ft_putendl_fd((char *)msg, STDERR_FILENO);
-		ft_putendl_fd((char *)msg, STDOUT_FILENO);
-	}
-}
+	int	i;
 
-void	ft_error(char *error)
-{
-	const char	*msg;
-
-	if (error)
+	if (!lines)
+		return;
+	i = 0;
+	while (i < line_count)
 	{
-		ft_putendl_fd(error, STDERR_FILENO);
-		ft_putstr_fd(error, STDOUT_FILENO);
-		exit(EXIT_FAILURE);
+		if (lines[i])
+			free(lines[i]);
+		i++;
 	}
-	msg = mlx_strerror(mlx_errno);
-	if (!msg)
-		msg = "Unknown MLX error";
-	ft_putendl_fd(msg, STDERR_FILENO);
-	exit(EXIT_FAILURE);
+	free(lines);
 }

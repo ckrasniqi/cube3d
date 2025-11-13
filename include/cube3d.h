@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 20:57:47 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:58:15 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_map_data
 	uint32_t	ceiling_color;
 	int			parsed_colors;
 	int			**map;
+	int			map_start_idx;
 	size_t		map_rows;
 	size_t		map_cols;
 	int			player_start_x;
@@ -61,6 +62,9 @@ void			error_msg(char *msg);
 // Utility functions
 int				ft_isspace(char c);
 char			*ft_skip_whitespace(const char *str);
+void			free_map_data(t_map_data *map_data);
+void			free_lines(char **lines, int line_count);
+
 
 
 
