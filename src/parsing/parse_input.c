@@ -6,12 +6,11 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:34:49 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 21:06:27 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 21:15:49 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
-
 
 void	name_check(const char *filename)
 {
@@ -47,14 +46,14 @@ int	color_check(char *line, int *r, int *g, int *b)
 		line++;
 	if (*line != ',')
 		return ((error_msg("Error: Invalid color format. Expected R,G,B.\n"),
-		 1));
+				1));
 	line++;
 	*g = ft_atoi(line);
 	while (*line != '\0' && *line != '\n' && *line != ',')
 		line++;
 	if (*line != ',')
 		return ((error_msg("Error: Invalid color format. Expected R,G,B.\n"),
-		 1));
+				1));
 	line++;
 	*b = ft_atoi(line);
 	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
@@ -64,21 +63,21 @@ int	color_check(char *line, int *r, int *g, int *b)
 
 int	parse_color(char *line, const char *prefix, uint32_t *color)
 {
-	int				r;
-	int				g;
-	int				b;
+	int	r;
+	int	g;
+	int	b;
 
 	line = ft_skip_whitespace(line);
-	if (ft_strncmp(line, prefix, 1) == 0)
-		return (1);
-	line = ft_skip_whitespace(line++);
+	if (ft_strncmp(line, prefix, ft_strlen(prefix)) != 0)
+		return (0);
+	line += ft_strlen(prefix);
+	line = ft_skip_whitespace(line);
 	if (color_check(line, &r, &g, &b) == 1)
 		return (1);
 	*color = (r << 16) | (g << 8) | b;
-	return (0);
+	printf("Parsed %s color: %d,%d,%d\n", prefix, r, g, b);
+	return (1);
 }
-
-
 
 int	parse_texture_path(char *line, const char *prefix, char *path)
 {
@@ -86,8 +85,8 @@ int	parse_texture_path(char *line, const char *prefix, char *path)
 	char	*end;
 
 	line = ft_skip_whitespace(line);
-	if (ft_strncmp(line, prefix, 2) == 0)
-		return (1);
+	if (ft_strncmp(line, prefix, 2) != 0)
+		return (0);
 	line += 2;
 	line = ft_skip_whitespace(line);
 	if (*line == '\0' || *line == '\n')
@@ -109,22 +108,32 @@ int	parse_texture_path(char *line, const char *prefix, char *path)
 	return (1);
 }
 
-int		parse_line(char *line, t_map_data *map_data)
+int	parse_line(char *line, t_map_data *map_data)
 {
 	if (line == NULL || map_data == NULL)
 		return (1);
-	if (parse_texture_path(line, "NO", map_data->no_path) == 1)
-		return (1);
-	if (parse_texture_path(line, "SO", map_data->so_path) == 1)
-		return (1);
-	if (parse_texture_path(line, "WE", map_data->we_path) == 1)
-		return (1);
-	if (parse_texture_path(line, "EA", map_data->ea_path) == 1)
-		return (1);
-	if (parse_color(line, "F", &map_data->floor_color) == 1)
-		return (1);
-	if (parse_color(line, "C", &map_data->ceiling_color) == 1)
-		return (1);
+	if (ft_strncmp(line, "NO ", 3) == 0)
+		return (parse_texture_path(line, "NO", map_data->no_path),
+			map_data->parsed_textures++);
+	else if (ft_strncmp(line, "SO ", 3) == 0)
+		return (parse_texture_path(line, "SO", map_data->no_path),
+			map_data->parsed_textures++);
+	else if (ft_strncmp(line, "WE ", 3) == 0)
+		return (parse_texture_path(line, "WE", map_data->we_path),
+			map_data->parsed_textures++);
+	else if (ft_strncmp(line, "EA ", 3) == 0)
+		return (parse_texture_path(line, "EA", map_data->ea_path),
+			map_data->parsed_textures++);
+	else if (ft_strncmp(line, "F ", 2) == 0)
+		return (parse_color(line, "F", &map_data->floor_color),
+			map_data->parsed_colors++);
+	else if (ft_strncmp(line, "C ", 2) == 0)
+		return (parse_color(line, "C", &map_data->ceiling_color),
+			map_data->parsed_colors++);
+	else
+	{
+		// Handle map lines here in the future
+	}
 	return (0);
 }
 
@@ -139,7 +148,6 @@ int	save_map_data(const char *filename, t_map_data *map_data)
 	while ((line = get_next_line(fd)) != NULL)
 	{
 		parse_line(line, map_data);
-
 	}
 	// if (ft_strchr(line, '1') || ft_strchr(line, '0')
 	// 		|| ft_strchr(line, 'N') || ft_strchr(line, 'S')
@@ -150,7 +158,7 @@ int	save_map_data(const char *filename, t_map_data *map_data)
 	if (line)
 		free(line);
 	close(fd);
-	return 0;
+	return (0);
 }
 
 void	parse_cub_file(const char *filename, t_map_data *map_data)
