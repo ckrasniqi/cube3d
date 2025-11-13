@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:34:49 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 22:02:00 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/13 22:07:01 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,29 @@ size_t count_rows(char **lines, int start_idx, int line_count)
 	return (rows);
 }
 
+size_t count_width(char **lines, int start_idx, size_t rows)
+{
+	size_t	max_width;
+	size_t	current_width;
+	size_t	i;
+
+	max_width = 0;
+	i = 0;
+	while (i < rows)
+	{
+		current_width = ft_strlen(lines[start_idx + i]);
+		if (current_width > max_width)
+			max_width = current_width;
+		i++;
+	}
+	return (max_width);
+}
+
 int parse_map_line(char **lines, t_map_data *map_data, int line_count)
 {
 	map_data->map_rows = count_rows(lines, map_data->map_start_idx, line_count);
+	map_data->map_cols = count_width(lines, map_data->map_start_idx, map_data->map_rows);
+	return (0);
 }
 
 int	parse_line(char **lines, t_map_data *map_data, int i, int line_count)
@@ -235,6 +255,19 @@ void	map_data_init(t_map_data *map_data)
 	return ;
 }
 
+void	print_everything_map_data(t_map_data *map_data)
+{
+	printf("NO Path: %s\n", map_data->no_path);
+	printf("SO Path: %s\n", map_data->so_path);
+	printf("WE Path: %s\n", map_data->we_path);
+	printf("EA Path: %s\n", map_data->ea_path);
+	printf("Floor Color: 0x%06X\n", map_data->floor_color);
+	printf("Ceiling Color: 0x%06X\n", map_data->ceiling_color);
+	printf("Map Start Index: %d\n", map_data->map_start_idx);
+	printf("Map Rows: %zu\n", map_data->map_rows);
+	printf("Map Columns: %zu\n", map_data->map_cols);
+}
+
 void	parse_cub_file(const char *filename, t_map_data *map_data)
 {
 	ft_memset(map_data, 0, sizeof(t_map_data));
@@ -248,6 +281,7 @@ void	parse_cub_file(const char *filename, t_map_data *map_data)
 	if (save_map_data(filename, map_data) == 1)
 		// Error already handled in save_map_data
 		return ;
+	print_everything_map_data(map_data);
 	validate_sides(filename, &map_data);
 	validate_floor_ceiling(filename, &map_data);
 	// printf("Parsing map from file: %s\n", filename);
