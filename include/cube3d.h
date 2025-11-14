@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 22:15:54 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 23:01:39 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int				parse_texture_path(char *line, const char *prefix,
 					t_map_data *map_data, char **path);
 int				parse_color(char *line, const char *prefix,
 					t_map_data *map_data, uint32_t *color);
-int	reached_maximums(t_map_data *map_data);
+int				reached_maximums(t_map_data *map_data);
 
 // Parsing io
 int				parse_cub_file(const char *filename, t_map_data *map_data);
@@ -78,11 +78,16 @@ int				parse_map_line(char **lines, t_map_data *map_data,
 					int line_count);
 int				parse_map_data(t_map_data *map_data, char **lines,
 					int line_count);
-int				find_next_nonblank(char **lines, int start, int line_count);
+
+// Parsing map utils
+int				save_the_map_line(char *line, int *map_row,
+					t_map_data *map_data);
+void			flood_fill_map_borders(char **lines, t_map_data *map_data);
 
 // Parsing utilities
 void			map_data_init(t_map_data *map_data);
 void			print_everything_map_data(t_map_data *map_data);
+int				find_next_nonblank(char **lines, int start, int line_count);
 
 // Error handling
 void			ft_error(char *msg);

@@ -1,0 +1,27 @@
+MLX Images
+
+1. Draws an image to the window at position (x, y).
+int32_t mlx_image_to_window(mlx_t* mlx, mlx_image_t* img, int32_t x, int32_t y)
+
+2.// Create a new image with the specified width and height.
+mlx_image_t* mlx_new_image(mlx_t* mlx, uint32_t width, uint32_t height)
+
+// how to use mlx_image_to_window:
+// mlx_image_t* img = mlx_new_image(mlx, width, height);
+// // Fill img->pixels with pixel data...
+// mlx_image_to_window(mlx, img, x, y); // Draw image at (x, y)
+// and then later when done:
+// mlx_delete_image(mlx, img); // Free the image
+
+#################################################################################
+
+
+MLX pixel
+
+// Set the color of a specific pixel in an image.
+// x and y are the coordinates of the pixel to set.
+// color is the color value to set the pixel to.
+// The color format is 0xRRGGBBAA (Red, Green, Blue, Alpha).
+// Make sure that x and y are within the bounds of the image.
+
+void mlx_put_pixel(mlx_image_t* image, uint32_t x, uint32_t y, uint32_t color)

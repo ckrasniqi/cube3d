@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 14:40:51 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 23:00:55 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,20 @@ void	map_data_init(t_map_data *map_data)
 	map_data->player_start_angle = 0.0;
 }
 
+int	find_next_nonblank(char **lines, int start, int line_count)
+{
+	int	j;
+
+	j = start;
+	while (j < line_count)
+	{
+		if (lines[j] && lines[j][0] != '\n')
+			return (j);
+		j++;
+	}
+	return (j);
+}
+
 void	print_everything_map_data(t_map_data *map_data)
 {
 	printf("NO Path: %s\n", map_data->no_path);
@@ -42,4 +56,14 @@ void	print_everything_map_data(t_map_data *map_data)
 	printf("Map Start Index: %d\n", map_data->map_start_idx);
 	printf("Map Rows: %zu\n", map_data->map_rows);
 	printf("Map Columns: %zu\n", map_data->map_cols);
+	printf("Player Start Position: (%d, %d)\n",
+		map_data->player_start_x, map_data->player_start_y);
+	printf("Player Start Angle: %.2f radians\n", map_data->player_start_angle);
+	printf("Map:\n");
+	for (size_t i = 0; i < map_data->map_rows; i++)
+		for (size_t j = 0; j < map_data->map_cols; j++)
+		{
+			printf("%d ", map_data->map[i][j]);
+			printf("\n");
+		}
 }
