@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:39:41 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 21:46:08 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 18:02:29 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	free_map_data(t_map_data *map_data)
 	size_t	i;
 
 	if (!map_data)
-		return;
+		return ;
 	if (map_data->no_path)
 		free(map_data->no_path);
 	if (map_data->so_path)
@@ -42,15 +42,15 @@ void	free_map_data(t_map_data *map_data)
 
 int	ft_isspace(char c)
 {
-	return (c == ' ' || c == '\t' || c == '\n' ||
-			c == '\v' || c == '\f' || c == '\r');
+	return (c == ' ' || c == '\t' || c == '\n' || c == '\v' || c == '\f'
+		|| c == '\r');
 }
 
-char *ft_skip_whitespace(const char *str)
+char	*ft_skip_whitespace(const char *str)
 {
 	while (*str && ft_isspace(*str))
 		str++;
-	return (char *)str;
+	return ((char *)str);
 }
 
 void	free_lines(char **lines, int line_count)
@@ -58,7 +58,7 @@ void	free_lines(char **lines, int line_count)
 	int	i;
 
 	if (!lines)
-		return;
+		return ;
 	i = 0;
 	while (i < line_count)
 	{

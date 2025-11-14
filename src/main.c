@@ -6,12 +6,11 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 16:37:14 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 22:14:56 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cube3d.h"
-
 
 int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 {
@@ -20,14 +19,15 @@ int32_t	ft_pixel(int32_t r, int32_t g, int32_t b, int32_t a)
 
 void	ft_randomize(void *param)
 {
-	t_game *game = param;
-	mlx_image_t *img;
+	t_game		*game;
+	mlx_image_t	*img;
 
+	game = param;
 	if (!game)
-		return;
+		return ;
 	img = game->image;
 	if (!img)
-		return;
+		return ;
 	for (uint32_t i = 0; i < img->width; ++i)
 	{
 		for (uint32_t y = 0; y < img->height; ++y)
@@ -44,14 +44,15 @@ void	ft_randomize(void *param)
 
 void	ft_hook(void *param)
 {
-	t_game *game = param;
-	mlx_t *mlx;
+	t_game	*game;
+	mlx_t	*mlx;
 
+	game = param;
 	if (!game)
-		return;
+		return ;
 	mlx = game->mlx;
 	if (!mlx)
-		return;
+		return ;
 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(mlx);
 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
@@ -68,18 +69,17 @@ int	game_init(t_game *game, const char *cub_file)
 {
 	if (ft_memset(game, 0, sizeof(t_game)) == NULL)
 		return (error_msg("Error: initializing game structure.\n"), -1);
-
 	if (parse_cub_file(cub_file, &game->map_data) != 1)
 		return (-1);
-
+	if (reached_maximums(&game->map_data) != 1)
+		return (-1);
 	game->mlx = mlx_init(WIDTH, HEIGHT, "Game", false);
 	if (!game->mlx)
 	{
 		free_map_data(&game->map_data);
 		return (error_msg("Error: initializing MLX.\n"), -1);
 	}
-
-	game->image = mlx_new_image(game->mlx, 50, 50);
+	game->image = mlx_new_image(game->mlx, 200, 200);
 	if (!game->image)
 	{
 		free_map_data(&game->map_data);
@@ -109,9 +109,7 @@ int32_t	main(int ac, char **av)
 	mlx_loop_hook(game.mlx, ft_randomize, &game);
 	mlx_loop_hook(game.mlx, ft_hook, &game);
 	mlx_loop(game.mlx);
-
 	print_everything_map_data(&game.map_data);
-
 	free_map_data(&game.map_data);
 	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);

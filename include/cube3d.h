@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 16:26:23 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 22:15:54 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ int				parse_texture_path(char *line, const char *prefix,
 					t_map_data *map_data, char **path);
 int				parse_color(char *line, const char *prefix,
 					t_map_data *map_data, uint32_t *color);
+int	reached_maximums(t_map_data *map_data);
 
 // Parsing io
 int				parse_cub_file(const char *filename, t_map_data *map_data);

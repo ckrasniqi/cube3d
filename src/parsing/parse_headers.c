@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 16:30:50 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 21:01:34 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	parse_texture_path(char *line, const char *prefix, t_map_data *map_data,
 	if (!*path)
 		return (error_msg("Error: Memory allocation failed.\n"), -1);
 	ft_memcpy(*path, start, (end - start));
-	(*path)[end - start] = '\0';
 	map_data->parsed_textures++;
 	return (1);
 }
@@ -108,4 +107,14 @@ int	parse_line(char *line, t_map_data *map_data)
 	if (ret != 0)
 		return (ret);
 	return (0);
+}
+
+int	reached_maximums(t_map_data *map_data)
+{
+	if (map_data->parsed_colors != 2)
+		return (error_msg("Error: Not all color values were provided.\n"), -1);
+	if (!map_data->no_path || !map_data->so_path || !map_data->we_path
+		|| !map_data->ea_path)
+		return (error_msg("Error: One or more texture paths are NULL.\n"), -1);
+	return (1);
 }

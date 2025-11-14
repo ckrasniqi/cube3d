@@ -6,12 +6,11 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:41:27 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 16:34:56 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 18:02:46 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
-
 
 int	name_check(const char *filename)
 {
@@ -76,11 +75,12 @@ int	parse_cub_file(const char *filename, t_map_data *map_data)
 		return (error_msg("Error: Failed to open map file.\n"), -1);
 	lines = get_all_lines(fd, &line_count);
 	if (!lines)
-		return (close(fd), error_msg("Error: Failed to read file lines.\n"), -1);
+		return (close(fd), error_msg("Error: Failed to read file lines.\n"),
+			-1);
 	ft_memset(map_data, 0, sizeof(t_map_data));
 	map_data_init(map_data);
 	ret = parse_map_data(map_data, lines, line_count);
-	if (ret == 0 || ret == -1)
+	if (ret != 1)
 		return (close(fd), free_lines(lines, line_count),
 			free_map_data(map_data), -1);
 	free_lines(lines, line_count);
