@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 21:58:15 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 12:59:51 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ typedef struct s_game
 }				t_game;
 
 // Parsing functions
-void			parse_cub_file(const char *filename, t_map_data *map_data);
+int			parse_cub_file(const char *filename, t_map_data *map_data);
 
 // Error handling
 void			ft_error(char *msg);

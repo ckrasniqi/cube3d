@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 20:47:51 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 14:27:18 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,13 @@ void	game_init(t_game *game, const char *cub_file)
 		ft_error("Error: creating new image.\n");
 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
 		ft_error("Error: putting image to window.\n");
-	parse_cub_file(cub_file, &game->map_data);
+	if (parse_cub_file(cub_file, &game->map_data) == -1)
+	{
+		free_map_data(&game->map_data);
+
+
+	}
+
 }
 
 int32_t	main(int ac, char **av)
