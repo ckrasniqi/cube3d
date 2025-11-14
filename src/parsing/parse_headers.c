@@ -1,0 +1,113 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_headers.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
+/*   Updated: 2025/11/14 14:41:08 by ckrasniq         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "include/cube3d.h"
+
+int	color_check(char *line, int *r, int *g, int *b)
+{
+	if (*line == '\0' || *line == '\n')
+		return ((error_msg("Error: Color values missing after prefix.\n"), -1));
+	*r = ft_atoi(line);
+	while (*line != '\0' && *line != '\n' && *line != ',')
+		line++;
+	if (*line != ',')
+		return ((error_msg("Error: Invalid color format. Expected R,G,B.\n"),
+				-1));
+	line++;
+	*g = ft_atoi(line);
+	while (*line != '\0' && *line != '\n' && *line != ',')
+		line++;
+	if (*line != ',')
+		return ((error_msg("Error: Invalid color format. Expected R,G,B.\n"),
+				-1));
+	line++;
+	*b = ft_atoi(line);
+	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
+		return (error_msg("Color values must be between 0 and 255"), -1);
+	return (1);
+}
+
+int	parse_color(char *line, const char *prefix, t_map_data *map_data,
+		uint32_t *color)
+{
+	int		r;
+	int		g;
+	int		b;
+	size_t	prefix_len;
+
+	line = ft_skip_whitespace(line);
+	prefix_len = ft_strlen(prefix);
+	if (ft_strncmp(line, prefix, prefix_len) != 0)
+		return (0);
+	line += prefix_len;
+	line = ft_skip_whitespace(line);
+	if (color_check(line, &r, &g, &b) < 0)
+		return (-1);
+	*color = (r << 16) | (g << 8) | b;
+	map_data->parsed_colors++;
+	return (1);
+}
+
+int	parse_texture_path(char *line, const char *prefix, t_map_data *map_data,
+		char **path)
+{
+	char	*start;
+	char	*end;
+	size_t	prefix_len;
+
+	line = ft_skip_whitespace(line);
+	prefix_len = ft_strlen(prefix);
+	if (ft_strncmp(line, prefix, prefix_len) != 0)
+		return (0);
+	line += prefix_len;
+	line = ft_skip_whitespace(line);
+	if (*line == '\0' || *line == '\n')
+		return (error_msg("Error: Texture path missing after prefix.\n"), -1);
+	start = line;
+	while (*line != '\0' && *line != '\n' && !ft_isspace((unsigned char)*line))
+		line++;
+	end = line;
+	*path = malloc((end - start) + 1);
+	if (!*path)
+		return (error_msg("Error: Memory allocation failed for texture path.\n"),
+			-1);
+	ft_memcpy(*path, start, (end - start));
+	(*path)[end - start] = '\0';
+	map_data->parsed_textures++;
+	printf("Parsed %s path: %s\n", prefix, *path);
+	return (1);
+}
+
+int	parse_line(char *line, t_map_data *map_data)
+{
+	int	ret;
+
+	ret = parse_texture_path(line, "NO", map_data, &map_data->no_path);
+	if (ret != 0)
+		return (ret);
+	ret = parse_texture_path(line, "SO", map_data, &map_data->so_path);
+	if (ret != 0)
+		return (ret);
+	ret = parse_texture_path(line, "WE", map_data, &map_data->we_path);
+	if (ret != 0)
+		return (ret);
+	ret = parse_texture_path(line, "EA", map_data, &map_data->ea_path);
+	if (ret != 0)
+		return (ret);
+	ret = parse_color(line, "F", map_data, &map_data->floor_color);
+	if (ret != 0)
+		return (ret);
+	ret = parse_color(line, "C", map_data, &map_data->ceiling_color);
+	if (ret != 0)
+		return (ret);
+	return (0);
+}

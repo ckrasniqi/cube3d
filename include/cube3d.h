@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 12:59:51 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 14:46:38 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <fcntl.h>
 # include <libft/libft.h>
 # include <math.h>
-# include <stdlib.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
 # define WIDTH 1080
@@ -53,7 +53,35 @@ typedef struct s_game
 }				t_game;
 
 // Parsing functions
-int			parse_cub_file(const char *filename, t_map_data *map_data);
+int				parse_cub_file(const char *filename, t_map_data *map_data);
+
+// Parsing headers
+int				parse_line(char *line, t_map_data *map_data);
+int				color_check(char *line, int *r, int *g, int *b);
+int				parse_texture_path(char *line, const char *prefix,
+					t_map_data *map_data, char **path);
+int				parse_color(char *line, const char *prefix,
+					t_map_data *map_data, uint32_t *color);
+
+// Parsing io
+int				parse_cub_file(const char *filename, t_map_data *map_data);
+char			**get_all_lines(int fd, int *line_count);
+void			debug_print_lines(char **lines, int line_count);
+int				validate_filename(const char *filename);
+int				name_check(const char *filename);
+
+// Parsing map
+size_t	count_rows(char **lines, int start_idx, int line_count);
+size_t	count_width(char **lines, int start_idx, size_t rows);
+int		parse_map_line(char **lines, t_map_data *map_data, int line_count);
+int		parse_map_data(t_map_data *map_data, char **lines, int line_count);
+int		find_next_nonblank(char **lines, int start, int line_count);
+
+// Parsing utilities
+void			map_data_init(t_map_data *map_data);
+void			print_everything_map_data(t_map_data *map_data);
+
+
 
 // Error handling
 void			ft_error(char *msg);
@@ -64,8 +92,5 @@ int				ft_isspace(char c);
 char			*ft_skip_whitespace(const char *str);
 void			free_map_data(t_map_data *map_data);
 void			free_lines(char **lines, int line_count);
-
-
-
 
 #endif

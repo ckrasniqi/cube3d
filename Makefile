@@ -6,7 +6,7 @@
 #    By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/11/13 21:55:33 by ckrasniq         ###   ########.fr        #
+#    Updated: 2025/11/14 14:40:50 by ckrasniq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,8 @@ LIBDIR := build/lib
 
 LIBFT_A := $(LIBDIR)/libft.a
 
-SRCS := src/main.c src/parsing/parse_input.c src/utils.c src/error_msg.c
+SRCS := src/main.c src/parsing/parse_io.c src/parsing/parse_headers.c \
+	src/parsing/parse_map.c src/parsing/parse_utils.c src/utils.c src/error_msg.c
 OBJS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 
