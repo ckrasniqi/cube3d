@@ -1,0 +1,14 @@
+NO ./pixel_art/wall1.png
+NO ./pixel_art/wall1_copy.png
+SO ./pixel_art/wall2.png
+WE ./pixel_art/wall3.png
+EA ./pixel_art/wall4.png
+F 220,100,0
+F 10,10,10
+C 225,30,0
+
+
+1111111111111
+1000000000001
+1000000000001
+1111111111111

@@ -6,11 +6,11 @@
 #    By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/11/14 14:40:50 by ckrasniq         ###   ########.fr        #
+#    Updated: 2025/11/14 16:13:14 by ckrasniq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME := cube3d
+NAME := cube3D
 
 CC := cc
 

@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 14:41:08 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:30:50 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,10 @@ int	parse_texture_path(char *line, const char *prefix, t_map_data *map_data,
 	end = line;
 	*path = malloc((end - start) + 1);
 	if (!*path)
-		return (error_msg("Error: Memory allocation failed for texture path.\n"),
-			-1);
+		return (error_msg("Error: Memory allocation failed.\n"), -1);
 	ft_memcpy(*path, start, (end - start));
 	(*path)[end - start] = '\0';
 	map_data->parsed_textures++;
-	printf("Parsed %s path: %s\n", prefix, *path);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 14:27:18 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:37:14 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,27 +64,33 @@ void	ft_hook(void *param)
 		game->image->instances[0].x += 5;
 }
 
-void	game_init(t_game *game, const char *cub_file)
+int	game_init(t_game *game, const char *cub_file)
 {
-	(void)cub_file;
-
 	if (ft_memset(game, 0, sizeof(t_game)) == NULL)
-		ft_error("Error: initializing game structure.\n");
+		return (error_msg("Error: initializing game structure.\n"), -1);
+
+	if (parse_cub_file(cub_file, &game->map_data) != 1)
+		return (-1);
+
 	game->mlx = mlx_init(WIDTH, HEIGHT, "Game", false);
 	if (!game->mlx)
-		ft_error("Error: initializing MLX.\n");
-	game->image = mlx_new_image(game->mlx, 128, 128);
-	if (!game->image)
-		ft_error("Error: creating new image.\n");
-	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
-		ft_error("Error: putting image to window.\n");
-	if (parse_cub_file(cub_file, &game->map_data) == -1)
 	{
 		free_map_data(&game->map_data);
-
-
+		return (error_msg("Error: initializing MLX.\n"), -1);
 	}
 
+	game->image = mlx_new_image(game->mlx, 50, 50);
+	if (!game->image)
+	{
+		free_map_data(&game->map_data);
+		return (error_msg("Error: creating new image.\n"), -1);
+	}
+	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
+	{
+		free_map_data(&game->map_data);
+		return (error_msg("Error: putting image to window.\n"), -1);
+	}
+	return (1);
 }
 
 int32_t	main(int ac, char **av)
@@ -98,11 +104,15 @@ int32_t	main(int ac, char **av)
 		return (EXIT_FAILURE);
 	}
 	cub_file = av[1];
-
-	game_init(&game, cub_file);
+	if (game_init(&game, cub_file) != 1)
+		return (EXIT_FAILURE);
 	mlx_loop_hook(game.mlx, ft_randomize, &game);
 	mlx_loop_hook(game.mlx, ft_hook, &game);
 	mlx_loop(game.mlx);
+
+	print_everything_map_data(&game.map_data);
+
+	free_map_data(&game.map_data);
 	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);
 }

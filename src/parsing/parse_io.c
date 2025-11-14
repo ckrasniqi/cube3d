@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:41:27 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 14:45:13 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:34:56 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,6 @@ int	validate_filename(const char *filename)
 	if (!name_check(filename))
 		return (error_msg("Error: Invalid file extension. Expected .cub\n"), 0);
 	return (1);
-}
-
-void	debug_print_lines(char **lines, int line_count)
-{
-	for (int i = 0; i < line_count; i++)
-		printf("Line %d: %s", i + 1, lines[i]);
 }
 
 char	**get_all_lines(int fd, int *line_count)
@@ -76,21 +70,20 @@ int	parse_cub_file(const char *filename, t_map_data *map_data)
 
 	line_count = 0;
 	if (!validate_filename(filename))
-		return (1);
+		return (-1);
 	fd = open(filename, O_RDONLY);
 	if (fd < 0)
-		return (error_msg("Error: Failed to open map file.\n"), 1);
+		return (error_msg("Error: Failed to open map file.\n"), -1);
 	lines = get_all_lines(fd, &line_count);
 	if (!lines)
-		return (close(fd), error_msg("Error: Failed to read file lines.\n"), 1);
-	debug_print_lines(lines, line_count);
+		return (close(fd), error_msg("Error: Failed to read file lines.\n"), -1);
 	ft_memset(map_data, 0, sizeof(t_map_data));
 	map_data_init(map_data);
 	ret = parse_map_data(map_data, lines, line_count);
 	if (ret == 0 || ret == -1)
 		return (close(fd), free_lines(lines, line_count),
-			free_map_data(map_data), 1);
+			free_map_data(map_data), -1);
 	free_lines(lines, line_count);
-	print_everything_map_data(map_data);
-	return (close(fd), 0);
+	// print_everything_map_data(map_data);
+	return (close(fd), 1);
 }

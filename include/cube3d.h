@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 14:46:38 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:26:23 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,21 +71,21 @@ int				validate_filename(const char *filename);
 int				name_check(const char *filename);
 
 // Parsing map
-size_t	count_rows(char **lines, int start_idx, int line_count);
-size_t	count_width(char **lines, int start_idx, size_t rows);
-int		parse_map_line(char **lines, t_map_data *map_data, int line_count);
-int		parse_map_data(t_map_data *map_data, char **lines, int line_count);
-int		find_next_nonblank(char **lines, int start, int line_count);
+size_t			count_rows(char **lines, int start_idx, int line_count);
+size_t			count_width(char **lines, int start_idx, size_t rows);
+int				parse_map_line(char **lines, t_map_data *map_data,
+					int line_count);
+int				parse_map_data(t_map_data *map_data, char **lines,
+					int line_count);
+int				find_next_nonblank(char **lines, int start, int line_count);
 
 // Parsing utilities
 void			map_data_init(t_map_data *map_data);
 void			print_everything_map_data(t_map_data *map_data);
 
-
-
 // Error handling
 void			ft_error(char *msg);
-void			error_msg(char *msg);
+int				error_msg(const char *msg);
 
 // Utility functions
 int				ft_isspace(char c);

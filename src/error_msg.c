@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 21:45:23 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/13 21:45:40 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/14 16:17:36 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,11 +29,16 @@ void	ft_error(char *error)
 	exit(EXIT_FAILURE);
 }
 
-void	error_msg(char *msg)
+int	error_msg(const char *msg)
 {
 	if (msg)
 	{
-		ft_putendl_fd((char *)msg, STDERR_FILENO);
-		ft_putendl_fd((char *)msg, STDOUT_FILENO);
+		ft_putendl_fd("Error", STDERR_FILENO);
+		ft_putstr_fd((char *)msg, STDERR_FILENO);
 	}
+	else
+	{
+		ft_putendl_fd("Error", STDERR_FILENO);
+	}
+	return (-1);
 }
