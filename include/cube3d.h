@@ -3,24 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 23:01:39 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/19 19:30:27 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE3D_H
 # define CUBE3D_H
 
-# include "MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
-# include <libft/libft.h>
+# include "libft/libft.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+// #define WIDTH 400
+// #define HEIGHT 400
+
 # define WIDTH 1080
 # define HEIGHT 720
 # define BPP sizeof(int32_t)
