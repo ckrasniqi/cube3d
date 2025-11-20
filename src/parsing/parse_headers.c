@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/16 14:36:59 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:57:43 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 int	reached_maximums(t_map_data *map_data)
 {
-	if (map_data->parsed_colors != 2)
-		return (error_msg("Not all color values were provided.\n"), -1);
-	if (!map_data->no_path || !map_data->so_path || !map_data->we_path
-		|| !map_data->ea_path)
-		return (error_msg("One or more texture paths are NULL.\n"), -1);
-	return (1);
+	if (map_data->parsed_colors > 2
+		|| map_data->parsed_textures > 4)
+		return (error_msg("Exceeded maximum number of textures or colors.\n"),
+			-1);
+	if (map_data->parsed_colors == 2 && map_data->parsed_textures == 4
+		&& map_data->no_path && map_data->so_path && map_data->we_path
+		&& map_data->ea_path)
+		return (1);
+	return (0);
 }
 
 int	color_check(char *line, int *r, int *g, int *b)

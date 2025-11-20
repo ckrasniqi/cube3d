@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 19:49:02 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/20 22:37:26 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 # define CUBE3D_H
 
 # include "../MLX42/include/MLX42/MLX42.h"
-# include <fcntl.h>
 # include "libft/libft.h"
+# include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -67,9 +67,8 @@ typedef struct s_game
 
 }				t_game;
 
-
 // Flood fill functions
-void		flood_fill(char **map, int x, int y, t_map_data *map_data);
+void			flood_fill(char **map, int x, int y, t_map_data *map_data);
 int				copy_map(t_map_data *map_data, int start_idx);
 int				fill_map(char **lines, t_map_data *map_data);
 
@@ -79,13 +78,13 @@ int				color_check(char *line, int *r, int *g, int *b);
 int				parse_color(char *line, const char *prefix,
 					t_map_data *map_data, uint32_t *color);
 int				parse_texture_path(char *line, const char *prefix,
-										t_map_data *map_data, char **path);
+					t_map_data *map_data, char **path);
 int				parse_line(char *line, t_map_data *map_data);
 
 // Parsing io
 int				name_check(const char *filename);
 int				validate_filename(const char *filename);
-char			**get_all_lines(int fd, t_map_data *map_data, char **first_line);
+char			**get_all_lines(char const *filename, t_map_data *map_data);
 int				parse_cub_file(const char *filename, t_map_data *map_data);
 // void			debug_print_lines(char **lines, int line_count);
 
@@ -93,9 +92,12 @@ int				parse_cub_file(const char *filename, t_map_data *map_data);
 void			set_player_start_position(char identifier, t_map_data *map_data,
 					int x);
 int				not_part_of_map(char c);
-int				check_for_invalid_characters(char **lines, t_map_data *map_data);
-int				save_the_map_line(char *line, int *map_row,
+int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data);
+int				pad_map_copy(t_map_data *m);
+int	check_enclosed(t_map_data *m);
+// int				save_the_map_line(char *line, int *map_row,
+// 					t_map_data *map_data);
 
 // Parsing map
 int				count_rows(char **lines, int start_idx, int line_count);
@@ -106,9 +108,10 @@ int				parse_map_line(char **lines, t_map_data *map_data,
 int				parse_map_data(t_map_data *map_data, char **lines,
 					int line_count);
 
-// Parsing map utilities
+// Parsing utilities
 void			map_data_init(t_map_data *map_data);
 int				find_next_nonblank(char **lines, int start, int line_count);
+int				missing_color_texture(t_map_data *map_data);
 void			print_everything_map_data(t_map_data *map_data, char **lines,
 					int line_count);
 
@@ -119,7 +122,7 @@ void			clean_up(t_map_data *map_data, char **lines);
 
 // Error handling
 void			ft_error(char *msg);
-int				error_msg(const char *msg);
+void			error_msg(const char *msg);
 
 // Utility functions
 int				ft_isspace(char c);

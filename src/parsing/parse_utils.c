@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 19:25:38 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/20 22:01:00 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,15 @@ int	find_next_nonblank(char **lines, int start, int line_count)
 	return (j);
 }
 
+int	missing_color_texture(t_map_data *map_data)
+{
+	if (map_data->parsed_colors < 2 || map_data->parsed_textures < 4
+		|| !map_data->no_path || !map_data->so_path || !map_data->we_path
+		|| !map_data->ea_path)
+		return (-1);
+	return (0);
+}
+
 void	print_everything_map_data(t_map_data *map_data, char **lines, int line_count)
 {
 	printf("NO Path: %s\n", map_data->no_path);
@@ -65,11 +74,11 @@ void	print_everything_map_data(t_map_data *map_data, char **lines, int line_coun
 	// printf("Map Data:\n");
 	(void)line_count;
 	(void)lines;
-	// for (size_t i = 0; i < map_data->map_rows; i++)
-	// {
-	// 	char *line = lines[i + map_data->map_start_idx];
-	// 	printf("%s", line);
-	// }
+	for (int i = 0; i < map_data->map_rows; i++)
+	{
+		printf("%s", map_data->file_contents[i]);
+		printf("\n");
+	}
 
 
 }

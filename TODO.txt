@@ -1,18 +1,18 @@
 
 PARSING:
-- dublicate_headers.cub: error message (just quits without a message)
-- empty.cub: error message (just quits without a message)
-- invalid chars handling (invalid_chars.cub works, and it shouldn't)
-- invalid color handling: invalid_color_format.cub gives a double error:
+- dublicate_headers.cub: error message (just quits without a message)       DONE
+- empty.cub: error message (just quits without a message)					DONE
+- invalid chars handling (invalid_chars.cub works, and it shouldn't)		DONE
+- invalid color handling: invalid_color_format.cub gives a double error:	DONE
 	"Error
 	Error: Invalid color format. Expected R,G,B."
-- missing_colors.cub: error message (just quits without a message)
-- missing_textures.cub: error message (just quits without a message)
+- missing_colors.cub: error message (just quits without a message)			DONE
+- missing_textures.cub: error message (just quits without a message)		DONE
 - multiple_players.cub: shouldn't run, but does
 	"free(): invalid pointer
-	zsh: IOT instruction (core dumped)  ./cube3D maps/multiple_players.cub"
-- no_map.cub: shouldn't run, but does
-- no_player.cub: shouldn't run, but does
+	zsh: IOT instruction (core dumped)  ./cube3D maps/multiple_players.cub" DONE
+- no_map.cub: shouldn't run, but does										DONE
+- no_player.cub: shouldn't run, but does									DONE
 
 
 EXECUTION:
