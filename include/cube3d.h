@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/19 19:30:27 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/20 22:10:38 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct s_map_data
 	int			player_start_x;
 	int			player_start_y;
 	double		player_start_angle;
+
+	int			*minimap_player_position;
+	int			player_position_cub[2];
 }				t_map_data;
 
 typedef struct s_game
@@ -102,5 +105,14 @@ int				ft_isspace(char c);
 char			*ft_skip_whitespace(const char *str);
 void			free_map_data(t_map_data *map_data);
 void			free_lines(char **lines, int line_count);
+
+//////////////////////////////////////////////////////////////////////////////
+// 								RENDERING									//
+//////////////////////////////////////////////////////////////////////////////
+
+int		render_minimap(t_game *game, t_map_data	map);
+void	keys_hook(mlx_key_data_t keydata, void *param);
+void	keys_hook(mlx_key_data_t keydata, void *param);
+
 
 #endif
