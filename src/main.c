@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 22:14:56 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/16 18:51:33 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_hook(void *param)
 int	game_init(t_game *game, const char *cub_file)
 {
 	if (ft_memset(game, 0, sizeof(t_game)) == NULL)
-		return (error_msg("Error: initializing game structure.\n"), -1);
+		return (error_msg("initializing game structure.\n"), -1);
 	if (parse_cub_file(cub_file, &game->map_data) != 1)
 		return (-1);
 	if (reached_maximums(&game->map_data) != 1)
@@ -77,18 +77,18 @@ int	game_init(t_game *game, const char *cub_file)
 	if (!game->mlx)
 	{
 		free_map_data(&game->map_data);
-		return (error_msg("Error: initializing MLX.\n"), -1);
+		return (error_msg("initializing MLX.\n"), -1);
 	}
 	game->image = mlx_new_image(game->mlx, 200, 200);
 	if (!game->image)
 	{
 		free_map_data(&game->map_data);
-		return (error_msg("Error: creating new image.\n"), -1);
+		return (error_msg("creating new image.\n"), -1);
 	}
 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
 	{
 		free_map_data(&game->map_data);
-		return (error_msg("Error: putting image to window.\n"), -1);
+		return (error_msg("putting image to window.\n"), -1);
 	}
 	return (1);
 }
@@ -105,11 +105,11 @@ int32_t	main(int ac, char **av)
 	}
 	cub_file = av[1];
 	if (game_init(&game, cub_file) != 1)
-		return (EXIT_FAILURE);
+		return (clean_up(&game.map_data, NULL), EXIT_FAILURE);
 	mlx_loop_hook(game.mlx, ft_randomize, &game);
 	mlx_loop_hook(game.mlx, ft_hook, &game);
 	mlx_loop(game.mlx);
-	print_everything_map_data(&game.map_data);
+	// print_everything_map_data(&game.map_data);
 	free_map_data(&game.map_data);
 	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);

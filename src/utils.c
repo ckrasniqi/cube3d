@@ -6,39 +6,13 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:39:41 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 18:02:29 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/16 14:50:03 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-void	free_map_data(t_map_data *map_data)
-{
-	size_t	i;
 
-	if (!map_data)
-		return ;
-	if (map_data->no_path)
-		free(map_data->no_path);
-	if (map_data->so_path)
-		free(map_data->so_path);
-	if (map_data->we_path)
-		free(map_data->we_path);
-	if (map_data->ea_path)
-		free(map_data->ea_path);
-	if (map_data->map)
-	{
-		i = 0;
-		while (i < map_data->map_rows)
-		{
-			if (map_data->map[i])
-				free(map_data->map[i]);
-			i++;
-		}
-		free(map_data->map);
-	}
-	ft_memset(map_data, 0, sizeof(t_map_data));
-}
 
 int	ft_isspace(char c)
 {
@@ -53,18 +27,3 @@ char	*ft_skip_whitespace(const char *str)
 	return ((char *)str);
 }
 
-void	free_lines(char **lines, int line_count)
-{
-	int	i;
-
-	if (!lines)
-		return ;
-	i = 0;
-	while (i < line_count)
-	{
-		if (lines[i])
-			free(lines[i]);
-		i++;
-	}
-	free(lines);
-}
