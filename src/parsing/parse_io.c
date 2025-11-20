@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:41:27 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 18:02:46 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:54:26 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,66 +24,59 @@ int	name_check(const char *filename)
 int	validate_filename(const char *filename)
 {
 	if (!filename)
-		return (error_msg("Error: Filename\n"), 0);
+		return (error_msg("Filename\n"), 0);
 	if (ft_strlen(filename) < 4)
-		return (error_msg("Error: Filename\n"), 0);
+		return (error_msg("Filename\n"), 0);
 	if (!name_check(filename))
-		return (error_msg("Error: Invalid file extension. Expected .cub\n"), 0);
+		return (error_msg("Invalid file extension. Expected .cub\n"), 0);
 	return (1);
 }
 
-char	**get_all_lines(int fd, int *line_count)
+char	**get_all_lines(const char *filename, t_map_data *map_data)
 {
-	char	**lines;
+	int		fd;
 	char	*line;
-	int		i;
-	int		temp;
+	char	*tmp;
+	char	**map;
 
-	temp = 10;
-	lines = malloc(sizeof(char *) * (temp + 1));
-	if (!lines)
-		return (NULL);
-	i = 0;
-	while ((line = get_next_line(fd)) != NULL)
+	fd = open(filename, O_RDONLY);
+	if (fd < 0)
+		return (error_msg("Opening file\n"), NULL);
+	tmp = ft_strdup("");
+	line = get_next_line(fd);
+	if (!line)
+		return (error_msg("Empty file\n"), NULL);
+	while (line != NULL)
 	{
-		lines[i++] = line;
-		if (i >= temp - 1)
-		{
-			temp *= 2;
-			lines = realloc(lines, sizeof(char *) * (temp + 1));
-			if (!lines)
-				return (NULL);
-		}
-		(*line_count)++;
+		tmp = ft_strjoin(tmp, line);
+		if (line != NULL)
+			free(line);
+		line = get_next_line(fd);
 	}
-	lines[i] = NULL;
-	return (lines);
+	close(fd);
+	map = ft_split(tmp, '\n');
+	while (map[map_data->line_count])
+		map_data->line_count++;
+	free(tmp);
+	return (map);
 }
 
 int	parse_cub_file(const char *filename, t_map_data *map_data)
 {
-	int		fd;
-	int		line_count;
-	char	**lines;
-	int		ret;
-
-	line_count = 0;
 	if (!validate_filename(filename))
 		return (-1);
-	fd = open(filename, O_RDONLY);
-	if (fd < 0)
-		return (error_msg("Error: Failed to open map file.\n"), -1);
-	lines = get_all_lines(fd, &line_count);
-	if (!lines)
-		return (close(fd), error_msg("Error: Failed to read file lines.\n"),
-			-1);
-	ft_memset(map_data, 0, sizeof(t_map_data));
 	map_data_init(map_data);
-	ret = parse_map_data(map_data, lines, line_count);
-	if (ret != 1)
-		return (close(fd), free_lines(lines, line_count),
-			free_map_data(map_data), -1);
-	free_lines(lines, line_count);
-	// print_everything_map_data(map_data);
-	return (close(fd), 1);
+	map_data->file_contents = get_all_lines(filename, map_data);
+	// for (int i = 0; i < map_data->line_count; i++)
+	// {
+	// 	printf("Line %d: %s\n", i, map_data->file_contents[i]);
+	// }
+	if (!map_data->file_contents)
+		return (-1);
+	if (parse_map_data(map_data, map_data->file_contents,
+			map_data->line_count) == -1)
+		return (-1);
+	// print_everything_map_data(map_data, map_data->file_contents,
+	// 	map_data->line_count);
+	return (1);
 }

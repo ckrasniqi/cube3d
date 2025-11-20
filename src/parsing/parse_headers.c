@@ -6,28 +6,41 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/14 21:01:34 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/20 21:57:43 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
+int	reached_maximums(t_map_data *map_data)
+{
+	if (map_data->parsed_colors > 2
+		|| map_data->parsed_textures > 4)
+		return (error_msg("Exceeded maximum number of textures or colors.\n"),
+			-1);
+	if (map_data->parsed_colors == 2 && map_data->parsed_textures == 4
+		&& map_data->no_path && map_data->so_path && map_data->we_path
+		&& map_data->ea_path)
+		return (1);
+	return (0);
+}
+
 int	color_check(char *line, int *r, int *g, int *b)
 {
 	if (*line == '\0' || *line == '\n')
-		return ((error_msg("Error: Color values missing after prefix.\n"), -1));
+		return ((error_msg("Color values missing after prefix.\n"), -1));
 	*r = ft_atoi(line);
 	while (*line != '\0' && *line != '\n' && *line != ',')
 		line++;
 	if (*line != ',')
-		return ((error_msg("Error: Invalid color format. Expected R,G,B.\n"),
+		return ((error_msg("Invalid color format. Expected R,G,B.\n"),
 				-1));
 	line++;
 	*g = ft_atoi(line);
 	while (*line != '\0' && *line != '\n' && *line != ',')
 		line++;
 	if (*line != ',')
-		return ((error_msg("Error: Invalid color format. Expected R,G,B.\n"),
+		return ((error_msg("Invalid color format. Expected R,G,B.\n"),
 				-1));
 	line++;
 	*b = ft_atoi(line);
@@ -71,14 +84,14 @@ int	parse_texture_path(char *line, const char *prefix, t_map_data *map_data,
 	line += prefix_len;
 	line = ft_skip_whitespace(line);
 	if (*line == '\0' || *line == '\n')
-		return (error_msg("Error: Texture path missing after prefix.\n"), -1);
+		return (error_msg("Texture path missing after prefix.\n"), -1);
 	start = line;
 	while (*line != '\0' && *line != '\n' && !ft_isspace((unsigned char)*line))
 		line++;
 	end = line;
 	*path = malloc((end - start) + 1);
 	if (!*path)
-		return (error_msg("Error: Memory allocation failed.\n"), -1);
+		return (error_msg("Memory allocation failed.\n"), -1);
 	ft_memcpy(*path, start, (end - start));
 	map_data->parsed_textures++;
 	return (1);
@@ -100,21 +113,11 @@ int	parse_line(char *line, t_map_data *map_data)
 	ret = parse_texture_path(line, "EA", map_data, &map_data->ea_path);
 	if (ret != 0)
 		return (ret);
-	ret = parse_color(line, "F", map_data, &map_data->floor_color);
+	ret = parse_color(line,"F", map_data, &map_data->floor_color);
 	if (ret != 0)
 		return (ret);
-	ret = parse_color(line, "C", map_data, &map_data->ceiling_color);
+	ret = parse_color(line,"C", map_data, &map_data->ceiling_color);
 	if (ret != 0)
 		return (ret);
 	return (0);
-}
-
-int	reached_maximums(t_map_data *map_data)
-{
-	if (map_data->parsed_colors != 2)
-		return (error_msg("Error: Not all color values were provided.\n"), -1);
-	if (!map_data->no_path || !map_data->so_path || !map_data->we_path
-		|| !map_data->ea_path)
-		return (error_msg("Error: One or more texture paths are NULL.\n"), -1);
-	return (1);
 }

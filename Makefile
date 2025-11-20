@@ -6,7 +6,7 @@
 #    By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/11/14 16:13:14 by ckrasniq         ###   ########.fr        #
+#    Updated: 2025/11/20 19:28:20 by ckrasniq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME := cube3D
 
 CC := cc
 
-CFLAGS := -Wextra -Wall -Werror -Wunreachable-code -O3 -ffast-math
+CFLAGS := -Wextra -Wall -Werror -Wunreachable-code -O3 -ffast-math -D_GNU_SOURCE
 LIBMLX := ./MLX42
 LIBFT_REPO := https://github.com/ckrasniqi/libft.git
 MLX_REPO := https://github.com/codam-coding-college/MLX42.git
@@ -33,7 +33,8 @@ LIBDIR := build/lib
 LIBFT_A := $(LIBDIR)/libft.a
 
 SRCS := src/main.c src/parsing/parse_io.c src/parsing/parse_headers.c \
-	src/parsing/parse_map.c src/parsing/parse_utils.c src/utils.c src/error_msg.c
+	src/parsing/parse_map.c src/parsing/parse_utils.c src/parsing/parse_map_utils.c \
+	src/utils.c src/error_msg.c src/parsing/flood_fill.c src/clean_up.c
 OBJS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 
