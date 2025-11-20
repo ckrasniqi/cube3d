@@ -1,0 +1,11 @@
+NO ./pixel_art/wall1.xpm
+SO ./pixel_art/wall2.xpm
+WE ./pixel_art/wall3.xpm
+EA ./pixel_art/wall4.xpm
+F 220,100,0
+C 225,30,0
+
+1111
+1N01
+1001
+1111

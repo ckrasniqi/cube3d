@@ -6,21 +6,25 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 19:43:40 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/20 19:49:02 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUBE3D_H
 # define CUBE3D_H
 
-# include "MLX42/MLX42.h"
+# include "../MLX42/include/MLX42/MLX42.h"
 # include <fcntl.h>
-# include <libft/libft.h>
+# include "libft/libft.h"
 # include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+
+// #define WIDTH 400
+// #define HEIGHT 400
+
 # define WIDTH 1080
 # define HEIGHT 720
 # define MAX_TEXTURES 4
