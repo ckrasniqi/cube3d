@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 22:37:26 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/21 14:15:51 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int				not_part_of_map(char c);
 int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data);
 int				pad_map_copy(t_map_data *m);
-int	check_enclosed(t_map_data *m);
+int				check_enclosed(t_map_data *m);
 // int				save_the_map_line(char *line, int *map_row,
 // 					t_map_data *map_data);
 
