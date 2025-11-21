@@ -3,7 +3,7 @@ NAME := minimap
 
 CC := cc
 
-CFLAGS := -Wextra -Wall -Werror -Wunreachable-code -O3 -ffast-math
+CFLAGS := -Wextra -Wall -Werror -fsanitize=address -Wunreachable-code -O3 -ffast-math
 LIBMLX := ./MLX42
 LIBFT_REPO := https://github.com/ckrasniqi/libft.git
 MLX_REPO := https://github.com/codam-coding-college/MLX42.git
@@ -21,7 +21,7 @@ LIBDIR := build/lib
 
 LIBFT_A := $(LIBDIR)/libft.a
 
-SRCS := minimap_render.c minimap_player.c
+SRCS := minimap_render.c minimap_keyhooks.c
 OBJS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 

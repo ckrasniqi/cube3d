@@ -6,16 +6,46 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 23:07:03 by msalangi          #+#    #+#             */
-/*   Updated: 2025/11/19 19:47:17 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/20 22:54:49 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cube3d.h"
 
-#define RED 	0xFF0000FF
-#define WHITE 	0xFFFFFFFF
-#define	GREEN	0x00FF00FF
-#define	UNIT_S	20
+#define RED 		0xFF0000FF
+#define WHITE 		0xFFFFFFFF
+#define	GREEN		0x00FF00FF
+#define	UNIT_S		20
+#define UNIT_AREA	400
+#define BACKGROUND	WHITE
+#define	PLAYER		GREEN
+
+// -> array of 800 integers. each % 2 is x
+
+
+void	save_player_position(t_map_data *map, int x, int y)
+{
+	static int i = 0;
+
+	if (i < UNIT_AREA * 2)
+	{
+		map->minimap_player_position[i] = x;
+		// printf("player unit position saved in [%i]: x = %i\n", i, map->minimap_player_position[i]);
+		i++;
+		map->minimap_player_position[i] = y;
+		// printf("player unit position saved in [%i]: y = %i\n", i, map->minimap_player_position[i]);
+	}
+	i++;
+}
+
+int	render_player(t_game *game, int row, int i, int col, int j)
+{
+	if (i > 5 && j > 5)
+		mlx_put_pixel(game->image, row + i, col + j, PLAYER);
+	else
+		mlx_put_pixel(game->image, row + i, col + j, BACKGROUND);
+	return (0);
+}
 
 // row & col are pixel positions in the window, offset changes in render_minimap
 int	draw_unit(t_game *game, t_map_data map, int row, int col, int unit_value)
@@ -38,7 +68,13 @@ int	draw_unit(t_game *game, t_map_data map, int row, int col, int unit_value)
 	{
 		while (j <= UNIT_S)
 		{
-			mlx_put_pixel(game->image, row + i, col + j, color);
+			if (color != GREEN)
+				mlx_put_pixel(game->image, row + i, col + j, color);
+			else if (color == GREEN)
+			{
+				render_player(game, row, i, col, j);
+				save_player_position(&map, row + i, col + j);
+			}
 			j++;
 		}
 		j = 0;
@@ -64,7 +100,12 @@ int	render_minimap(t_game *game, t_map_data	map)
 		while (j < map.map_cols)
 		{
 			int unit_value = map.map[i][j];
-			printf("value of current unit: %i\n", unit_value);
+			if (unit_value == 'N' || unit_value == 'S' || unit_value == 'W' || unit_value == 'E')
+			{
+				game->map_data.player_position_cub[0] = i;
+				game->map_data.player_position_cub[1] = j;
+			}
+			// printf("value of current unit: %i\n", unit_value);
 			if (draw_unit(game, map, row, col, unit_value))
 				return (1);
 			j++;
@@ -118,10 +159,22 @@ int main(void)
         	arr[r][c] = tmp[r][c];
 	}
 	map.map = arr;
+	map.minimap_player_position = malloc(sizeof(int) * UNIT_AREA * 2);
+	if (!map.minimap_player_position)
+	{
+		perror("malloc fail");
+		return (1);
+	}
+	game.map_data = map;
+	// for (int j = 0; j <= UNIT_S * UNIT_S; j++)
+		// map.minimap_player_position[j] = malloc(sizeof(int) * 2);
+
     game.mlx = mlx_init(WIDTH, HEIGHT, "minimap test", false);
+	// mlx_key_hook(game.mlx, &esc_hook, &game);
     game.image = mlx_new_image(game.mlx, WIDTH, HEIGHT);
     mlx_image_to_window(game.mlx, game.image, 0, 0);
     render_minimap(&game, map);
+	mlx_key_hook(game.mlx, &keys_hook, &game);
     mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
 
