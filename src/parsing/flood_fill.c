@@ -6,38 +6,51 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:42:43 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/21 14:16:12 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:13:24 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-int	flood(t_map_data *m, int y, int x, int **visited)
+void	ft_flood_fill(char **map, int x, int y, t_map_data *m)
 {
-	char	c;
-
-	// check out-of-bounds → leak
 	if (x < 0 || y < 0 || x >= m->map_cols || y >= m->map_rows)
-		return (1);
-	c = m->map_copy[y][x];
-	// a space = VOID = leak
-	if (c == ' ')
-		return (1);
-	if (c == '1') // walls block
-		return (0);
-	if (visited[y][x])
-		return (0);
-	visited[y][x] = 1;
-	// flood in all 4 directions (if any return leak → leak)
-	if (flood(m, y + 1, x, visited))
-		return (1);
-	if (flood(m, y - 1, x, visited))
-		return (1);
-	if (flood(m, y, x + 1, visited))
-		return (1);
-	if (flood(m, y, x - 1, visited))
-		return (1);
-	return (0);
+		return ;
+	if (map[y][x] == '1' || map[y][x] == 'X')
+		return ;
+	else
+	{
+		map[y][x] = 'X';
+		ft_flood_fill(map, x + 1, y, m);
+		ft_flood_fill(map, x - 1, y, m);
+		ft_flood_fill(map, x, y + 1, m);
+		ft_flood_fill(map, x, y - 1, m);
+	}
+}
+
+void	fill_map(t_map_data *m, int x, int y)
+{
+	ft_flood_fill(m->map_copy, x, y, m);
+}
+
+int	is_there_open_path(t_map_data *m)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < m->map_rows)
+	{
+		j = 0;
+		while (j < m->map_cols)
+		{
+			if (m->map_copy[i][j] != '1' && m->map_copy[i][j] != 'X')
+				return (error_msg("Open path found in map.\n"), -1);
+			j++;
+		}
+		i++;
+	}
+	return (1);
 }
 
 // void	print_map_only(char **map, int rows, int cols, int start_idx)
@@ -83,24 +96,8 @@ int	copy_map(t_map_data *map_data, int start_idx)
 
 int	check_enclosed(t_map_data *m)
 {
-	int	**visited;
-	int	i;
-
-	// allocate visited matrix
-	visited = malloc(sizeof(int *) * m->map_rows);
-	if (!visited)
-		return (error_msg("Malloc failed\n"), -1);
-	for (i = 0; i < m->map_rows; i++)
-	{
-		visited[i] = ft_calloc(m->map_cols, sizeof(int));
-		if (!visited[i])
-			return (error_msg("Malloc failed\n"), -1);
-	}
-	// run flood fill from player start
-	if (flood(m, m->player_start_y, m->player_start_x, visited))
-	{
-		error_msg("Map is not enclosed\n");
+	fill_map(m, m->player_start_y, m->player_start_x);
+	if (is_there_open_path(m) == -1)
 		return (-1);
-	}
 	return (0);
 }

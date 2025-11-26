@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/21 14:19:17 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:18:41 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,10 @@ typedef struct s_game
 }				t_game;
 
 // Flood fill functions
-void			flood_fill(char **map, int x, int y, t_map_data *map_data);
+void			ft_flood_fill(char **map, int x, int y, t_map_data *m);
+void			fill_map(t_map_data *m, int x, int y);
+// void			print_map_only(char **map, int rows, int cols, int start_idx);
 int				copy_map(t_map_data *map_data, int start_idx);
-int				fill_map(char **lines, t_map_data *map_data);
 
 // Parsing headers
 int				reached_maximums(t_map_data *map_data);
@@ -93,11 +94,9 @@ int				parse_cub_file(const char *filename, t_map_data *map_data);
 
 // Parsing map utils
 void			set_player_start_position(char identifier, t_map_data *map_data,
-					int x);
-int				not_part_of_map(char c);
+					int x, int y);
 int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data);
-int				pad_map_copy(t_map_data *m);
 int				check_enclosed(t_map_data *m);
 // int				save_the_map_line(char *line, int *map_row,
 // 					t_map_data *map_data);
@@ -114,6 +113,7 @@ int				parse_map_data(t_map_data *map_data, char **lines,
 // Parsing utilities
 void			map_data_init(t_map_data *map_data);
 int				find_next_nonblank(char **lines, int start, int line_count);
+int				pad_map_copy(t_map_data *m);
 int				missing_color_texture(t_map_data *map_data);
 void			print_everything_map_data(t_map_data *map_data, char **lines,
 					int line_count);
@@ -128,8 +128,10 @@ void			ft_error(char *msg);
 void			error_msg(const char *msg);
 
 // Utility functions
+void			*ft_realloc(void *ptr, size_t new_size);
 int				ft_isspace(char c);
 char			*ft_skip_whitespace(const char *str);
+int				not_part_of_map(char c);
 
 //////////////////////////////////////////////////////////////////////////////
 // 								RENDERING									//

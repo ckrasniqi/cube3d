@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:44 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 22:37:39 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:38:45 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,15 @@ int	validate_and_save(t_map_data *map_data)
 		return (-1);
 	if (map_data->map[0] == NULL)
 		return (error_msg("No map"), -1);
-	if (pad_map_copy(map_data) == -1)
-		return (-1);
-
-	if (check_for_invalid_characters(map_data->file_contents, map_data) != 1)
+	if (check_for_invalid_characters(map_data->map, map_data) != 1)
 		return (-1);
 	if (map_data->player_start_x == -1)
 		return (error_msg("No player start position found in map.\n"), -1);
-	if (check_enclosed(map_data) != 1)
+	if (pad_map_copy(map_data) == -1)
 		return (-1);
+	if (check_enclosed(map_data) == -1)
+		return (-1);
+
 	// if (fill_map(map_data->file_contents, map_data) != 1)
 	// 	return (-1);
 	return (1);
