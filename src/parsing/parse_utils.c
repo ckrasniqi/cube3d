@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 18:18:27 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 19:42:45 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	map_data_init(t_map_data *map_data)
 	map_data->player_start_x = -1;
 	map_data->player_start_y = -1;
 	map_data->player_start_angle = 0.0;
+	map_data->map_copy = NULL;
+	map_data->pixels = NULL;
 }
 
 int	find_next_nonblank(char **lines, int start, int line_count)

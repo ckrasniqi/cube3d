@@ -6,70 +6,50 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:42:43 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 18:13:24 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:31:49 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-void	ft_flood_fill(char **map, int x, int y, t_map_data *m)
-{
-	if (x < 0 || y < 0 || x >= m->map_cols || y >= m->map_rows)
-		return ;
-	if (map[y][x] == '1' || map[y][x] == 'X')
-		return ;
-	else
-	{
-		map[y][x] = 'X';
-		ft_flood_fill(map, x + 1, y, m);
-		ft_flood_fill(map, x - 1, y, m);
-		ft_flood_fill(map, x, y + 1, m);
-		ft_flood_fill(map, x, y - 1, m);
-	}
-}
-
-void	fill_map(t_map_data *m, int x, int y)
-{
-	ft_flood_fill(m->map_copy, x, y, m);
-}
-
-int	is_there_open_path(t_map_data *m)
+void	print_map_only(char **map, int rows, int cols, int start_idx)
 {
 	int	i;
 	int	j;
 
-	i = 0;
-	while (i < m->map_rows)
+	printf("Map at start index %d:\n", start_idx);
+	for (i = 0; i < rows; i++)
 	{
-		j = 0;
-		while (j < m->map_cols)
+		for (j = 0; j < cols; j++)
 		{
-			if (m->map_copy[i][j] != '1' && m->map_copy[i][j] != 'X')
-				return (error_msg("Open path found in map.\n"), -1);
-			j++;
+			if (map[i][j] == '\0')
+				break ;
+			printf("%c", map[i][j]);
 		}
-		i++;
+		printf("\n");
 	}
-	return (1);
 }
 
-// void	print_map_only(char **map, int rows, int cols, int start_idx)
-// {
-// 	int	i;
-// 	int	j;
+int	ft_is_map_closed(char **map, int x, int y, t_map_data *m)
+{
+	if (x < 0 || y < 0 || x >= m->map_cols || y >= m->map_rows)
+		return (0);
+	if (map[y][x] == '1' || map[y][x] == 'E')
+		return (1);
 
-// 	printf("Map at start index %d:\n", start_idx);
-// 	for (i = 0; i < rows; i++)
-// 	{
-// 		for (j = 0; j < cols; j++)
-// 		{
-// 			if (map[i][j] == '\0')
-// 				break ;
-// 			printf("%c", map[i][j]);
-// 		}
-// 		printf("\n");
-// 	}
-// }
+	map[y][x] = 'E';
+
+	if (!ft_is_map_closed(map, x + 1, y, m))
+		return (0);
+	if (!ft_is_map_closed(map, x - 1, y, m))
+		return (0);
+	if (!ft_is_map_closed(map, x, y + 1, m))
+		return (0);
+	if (!ft_is_map_closed(map, x, y - 1, m))
+		return (0);
+
+	return (1);
+}
 
 int	copy_map(t_map_data *map_data, int start_idx)
 {
@@ -92,12 +72,4 @@ int	copy_map(t_map_data *map_data, int start_idx)
 	map_data->map[i] = NULL;
 	map_data->map_copy[i] = NULL;
 	return (1);
-}
-
-int	check_enclosed(t_map_data *m)
-{
-	fill_map(m, m->player_start_y, m->player_start_x);
-	if (is_there_open_path(m) == -1)
-		return (-1);
-	return (0);
 }

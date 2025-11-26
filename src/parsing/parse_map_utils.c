@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:53:04 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 18:18:12 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:32:05 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,45 +58,5 @@ int	check_for_invalid_characters(char **lines, t_map_data *m)
 			}
 		}
 	}
-	return (1);
-}
-
-int	replace_spaces_with_zeros(char *row)
-{
-	int	j;
-	int	len;
-
-	j = 0;
-	len = ft_strlen(row);
-	while (j < len)
-	{
-		if (row[j] == ' ')
-			row[j] = '0';
-		j++;
-	}
-	return (len);
-}
-
-int	pad_row_with_zeros(char **row, int len, int cols)
-{
-	char	*new;
-	int		j;
-
-	new = ft_calloc(cols + 1, sizeof(char));
-	if (!new)
-		return (error_msg("Memory allocation failed.\n"), -1);
-	j = 0;
-	while (j < len)
-	{
-		new[j] = (*row)[j];
-		j++;
-	}
-	while (j < cols)
-	{
-		new[j] = '0';
-		j++;
-	}
-	free(*row);
-	*row = new;
 	return (1);
 }

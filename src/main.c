@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 17:58:55 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 19:40:45 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,43 @@ void	ft_hook(void *param)
 		game->image->instances[0].x += 5;
 }
 
+void	render_map(t_map_data *map_data)
+{
+	for (int32_t y = 0; y < map_data->map_rows; y++)
+	{
+		for (int32_t x = 0; x < map_data->map_cols; x++)
+		{
+			if (map_data->map[y][x] == '1')
+			{
+				uint32_t color = ft_pixel(255, 0, 0, 255); // Red color for walls
+				for (int32_t i = 0; i < TILE_SIZE; i++)
+				{
+					for (int32_t j = 0; j < TILE_SIZE; j++)
+					{
+						int32_t pixel_x = x * TILE_SIZE + i;
+						int32_t pixel_y = y * TILE_SIZE + j;
+						map_data->pixels[pixel_y * (map_data->map_cols * TILE_SIZE) + pixel_x] = color;
+					}
+				}
+			}
+			else
+			{
+				uint32_t color = ft_pixel(0, 0, 0, 255); // Black color for empty space
+				for (int32_t i = 0; i < TILE_SIZE; i++)
+				{
+					for (int32_t j = 0; j < TILE_SIZE; j++)
+					{
+						int32_t pixel_x = x * TILE_SIZE + i;
+						int32_t pixel_y = y * TILE_SIZE + j;
+						map_data->pixels[pixel_y * (map_data->map_cols * TILE_SIZE) + pixel_x] = color;
+					}
+				}
+			}
+		}
+	}
+}
+
+
 int	game_init(t_game *game, const char *cub_file)
 {
 	if (ft_memset(game, 0, sizeof(t_game)) == NULL)
@@ -79,10 +116,12 @@ int	game_init(t_game *game, const char *cub_file)
 		free_map_data(&game->map_data);
 		return (error_msg("initializing MLX.\n"), -1);
 	}
-	game->image = mlx_new_image(game->mlx, 200, 200);
+	render_map(&game->map_data);
+	game->image = mlx_new_image(game->mlx, WIDTH, HEIGHT);
 	if (!game->image)
 	{
 		free_map_data(&game->map_data);
+		mlx_terminate(game->mlx);
 		return (error_msg("creating new image.\n"), -1);
 	}
 	if (mlx_image_to_window(game->mlx, game->image, 0, 0) < 0)
@@ -109,7 +148,6 @@ int32_t	main(int ac, char **av)
 	mlx_loop_hook(game.mlx, ft_randomize, &game);
 	mlx_loop_hook(game.mlx, ft_hook, &game);
 	mlx_loop(game.mlx);
-	// print_everything_map_data(&game.map_data);
 	free_map_data(&game.map_data);
 	mlx_terminate(game.mlx);
 	return (EXIT_SUCCESS);

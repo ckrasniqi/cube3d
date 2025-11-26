@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 18:18:41 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:29:02 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 // #define HEIGHT 400
 
 # define WIDTH 1080
-# define HEIGHT 720
+# define HEIGHT 1080
+# define TILE_SIZE 32
 # define MAX_TEXTURES 4
 # define MAX_COLORS 2
 # ifndef _GNU_SOURCE
@@ -57,6 +58,7 @@ typedef struct s_map_data
 	int			player_start_x;
 	int			player_start_y;
 	double		player_start_angle;
+	uint32_t	*pixels;
 
 	int			*minimap_player_position;
 	int			player_position_cub[2];
@@ -71,9 +73,7 @@ typedef struct s_game
 }				t_game;
 
 // Flood fill functions
-void			ft_flood_fill(char **map, int x, int y, t_map_data *m);
-void			fill_map(t_map_data *m, int x, int y);
-// void			print_map_only(char **map, int rows, int cols, int start_idx);
+int				ft_is_map_closed(char **map, int x, int y, t_map_data *m);
 int				copy_map(t_map_data *map_data, int start_idx);
 
 // Parsing headers
@@ -97,9 +97,8 @@ void			set_player_start_position(char identifier, t_map_data *map_data,
 					int x, int y);
 int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data);
-int				check_enclosed(t_map_data *m);
-// int				save_the_map_line(char *line, int *map_row,
-// 					t_map_data *map_data);
+int				replace_spaces_with_zeros(char *row);
+int				pad_row_with_zeros(char **row, int current_len, int target_len);
 
 // Parsing map
 int				count_rows(char **lines, int start_idx, int line_count);
