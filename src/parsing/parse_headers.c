@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 21:57:43 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 17:59:20 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	parse_texture_path(char *line, const char *prefix, t_map_data *map_data,
 	if (*line == '\0' || *line == '\n')
 		return (error_msg("Texture path missing after prefix.\n"), -1);
 	start = line;
-	while (*line != '\0' && *line != '\n' && !ft_isspace((unsigned char)*line))
+	while (*line != '\0' && !ft_isspace((unsigned char)*line))
 		line++;
 	end = line;
 	*path = malloc((end - start) + 1);
@@ -113,10 +113,10 @@ int	parse_line(char *line, t_map_data *map_data)
 	ret = parse_texture_path(line, "EA", map_data, &map_data->ea_path);
 	if (ret != 0)
 		return (ret);
-	ret = parse_color(line,"F", map_data, &map_data->floor_color);
+	ret = parse_color(line, "F", map_data, &map_data->floor_color);
 	if (ret != 0)
 		return (ret);
-	ret = parse_color(line,"C", map_data, &map_data->ceiling_color);
+	ret = parse_color(line, "C", map_data, &map_data->ceiling_color);
 	if (ret != 0)
 		return (ret);
 	return (0);

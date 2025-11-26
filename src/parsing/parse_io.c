@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:41:27 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 21:54:26 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 18:16:37 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,16 +67,10 @@ int	parse_cub_file(const char *filename, t_map_data *map_data)
 		return (-1);
 	map_data_init(map_data);
 	map_data->file_contents = get_all_lines(filename, map_data);
-	// for (int i = 0; i < map_data->line_count; i++)
-	// {
-	// 	printf("Line %d: %s\n", i, map_data->file_contents[i]);
-	// }
 	if (!map_data->file_contents)
 		return (-1);
 	if (parse_map_data(map_data, map_data->file_contents,
 			map_data->line_count) == -1)
 		return (-1);
-	// print_everything_map_data(map_data, map_data->file_contents,
-	// 	map_data->line_count);
 	return (1);
 }
