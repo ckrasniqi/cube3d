@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:44 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 22:37:39 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:32:22 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,23 +46,18 @@ int	count_width(char **lines, int start_idx, int rows)
 	return (max_width);
 }
 
-int	validate_and_save(t_map_data *map_data)
+int	validate_and_save(t_map_data *m)
 {
-	if (copy_map(map_data, map_data->map_start_idx) != 1)
+	if (copy_map(m, m->map_start_idx) != 1)
 		return (-1);
-	if (map_data->map[0] == NULL)
+	if (m->map[0] == NULL)
 		return (error_msg("No map"), -1);
-	if (pad_map_copy(map_data) == -1)
+	if (check_for_invalid_characters(m->map, m) != 1)
 		return (-1);
-
-	if (check_for_invalid_characters(map_data->file_contents, map_data) != 1)
-		return (-1);
-	if (map_data->player_start_x == -1)
+	if (m->player_start_x == -1)
 		return (error_msg("No player start position found in map.\n"), -1);
-	if (check_enclosed(map_data) != 1)
-		return (-1);
-	// if (fill_map(map_data->file_contents, map_data) != 1)
-	// 	return (-1);
+	if (ft_is_map_closed(m->map_copy, m->player_start_y, m->player_start_x, m) != 1)
+			return (error_msg("Map is not closed.\n"), -1);
 	return (1);
 }
 

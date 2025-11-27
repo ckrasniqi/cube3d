@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 22:01:00 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 19:42:45 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ void	map_data_init(t_map_data *map_data)
 	map_data->player_start_x = -1;
 	map_data->player_start_y = -1;
 	map_data->player_start_angle = 0.0;
+	map_data->map_copy = NULL;
+	map_data->pixels = NULL;
 }
 
 int	find_next_nonblank(char **lines, int start, int line_count)
@@ -46,6 +48,25 @@ int	find_next_nonblank(char **lines, int start, int line_count)
 		j++;
 	}
 	return (j);
+}
+
+int	pad_map_copy(t_map_data *m)
+{
+	int	i;
+	int	len;
+
+	i = 0;
+	while (i < m->map_rows)
+	{
+		len = replace_spaces_with_zeros(m->map_copy[i]);
+		if (len < m->map_cols)
+		{
+			if (pad_row_with_zeros(&m->map_copy[i], len, m->map_cols) == -1)
+				return (-1);
+		}
+		i++;
+	}
+	return (1);
 }
 
 int	missing_color_texture(t_map_data *map_data)

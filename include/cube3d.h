@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/21 00:01:57 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/27 14:14:28 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@
 #define	PLAYER		GREEN
 
 # define WIDTH 1080
-# define HEIGHT 720
+# define HEIGHT 1080
+# define TILE_SIZE 32
 # define MAX_TEXTURES 4
 # define MAX_COLORS 2
 # ifndef _GNU_SOURCE
@@ -65,6 +66,7 @@ typedef struct s_map_data
 	int			player_start_x;
 	int			player_start_y;
 	double		player_start_angle;
+	uint32_t	*pixels;
 
 	int			*minimap_player_position;
 	int			player_position_cub[2];
@@ -79,9 +81,8 @@ typedef struct s_game
 }				t_game;
 
 // Flood fill functions
-void			flood_fill(char **map, int x, int y, t_map_data *map_data);
+int				ft_is_map_closed(char **map, int x, int y, t_map_data *m);
 int				copy_map(t_map_data *map_data, int start_idx);
-int				fill_map(char **lines, t_map_data *map_data);
 
 // Parsing headers
 int				reached_maximums(t_map_data *map_data);
@@ -101,14 +102,11 @@ int				parse_cub_file(const char *filename, t_map_data *map_data);
 
 // Parsing map utils
 void			set_player_start_position(char identifier, t_map_data *map_data,
-					int x);
-int				not_part_of_map(char c);
+					int x, int y);
 int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data);
-int				pad_map_copy(t_map_data *m);
-int	check_enclosed(t_map_data *m);
-// int				save_the_map_line(char *line, int *map_row,
-// 					t_map_data *map_data);
+int				replace_spaces_with_zeros(char *row);
+int				pad_row_with_zeros(char **row, int current_len, int target_len);
 
 // Parsing map
 int				count_rows(char **lines, int start_idx, int line_count);
@@ -122,6 +120,7 @@ int				parse_map_data(t_map_data *map_data, char **lines,
 // Parsing utilities
 void			map_data_init(t_map_data *map_data);
 int				find_next_nonblank(char **lines, int start, int line_count);
+int				pad_map_copy(t_map_data *m);
 int				missing_color_texture(t_map_data *map_data);
 void			print_everything_map_data(t_map_data *map_data, char **lines,
 					int line_count);
@@ -136,8 +135,10 @@ void			ft_error(char *msg);
 void			error_msg(const char *msg);
 
 // Utility functions
+void			*ft_realloc(void *ptr, size_t new_size);
 int				ft_isspace(char c);
 char			*ft_skip_whitespace(const char *str);
+int				not_part_of_map(char c);
 
 //////////////////////////////////////////////////////////////////////////////
 // 								RENDERING									//

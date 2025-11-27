@@ -6,48 +6,54 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:42:43 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 19:35:00 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:31:49 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-void	flood_fill(char **map, int x, int y, t_map_data *map_data)
+void	print_map_only(char **map, int rows, int cols, int start_idx)
 {
-	if (x < 0 || y < 0 || x >= map_data->map_cols
-		|| y >= map_data->map_rows)
-		return ;
-	if (map[y][x] == '1' || map[y][x] == 'N' || map[y][x] == 'E'
-		|| map[y][x] == 'S' || map[y][x] == 'W' || map[y][x] == 'X')
-		return ;
+	int	i;
+	int	j;
+
+	printf("Map at start index %d:\n", start_idx);
+	for (i = 0; i < rows; i++)
 	{
-		map[y][x] = 'X';
-		flood_fill(map, x + 1, y, map_data);
-		flood_fill(map, x - 1, y, map_data);
-		flood_fill(map, x, y + 1, map_data);
-		flood_fill(map, x, y - 1, map_data);
+		for (j = 0; j < cols; j++)
+		{
+			if (map[i][j] == '\0')
+				break ;
+			printf("%c", map[i][j]);
+		}
+		printf("\n");
 	}
 }
 
-// void	print_map_only(char **map, int rows, int cols)
-// {
-// 	int	i;
-// 	int	j;
-// 	char *line = NULL;
+int	ft_is_map_closed(char **map, int x, int y, t_map_data *m)
+{
+	if (x < 0 || y < 0 || x >= m->map_cols || y >= m->map_rows)
+		return (0);
+	if (map[y][x] == '1' || map[y][x] == 'E')
+		return (1);
 
-// 	printf("Map Copy after copying:\n");
-// 	for (i = 0; i < rows; i++)
-// 	{
-// 			line[i] = map[i];
-// 			if (line[i] == '\n' || line[i] == '\0')
-// 				break ;
-// 			printf("%s", line[i]);
-// 	}
-// }
+	map[y][x] = 'E';
+
+	if (!ft_is_map_closed(map, x + 1, y, m))
+		return (0);
+	if (!ft_is_map_closed(map, x - 1, y, m))
+		return (0);
+	if (!ft_is_map_closed(map, x, y + 1, m))
+		return (0);
+	if (!ft_is_map_closed(map, x, y - 1, m))
+		return (0);
+
+	return (1);
+}
 
 int	copy_map(t_map_data *map_data, int start_idx)
 {
-	int		i;
+	int	i;
 
 	map_data->map = malloc(sizeof(char *) * (map_data->map_rows + 1));
 	map_data->map_copy = malloc(sizeof(char *) * (map_data->map_rows + 1));
@@ -57,26 +63,13 @@ int	copy_map(t_map_data *map_data, int start_idx)
 	while (i < map_data->map_rows)
 	{
 		map_data->map[i] = ft_strdup(map_data->file_contents[start_idx + i]);
-		map_data->map_copy[i] = ft_strdup(map_data->file_contents[start_idx + i]);
+		map_data->map_copy[i] = ft_strdup(map_data->file_contents[start_idx
+				+ i]);
 		if (!map_data->map[i] || !map_data->map_copy[i])
 			return (error_msg("Memory allocation failed for map rows.\n"), -1);
 		i++;
 	}
 	map_data->map[i] = NULL;
 	map_data->map_copy[i] = NULL;
-	// print_map_only(map_data->map, map_data->map_rows, map_data->map_cols);
-	return (1);
-}
-
-int	fill_map(char **lines, t_map_data *map_data)
-{
-	(void)lines;
-	flood_fill(map_data->map_copy, map_data->player_start_x,
-		map_data->player_start_y, map_data);
-	while (1)
-	{
-		// Implement flood fill algorithm here
-		break ;
-	}
 	return (1);
 }
