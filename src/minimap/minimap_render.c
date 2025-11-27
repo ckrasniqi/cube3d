@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 23:07:03 by msalangi          #+#    #+#             */
-/*   Updated: 2025/11/25 20:01:42 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:37:32 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,10 @@ int	render_minimap(t_game *game, t_map_data	map)
 
 	i = 0;
 	j = 0;
-	row = UNIT_S;
-	col = UNIT_S;
+	// row = UNIT_S;
+	// col = UNIT_S;
+	row = 0;
+	col = 0;
 	// read map[i][j] unit and draw it
 	while (i < map.map_rows)
 	{
@@ -106,8 +108,11 @@ int	render_minimap(t_game *game, t_map_data	map)
 		i++;
 		row += UNIT_S;
 		j = 0;
-		col = UNIT_S;
+		// col = UNIT_S;
+		col = 0;
 	}
+	draw_grid(game->map_data, game);
+	find_player(game);
 	return (0);
 }
 
@@ -168,6 +173,7 @@ int main(void)
     mlx_image_to_window(game.mlx, game.image, 0, 0);
     render_minimap(&game, map);
 	mlx_key_hook(game.mlx, &keys_hook, &game);
+	// mlx_key_hook(game.mlx, &arrow_hook, &game);
     mlx_loop(game.mlx);
 	mlx_terminate(game.mlx);
 

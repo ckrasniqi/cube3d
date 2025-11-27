@@ -21,7 +21,7 @@ LIBDIR := build/lib
 
 LIBFT_A := $(LIBDIR)/libft.a
 
-SRCS := minimap_render.c minimap_keyhooks.c
+SRCS := minimap_render.c minimap_keyhooks.c minimap_grid.c shoot_rays.c
 OBJS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 

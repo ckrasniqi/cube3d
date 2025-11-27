@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/27 14:14:28 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:36:51 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@
 #define RED 		0xFF0000FF
 #define WHITE 		0xFFFFFFFF
 #define	GREEN		0x00FF00FF
-#define	UNIT_S		20
-#define UNIT_AREA	400
+#define	UNIT_S		72
+#define UNIT_AREA	UNIT_S * UNIT_S
 #define BACKGROUND	WHITE
 #define	PLAYER		GREEN
 
 # define WIDTH 1080
 # define HEIGHT 1080
-# define TILE_SIZE 32
+# define TILE_SIZE 72
 # define MAX_TEXTURES 4
 # define MAX_COLORS 2
 # ifndef _GNU_SOURCE
@@ -146,6 +146,9 @@ int				not_part_of_map(char c);
 
 int				render_minimap(t_game *game, t_map_data	map);
 void			keys_hook(mlx_key_data_t keydata, void *param);
-
+void			arrow_hook(mlx_key_data_t keydata, void *g);
+int				draw_grid(t_map_data map_data, t_game *game);
+int				draw_rows(t_map_data map_data, t_game *game);
+void	find_player(t_game *game);
 
 #endif

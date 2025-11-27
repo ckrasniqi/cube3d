@@ -6,14 +6,13 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:46:54 by msalangi          #+#    #+#             */
-/*   Updated: 2025/11/25 20:03:25 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/27 16:23:14 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cube3d.h"
 
 // PLAYER MOVEMENT THROUGH THE MINIMAP
-// mouse hooks
 
 int	go_back(t_game *game)
 {
@@ -27,14 +26,13 @@ int	go_back(t_game *game)
 	printf("walking back\n");
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
 
-	if (game->map_data.map[row][col]) // starting position of player
+	if (game->map_data.map[row][col])
 	{
-		// move, change value
 		if (game->map_data.map[row][col + 1] == '0')
 		{
-			game->map_data.player_position_cub[0] = row - 1; // update player position
+			game->map_data.player_position_cub[0] = row - 1;
 			game->map_data.map[row][col] = '0';
-			game->map_data.map[row][col + 1] = 'E';
+			game->map_data.map[row][col + 1] = 'S';
 			render_minimap(game, game->map_data);
 		}
 		else
@@ -54,14 +52,13 @@ int	go_right(t_game *game)
 	printf("walking right\n");
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
 
-	if (game->map_data.map[row][col]) // starting position of player
+	if (game->map_data.map[row][col])
 	{
-		// move, change value
 		if (game->map_data.map[row + 1][col] == '0')
 		{
-			game->map_data.player_position_cub[0] = row + 1; // update player position
+			game->map_data.player_position_cub[0] = row + 1;
 			game->map_data.map[row][col] = '0';
-			game->map_data.map[row + 1][col] = 'N';
+			game->map_data.map[row + 1][col] = 'E';
 			render_minimap(game, game->map_data);
 		}
 		else
@@ -77,20 +74,19 @@ int	go_left(t_game *game)
 	
 	if (!game->map_data.minimap_player_position)
         return (1);
-	// while (i <= 800)
 	printf("walking left\n");
-	printf("player position: x: %i, y: %i\n", game->map_data.minimap_player_position[i],  game->map_data.minimap_player_position[i + 1]);
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
-	if (game->map_data.map[row][col]) // starting position of player
+	if (game->map_data.map[row][col])
 	{
-		// move, change value
 		if (game->map_data.map[row - 1][col] == '0')
 		{
-			game->map_data.player_position_cub[0] = row - 1; // update player position
+			game->map_data.player_position_cub[0] = row - 1;
 			game->map_data.map[row][col] = '0';
-			game->map_data.map[row - 1][col] = 'S';	
+			game->map_data.map[row - 1][col] = 'W';	
 			render_minimap(game, game->map_data);
 		}
+		else
+			printf("there's a wall on the way!\n");
 	}
 	return (0);
 }
@@ -106,16 +102,17 @@ int	go_forward(t_game *game)
 	printf("walking forward\n");
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
 
-	if (game->map_data.map[row][col]) // starting position of player
+	if (game->map_data.map[row][col])
 	{
-		// move, change value
 		if (game->map_data.map[row][col - 1] == '0')
 		{
-			game->map_data.player_position_cub[0] = col - 1; // update player position
+			game->map_data.player_position_cub[0] = col - 1;
 			game->map_data.map[row][col] = '0';
-			game->map_data.map[row][col - 1] = 'W';
+			game->map_data.map[row][col - 1] = 'N';
 			render_minimap(game, game->map_data);
 		}
+		else
+			printf("there's a wall on the way!\n");
 	}
 	return (0);
 }
@@ -123,7 +120,7 @@ int	go_forward(t_game *game)
 void	keys_hook(mlx_key_data_t keydata, void *g)
 {
 	t_game		*game = g;
-	mlx_t	*mlx;
+	mlx_t		*mlx;
 
 	mlx = game->mlx;
 	if (!mlx || !game)
@@ -142,4 +139,6 @@ void	keys_hook(mlx_key_data_t keydata, void *g)
 		go_left(game);
 	if (keydata.key == MLX_KEY_D && keydata.action == MLX_PRESS)
 		go_right(game);
+	// game->map_data.player_start_angle = 0;
+	// printf("looking: %f\n", game->map_data.player_start_angle);
 }
