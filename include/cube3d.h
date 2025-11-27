@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 23:06:24 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/21 00:01:57 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,14 @@
 
 // #define WIDTH 400
 // #define HEIGHT 400
+
+#define RED 		0xFF0000FF
+#define WHITE 		0xFFFFFFFF
+#define	GREEN		0x00FF00FF
+#define	UNIT_S		20
+#define UNIT_AREA	400
+#define BACKGROUND	WHITE
+#define	PLAYER		GREEN
 
 # define WIDTH 1080
 # define HEIGHT 720
@@ -135,9 +143,8 @@ char			*ft_skip_whitespace(const char *str);
 // 								RENDERING									//
 //////////////////////////////////////////////////////////////////////////////
 
-int		render_minimap(t_game *game, t_map_data	map);
-void	keys_hook(mlx_key_data_t keydata, void *param);
-void	keys_hook(mlx_key_data_t keydata, void *param);
+int				render_minimap(t_game *game, t_map_data	map);
+void			keys_hook(mlx_key_data_t keydata, void *param);
 
 
 #endif

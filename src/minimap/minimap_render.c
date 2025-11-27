@@ -6,19 +6,11 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 23:07:03 by msalangi          #+#    #+#             */
-/*   Updated: 2025/11/20 22:54:49 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/25 20:01:42 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../include/cube3d.h"
-
-#define RED 		0xFF0000FF
-#define WHITE 		0xFFFFFFFF
-#define	GREEN		0x00FF00FF
-#define	UNIT_S		20
-#define UNIT_AREA	400
-#define BACKGROUND	WHITE
-#define	PLAYER		GREEN
 
 // -> array of 800 integers. each % 2 is x
 
@@ -48,7 +40,7 @@ int	render_player(t_game *game, int row, int i, int col, int j)
 }
 
 // row & col are pixel positions in the window, offset changes in render_minimap
-int	draw_unit(t_game *game, t_map_data map, int row, int col, int unit_value)
+int	draw_unit(t_game *game, t_map_data map, int row, int col, char unit_value)
 {
 	size_t	i;
 	size_t	j;
@@ -56,9 +48,9 @@ int	draw_unit(t_game *game, t_map_data map, int row, int col, int unit_value)
 
 	i = 0;
 	j = 0;
-	if (unit_value == 1) // WALL UNIT
+	if (unit_value == '1') // WALL UNIT
 		color = RED;
-	else if (unit_value == 0) // FLOOR UNIT
+	else if (unit_value == '0') // FLOOR UNIT
 		color = WHITE;
 	else if (unit_value == 'N' || unit_value == 'S' || unit_value == 'W' || unit_value == 'E') // PLAYER UNIT
 		color = GREEN;
@@ -99,7 +91,7 @@ int	render_minimap(t_game *game, t_map_data	map)
 	{
 		while (j < map.map_cols)
 		{
-			int unit_value = map.map[i][j];
+			char unit_value = map.map[i][j];
 			if (unit_value == 'N' || unit_value == 'S' || unit_value == 'W' || unit_value == 'E')
 			{
 				game->map_data.player_position_cub[0] = i;
@@ -126,31 +118,35 @@ int main(void)
 {
     t_game      game;
     t_map_data  map;
-    int         **arr;
+    char         **arr;
 
 	map.map_rows = 15;
 	map.map_cols = 15;
 
-	arr = malloc(sizeof(int *) * map.map_rows);
+	arr = malloc(sizeof(char *) * map.map_rows + 1);
+	arr[map.map_rows] = NULL;
 	for (size_t i = 0; i < map.map_rows; i++)
-    	arr[i] = malloc(sizeof(int) * map.map_cols);
+	{
+    	arr[i] = malloc(sizeof(char) * map.map_cols + 1);
+		arr[i][map.map_cols] = '\0';
+	}
 
-	int tmp[15][15] = {
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-    {1,'N',0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,1,0,1,1,1,1,1,1,1,0,1,0,1},
-    {1,0,0,0,1,0,0,0,0,0,1,0,0,0,1},
-    {1,1,1,0,1,0,1,1,1,0,1,0,1,1,1},
-    {1,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
-    {1,0,1,1,1,0,1,0,1,0,1,1,1,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,0,1,0,1,1,1,1,1,1,1,0,1,0,1},
-    {1,0,0,0,1,0,0,0,0,0,1,0,0,0,1},
-    {1,1,1,0,1,0,1,1,1,0,1,0,1,1,1},
-    {1,0,0,0,0,0,1,0,0,0,1,0,0,0,1},
-    {1,0,1,1,1,0,1,0,1,0,1,1,1,0,1},
-    {1,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-    {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+	char tmp[15][15] = {
+    {'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'},
+    {'1','N','0','0','0','0','0','0','0','0','0','0','0','0','1'},
+    {'1','0','1','0','1','1','1','1','1','1','1','0','1','0','1'},
+    {'1','0','0','0','1','0','0','0','0','0','1','0','0','0','1'},
+    {'1','1','1','0','1','0','1','1','1','0','1','0','1','1','1'},
+    {'1','0','0','0','0','0','1','0','0','0','1','0','0','0','1'},
+    {'1','0','1','1','1','0','1','0','1','0','1','1','1','0','1'},
+    {'1','0','0','0','0','0','0','0','0','0','0','0','0','0','1'},
+    {'1','0','1','0','1','1','1','1','1','1','1','0','1','0','1'},
+    {'1','0','0','0','1','0','0','0','0','0','1','0','0','0','1'},
+    {'1','1','1','0','1','0','1','1','1','0','1','0','1','1','1'},
+    {'1','0','0','0','0','0','1','0','0','0','1','0','0','0','1'},
+    {'1','0','1','1','1','0','1','0','1','0','1','1','1','0','1'},
+    {'1','0','0','0','0','0','0','0','0','0','0','0','0','0','1'},
+    {'1','1','1','1','1','1','1','1','1','1','1','1','1','1','1'}
 	};
 
 	for (size_t r = 0; r < map.map_rows; r++)
@@ -166,11 +162,8 @@ int main(void)
 		return (1);
 	}
 	game.map_data = map;
-	// for (int j = 0; j <= UNIT_S * UNIT_S; j++)
-		// map.minimap_player_position[j] = malloc(sizeof(int) * 2);
 
     game.mlx = mlx_init(WIDTH, HEIGHT, "minimap test", false);
-	// mlx_key_hook(game.mlx, &esc_hook, &game);
     game.image = mlx_new_image(game.mlx, WIDTH, HEIGHT);
     mlx_image_to_window(game.mlx, game.image, 0, 0);
     render_minimap(&game, map);

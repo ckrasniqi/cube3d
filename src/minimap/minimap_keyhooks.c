@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/19 19:46:54 by msalangi          #+#    #+#             */
-/*   Updated: 2025/11/20 22:33:39 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/25 20:03:25 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,16 @@ int	go_back(t_game *game)
 	if (!game->map_data.minimap_player_position)
         return (1);
 
-	printf("walking right\n");
+	printf("walking back\n");
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
 
 	if (game->map_data.map[row][col]) // starting position of player
 	{
 		// move, change value
-		if (game->map_data.map[row][col + 1] == 0)
+		if (game->map_data.map[row][col + 1] == '0')
 		{
 			game->map_data.player_position_cub[0] = row - 1; // update player position
-			game->map_data.map[row][col] = 0;
+			game->map_data.map[row][col] = '0';
 			game->map_data.map[row][col + 1] = 'E';
 			render_minimap(game, game->map_data);
 		}
@@ -51,16 +51,16 @@ int	go_right(t_game *game)
 
 	if (!game->map_data.minimap_player_position)
         return (1);
-	printf("walking back\n");
+	printf("walking right\n");
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
 
 	if (game->map_data.map[row][col]) // starting position of player
 	{
 		// move, change value
-		if (game->map_data.map[row + 1][col] == 0)
+		if (game->map_data.map[row + 1][col] == '0')
 		{
 			game->map_data.player_position_cub[0] = row + 1; // update player position
-			game->map_data.map[row][col] = 0;
+			game->map_data.map[row][col] = '0';
 			game->map_data.map[row + 1][col] = 'N';
 			render_minimap(game, game->map_data);
 		}
@@ -78,15 +78,16 @@ int	go_left(t_game *game)
 	if (!game->map_data.minimap_player_position)
         return (1);
 	// while (i <= 800)
+	printf("walking left\n");
 	printf("player position: x: %i, y: %i\n", game->map_data.minimap_player_position[i],  game->map_data.minimap_player_position[i + 1]);
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
 	if (game->map_data.map[row][col]) // starting position of player
 	{
 		// move, change value
-		if (game->map_data.map[row - 1][col] == 0)
+		if (game->map_data.map[row - 1][col] == '0')
 		{
 			game->map_data.player_position_cub[0] = row - 1; // update player position
-			game->map_data.map[row][col] = 0;
+			game->map_data.map[row][col] = '0';
 			game->map_data.map[row - 1][col] = 'S';	
 			render_minimap(game, game->map_data);
 		}
@@ -102,16 +103,16 @@ int	go_forward(t_game *game)
 
 	if (!game->map_data.minimap_player_position)
         return (1);
-	printf("walking left\n");
+	printf("walking forward\n");
 	printf("player position in .cub map: x: %i, y: %i\n", row, col);
 
 	if (game->map_data.map[row][col]) // starting position of player
 	{
 		// move, change value
-		if (game->map_data.map[row][col - 1] == 0)
+		if (game->map_data.map[row][col - 1] == '0')
 		{
 			game->map_data.player_position_cub[0] = col - 1; // update player position
-			game->map_data.map[row][col] = 0;
+			game->map_data.map[row][col] = '0';
 			game->map_data.map[row][col - 1] = 'W';
 			render_minimap(game, game->map_data);
 		}
