@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 19:42:45 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:07:56 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	map_data_init(t_map_data *map_data)
 	map_data->player_start_y = -1;
 	map_data->player_start_angle = 0.0;
 	map_data->map_copy = NULL;
-	map_data->pixels = NULL;
+	map_data->pixels = malloc(sizeof(uint32_t) * 1080 * 720);
 }
 
 int	find_next_nonblank(char **lines, int start, int line_count)
@@ -50,25 +50,6 @@ int	find_next_nonblank(char **lines, int start, int line_count)
 	return (j);
 }
 
-int	pad_map_copy(t_map_data *m)
-{
-	int	i;
-	int	len;
-
-	i = 0;
-	while (i < m->map_rows)
-	{
-		len = replace_spaces_with_zeros(m->map_copy[i]);
-		if (len < m->map_cols)
-		{
-			if (pad_row_with_zeros(&m->map_copy[i], len, m->map_cols) == -1)
-				return (-1);
-		}
-		i++;
-	}
-	return (1);
-}
-
 int	missing_color_texture(t_map_data *map_data)
 {
 	if (map_data->parsed_colors < 2 || map_data->parsed_textures < 4
@@ -78,7 +59,8 @@ int	missing_color_texture(t_map_data *map_data)
 	return (0);
 }
 
-void	print_everything_map_data(t_map_data *map_data, char **lines, int line_count)
+void	print_everything_map_data(t_map_data *map_data, char **lines, \
+	int line_count)
 {
 	printf("NO Path: %s\n", map_data->no_path);
 	printf("SO Path: %s\n", map_data->so_path);

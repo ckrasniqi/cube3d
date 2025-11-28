@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:44 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 20:32:22 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:01:19 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	parse_map_data(t_map_data *map_data, char **lines, int line_count)
 	char	*trim;
 
 	i = -1;
-	while (i++ < line_count)
+	while (++i < line_count)
 	{
 		line = lines[i];
 		trim = ft_skip_whitespace(line);

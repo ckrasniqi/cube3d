@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:53:04 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 20:32:05 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:12:48 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	check_for_invalid_characters(char **lines, t_map_data *m)
 			{
 				if (m->player_start_x != -1 && m->player_start_y != -1)
 					return (error_msg("Multiple players.\n"), \
-							1);
+							-1);
 				set_player_start_position(lines[i][j], m, i, j);
 			}
 		}
