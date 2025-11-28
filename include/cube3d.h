@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 15:46:51 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 20:53:51 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 #define RED 		0xFF0000FF
 #define WHITE 		0xFFFFFFFF
 #define	GREEN		0x00FF00FF
+#define BLACK		0x000000FF
 #define	UNIT_S		72
 #define UNIT_AREA	UNIT_S * UNIT_S
 #define BACKGROUND	WHITE
@@ -87,6 +88,8 @@ typedef struct s_game
 
 }				t_game;
 
+double			get_time_seconds(void);
+
 // Flood fill functions
 int				ft_is_map_closed(char **map, int x, int y, t_map_data *m);
 int				copy_map(t_map_data *map_data, int start_idx);
@@ -104,12 +107,12 @@ int				parse_line(char *line, t_map_data *map_data);
 int				name_check(const char *filename);
 int				validate_filename(const char *filename);
 char			**get_all_lines(char const *filename, t_map_data *map_data);
-int				parse_cub_file(const char *filename, t_map_data *map_data, t_game *game);
+int				parse_cub_file(const char *filename, t_map_data *map_data, t_game *game, t_player *p);
 // void			debug_print_lines(char **lines, int line_count);
 
 // Parsing map utils
 void			set_player_start_position(char identifier, t_map_data *map_data,
-					int x, int y, t_player player);
+					int x, int y, t_player *player);
 int				player_found(char c);
 int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data, t_game *game);
@@ -117,7 +120,7 @@ int				check_for_invalid_characters(char **lines,
 // Parsing map
 int				count_rows(char **lines, int start_idx, int line_count);
 int				count_width(char **lines, int start_idx, int rows);
-int				validate_and_save(t_map_data *map_data, t_game *game);
+int				validate_and_save(t_map_data *map_data, t_game *game, t_player *player);
 int				parse_map_line(char **lines, t_map_data *map_data,
 					int line_count, t_game *game);
 int				parse_map_data(t_map_data *map_data, char **lines,
@@ -125,10 +128,10 @@ int				parse_map_data(t_map_data *map_data, char **lines,
 
 // Parsing utilities
 void			map_data_init(t_map_data *map_data);
+void			player_data_init(t_player *player);
 int				find_next_nonblank(char **lines, int start, int line_count);
 int				missing_color_texture(t_map_data *map_data);
-void			print_everything_map_data(t_map_data *map_data, char **lines,
-					int line_count);
+// void			print_everything_map_data(t_map_data *map_data, char **lines, \
 
 // Clean up
 void			free_lines(char **lines, int line_count);
@@ -138,6 +141,19 @@ void			clean_up(t_map_data *map_data, char **lines);
 // Error handling
 void			ft_error(char *msg);
 void			error_msg(const char *msg);
+
+// Map Rendering and minimap
+void			render_mini_map(t_game *game, t_map_data *m);
+void			draw_map(t_game *game, t_map_data *m);
+void			draw_map_unit(t_game *game, int x, int y, uint32_t color);
+void			draw_grid2(t_game *game);
+void			draw_player(t_game *game);
+
+// Setup game variables
+int				setup_game_variables(t_game *g, t_map_data *mdata,
+					t_player player);
+int				set_tile_size(int cols, int rows, int window_w, int window_h);
+
 
 // Utility functions
 void			*ft_realloc(void *ptr, size_t new_size);

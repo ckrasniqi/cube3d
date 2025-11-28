@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 15:34:40 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 20:48:36 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,17 @@ void	map_data_init(t_map_data *map_data)
 	}
 }
 
+void	player_data_init(t_player *player)
+{
+	ft_memset(player, 0, sizeof(t_player));
+	player->px = -1.0;
+	player->py = -1.0;
+	player->angle = 0.0;
+	player->fov = 60.0;
+	player->move_speed = 0.1;
+	player->rot_speed = 5.0;
+}
+
 int	find_next_nonblank(char **lines, int start, int line_count)
 {
 	int	j;
@@ -61,29 +72,29 @@ int	missing_color_texture(t_map_data *map_data)
 	return (0);
 }
 
-void	print_everything_map_data(t_map_data *map_data, char **lines, \
-	int line_count)
-{
-	printf("NO Path: %s\n", map_data->no_path);
-	printf("SO Path: %s\n", map_data->so_path);
-	printf("WE Path: %s\n", map_data->we_path);
-	printf("EA Path: %s\n", map_data->ea_path);
-	printf("Floor Color: 0x%06X\n", map_data->floor_color);
-	printf("Ceiling Color: 0x%06X\n", map_data->ceiling_color);
-	printf("Map Start Index: %d\n", map_data->map_start_idx);
-	printf("Map Rows: %d\n", map_data->map_rows);
-	printf("Map Columns: %d\n", map_data->map_cols);
-	printf("Player Start Position: (%d, %d)\n",
-		map_data->player_start_x, map_data->player_start_y);
-	printf("Player Start Angle: %.2f radians\n", map_data->player_start_angle);
-	// printf("Map Data:\n");
-	(void)line_count;
-	(void)lines;
-	for (int i = 0; i < map_data->map_rows; i++)
-	{
-		printf("%s", map_data->file_contents[i]);
-		printf("\n");
-	}
+// void	print_everything_map_data(t_map_data *map_data, char **lines, \
+// 	int line_count)
+// {
+// 	printf("NO Path: %s\n", map_data->no_path);
+// 	printf("SO Path: %s\n", map_data->so_path);
+// 	printf("WE Path: %s\n", map_data->we_path);
+// 	printf("EA Path: %s\n", map_data->ea_path);
+// 	printf("Floor Color: 0x%06X\n", map_data->floor_color);
+// 	printf("Ceiling Color: 0x%06X\n", map_data->ceiling_color);
+// 	printf("Map Start Index: %d\n", map_data->map_start_idx);
+// 	printf("Map Rows: %d\n", map_data->map_rows);
+// 	printf("Map Columns: %d\n", map_data->map_cols);
+// 	printf("Player Start Position: (%d, %d)\n",
+// 		map_data->player_start_x, map_data->player_start_y);
+// 	printf("Player Start Angle: %.2f radians\n", map_data->player_start_angle);
+// 	// printf("Map Data:\n");
+// 	(void)line_count;
+// 	(void)lines;
+// 	for (int i = 0; i < map_data->map_rows; i++)
+// 	{
+// 		printf("%s", map_data->file_contents[i]);
+// 		printf("\n");
+// 	}
 
 
-}
+// }

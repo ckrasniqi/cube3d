@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:44 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 15:29:59 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 20:55:17 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int	count_width(char **lines, int start_idx, int rows)
 	return (max_width);
 }
 
-int	validate_and_save(t_map_data *m, t_game *game)
+int	validate_and_save(t_map_data *m, t_game *game, t_player *player)
 {
 	if (copy_map(m, m->map_start_idx) != 1)
 		return (-1);
@@ -54,9 +54,9 @@ int	validate_and_save(t_map_data *m, t_game *game)
 		return (error_msg("No map"), -1);
 	if (check_for_invalid_characters(m->map, m, game) != 1)
 		return (-1);
-	if (m->player_start_x == -1)
+	if (player->px == -1)
 		return (error_msg("No player start position found in map.\n"), -1);
-	if (ft_is_map_closed(m->map_copy, m->player_start_y, m->player_start_x, m) != 1)
+	if (ft_is_map_closed(m->map_copy, player->py, player->px, m) != 1)
 			return (error_msg("Map is not closed.\n"), -1);
 	return (1);
 }
@@ -66,7 +66,7 @@ int	parse_map_line(char **lines, t_map_data *map_data, int line_count, t_game *g
 	map_data->map_rows = count_rows(lines, map_data->map_start_idx, line_count);
 	map_data->map_cols = count_width(lines, map_data->map_start_idx,
 			map_data->map_rows);
-	if (validate_and_save(map_data, game) != 1)
+	if (validate_and_save(map_data, game, &game->player) != 1)
 		return (-1);
 	return (1);
 }
