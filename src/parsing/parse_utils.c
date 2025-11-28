@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 15:07:56 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:34:40 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,16 @@ void	map_data_init(t_map_data *map_data)
 	map_data->file_contents = NULL;
 	map_data->line_count = 0;
 	map_data->map = NULL;
+	map_data->map_copy = NULL;
 	map_data->map_start_idx = 0;
 	map_data->map_rows = 0;
 	map_data->map_cols = 0;
-	map_data->player_start_x = -1;
-	map_data->player_start_y = -1;
-	map_data->player_start_angle = 0.0;
-	map_data->map_copy = NULL;
 	map_data->pixels = malloc(sizeof(uint32_t) * 1080 * 720);
+	if (!map_data->pixels)
+	{
+		error_msg("Failed to allocate memory for map pixels.\n");
+		free_map_data(map_data);
+	}
 }
 
 int	find_next_nonblank(char **lines, int start, int line_count)

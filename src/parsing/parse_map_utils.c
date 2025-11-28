@@ -6,27 +6,36 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:53:04 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 15:12:48 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:47:03 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-void	set_player_start_position(char identifier, t_map_data *m, int x, int y)
+void	set_player_start_position(char identifier, t_map_data *m, int x, int y, t_player player)
 {
-	m->player_start_x = x;
-	if (identifier == 'N' || identifier == 'S')
-		m->player_start_y = y;
-	else if (identifier == 'E' || identifier == 'W')
-		m->player_start_y = y;
+	player.px = x;
+	player.py = y;
+	player.fov = 60.0;
+	player.move_speed = 0.1;
+	player.rot_speed = 5.0;
+	m->map[y][x] = '0';
+	m->minimap_player_position = malloc(2 * sizeof(int));
+	if (m->minimap_player_position)
+	{
+		m->minimap_player_position[0] = x;
+		m->minimap_player_position[1] = y;
+	}
+	m->player_position_cub[0] = y;
+	m->player_position_cub[1] = x;
 	if (identifier == 'N')
-		m->player_start_angle = 3 * M_PI / 2;
+		player.angle = 270.0;
 	else if (identifier == 'S')
-		m->player_start_angle = M_PI / 2;
+		player.angle = 90.0;
 	else if (identifier == 'E')
-		m->player_start_angle = 0.0;
+		player.angle = 0.0;
 	else if (identifier == 'W')
-		m->player_start_angle = M_PI;
+		player.angle = 180.0;
 }
 
 int	player_found(char c)
@@ -36,7 +45,7 @@ int	player_found(char c)
 	return (0);
 }
 
-int	check_for_invalid_characters(char **lines, t_map_data *m)
+int	check_for_invalid_characters(char **lines, t_map_data *m, t_game *game)
 {
 	int	i;
 	int	j;
@@ -54,7 +63,7 @@ int	check_for_invalid_characters(char **lines, t_map_data *m)
 				if (m->player_start_x != -1 && m->player_start_y != -1)
 					return (error_msg("Multiple players.\n"), \
 							-1);
-				set_player_start_position(lines[i][j], m, i, j);
+				set_player_start_position(lines[i][j], m, i, j, game->player);
 			}
 		}
 	}

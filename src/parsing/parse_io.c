@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:41:27 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 18:16:37 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:19:36 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ char	**get_all_lines(const char *filename, t_map_data *map_data)
 	return (map);
 }
 
-int	parse_cub_file(const char *filename, t_map_data *map_data)
+int	parse_cub_file(const char *filename, t_map_data *map_data, t_game *game)
 {
 	if (!validate_filename(filename))
 		return (-1);
@@ -70,7 +70,7 @@ int	parse_cub_file(const char *filename, t_map_data *map_data)
 	if (!map_data->file_contents)
 		return (-1);
 	if (parse_map_data(map_data, map_data->file_contents,
-			map_data->line_count) == -1)
+			map_data->line_count, game) == -1)
 		return (-1);
 	return (1);
 }

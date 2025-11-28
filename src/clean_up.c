@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 14:49:03 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/20 19:33:38 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/26 20:47:58 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	free_map_data(t_map_data *map_data)
 
 	if (!map_data)
 		return ;
+	if (map_data->pixels)
+		free(map_data->pixels);
 	if (map_data->no_path)
 		free(map_data->no_path);
 	if (map_data->so_path)

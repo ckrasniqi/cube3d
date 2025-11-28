@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/27 16:36:51 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/11/28 15:46:51 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,20 @@
 #define BACKGROUND	WHITE
 #define	PLAYER		GREEN
 
-# define WIDTH 1080
-# define HEIGHT 1080
-# define TILE_SIZE 72
 # define MAX_TEXTURES 4
 # define MAX_COLORS 2
-# ifndef _GNU_SOURCE
-#  define _GNU_SOURCE
-# endif
 
-# ifndef M_PI
-#  define M_PI 3.14159265358979323846
-# endif
+
+typedef struct s_player
+{
+	double		px;
+	double		py;
+	double		angle;
+	double		fov;
+	double		move_speed;
+	double		rot_speed;
+
+}				t_player;
 
 typedef struct s_map_data
 {
@@ -57,19 +59,17 @@ typedef struct s_map_data
 	uint32_t	ceiling_color;
 	int			parsed_colors;
 	char		**file_contents;
-	int			line_count;
 	char		**map;
 	char		**map_copy;
+	int			line_count;
 	int			map_start_idx;
 	int			map_rows;
 	int			map_cols;
-	int			player_start_x;
-	int			player_start_y;
-	double		player_start_angle;
 	uint32_t	*pixels;
 
 	int			*minimap_player_position;
 	int			player_position_cub[2];
+
 }				t_map_data;
 
 typedef struct s_game
@@ -77,6 +77,13 @@ typedef struct s_game
 	mlx_t		*mlx;
 	mlx_image_t	*image;
 	t_map_data	map_data;
+	t_player	player;
+	int			width;
+	int			height;
+	int			tile_size;
+
+	/* added: time of previous frame for smooth movement */
+	double		last_time;
 
 }				t_game;
 
@@ -97,30 +104,28 @@ int				parse_line(char *line, t_map_data *map_data);
 int				name_check(const char *filename);
 int				validate_filename(const char *filename);
 char			**get_all_lines(char const *filename, t_map_data *map_data);
-int				parse_cub_file(const char *filename, t_map_data *map_data);
+int				parse_cub_file(const char *filename, t_map_data *map_data, t_game *game);
 // void			debug_print_lines(char **lines, int line_count);
 
 // Parsing map utils
 void			set_player_start_position(char identifier, t_map_data *map_data,
-					int x, int y);
+					int x, int y, t_player player);
+int				player_found(char c);
 int				check_for_invalid_characters(char **lines,
-					t_map_data *map_data);
-int				replace_spaces_with_zeros(char *row);
-int				pad_row_with_zeros(char **row, int current_len, int target_len);
+					t_map_data *map_data, t_game *game);
 
 // Parsing map
 int				count_rows(char **lines, int start_idx, int line_count);
 int				count_width(char **lines, int start_idx, int rows);
-int				validate_and_save(t_map_data *map_data);
+int				validate_and_save(t_map_data *map_data, t_game *game);
 int				parse_map_line(char **lines, t_map_data *map_data,
-					int line_count);
+					int line_count, t_game *game);
 int				parse_map_data(t_map_data *map_data, char **lines,
-					int line_count);
+					int line_count, t_game *game);
 
 // Parsing utilities
 void			map_data_init(t_map_data *map_data);
 int				find_next_nonblank(char **lines, int start, int line_count);
-int				pad_map_copy(t_map_data *m);
 int				missing_color_texture(t_map_data *map_data);
 void			print_everything_map_data(t_map_data *map_data, char **lines,
 					int line_count);
@@ -149,6 +154,6 @@ void			keys_hook(mlx_key_data_t keydata, void *param);
 void			arrow_hook(mlx_key_data_t keydata, void *g);
 int				draw_grid(t_map_data map_data, t_game *game);
 int				draw_rows(t_map_data map_data, t_game *game);
-void	find_player(t_game *game);
+void			find_player(t_game *game);
 
 #endif
