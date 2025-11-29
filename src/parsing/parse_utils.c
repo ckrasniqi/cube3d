@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 22:05:13 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/29 19:47:30 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,10 @@ void	map_data_init(t_map_data *map_data)
 	}
 }
 
-void	player_data_init(t_player *player)
+int	player_data_init(t_player *player)
 {
-	ft_memset(player, 0, sizeof(t_player));
+	if (ft_memset(player, 0, sizeof(t_player)) == NULL)
+		return (-1);
 	player->posX = -1.0;
 	player->posY = -1.0;
 	player->dirX = 0.0;
@@ -49,7 +50,9 @@ void	player_data_init(t_player *player)
 	player->planeY = 0.0;
 	player->fov = 60.0;
 	player->move_speed = 0.1;
-	player->rot_speed = 5.0;
+	player->rot_speed = 0.8;
+	player->rot_angle = 0.0;
+	return (0);
 }
 
 int	find_next_nonblank(char **lines, int start, int line_count)
