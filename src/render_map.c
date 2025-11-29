@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 21:00:20 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/29 19:11:10 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,17 @@
 
 int	render_mini_map(t_game *game, t_map_data *m)
 {
-	if (!game || !game->image)
+	if (!game || !game->res.image)
 		return (-1);
-
+	// printf("Player position (posX, py): (%.2f, %.2f)\n", game->player.posX, game->player.posY);
 	draw_map(game, m);
 	draw_grid2(game);
 	draw_player(game);
+	double rayDirX = game->player.dirX;
+	double rayDirY = game->player.dirY;
+
+	cast_single_ray(game, rayDirX, rayDirY);
+	return (0);
 }
 
 void	draw_map(t_game *game, t_map_data *m)
@@ -38,8 +43,8 @@ void	draw_map(t_game *game, t_map_data *m)
 				color = 0x00008BFF;
 			else
 				color = 0xFFFFFFFF;
-			draw_map_unit(game, x * game->tile_size,\
-					y * game->tile_size, color);
+			draw_map_unit(game, x * game->cfg.tile_size,\
+					y * game->cfg.tile_size, color);
 		}
 	}
 }
@@ -50,11 +55,11 @@ void	draw_map_unit(t_game *game, int x, int y, uint32_t color)
 	int			j;
 
 	i = -1;
-	while (++i < game->tile_size)
+	while (++i < game->cfg.tile_size)
 	{
 		j = -1;
-		while (++j < game->tile_size)
-			mlx_put_pixel(game->image, x + i, y + j, color);
+		while (++j < game->cfg.tile_size)
+			mlx_put_pixel(game->res.image, x + i, y + j, color);
 	}
 }
 
@@ -63,23 +68,23 @@ void draw_grid2(t_game *game)
 	int	x;
 	int	y;
 
-	if (!game || game->tile_size <= 0)
+	if (!game || game->cfg.tile_size <= 0)
 		return;
 	x = -1;
-	while (++x < game->width)
+	while (++x < game->cfg.width)
 	{
 		y = -1;
-		while (++y < game->height)
-			mlx_put_pixel(game->image, x, y, 0x00FF00FF);
-		x += game->tile_size;
+		while (++y < game->cfg.height)
+			mlx_put_pixel(game->res.image, x, y, 0x00FF00FF);
+		x += game->cfg.tile_size - 1;
 	}
 	y = -1;
-	while (++y < game->height)
+	while (++y < game->cfg.height)
 	{
 		x = -1;
-		while (++x < game->width)
-			mlx_put_pixel(game->image, x, y, 0x00FF00FF);
-		y += game->tile_size;
+		while (++x < game->cfg.width)
+			mlx_put_pixel(game->res.image, x, y, 0x00FF00FF);
+		y += game->cfg.tile_size - 1;
 	}
 }
 
@@ -90,14 +95,14 @@ void	draw_player(t_game *g)
 	int		player_x;
 	int		player_y;
 
-	player_x = (int)g->player.px;
-	player_y = (int)g->player.py;
+	player_x = (int)g->player.posX;
+	player_y = (int)g->player.posY;
 	i = -1;
-	while (++i < g->tile_size / 3)
+	while (++i < g->cfg.tile_size / 3)
 	{
 		j = -1;
-		while (++j < g->tile_size / 3)
-			mlx_put_pixel(g->image, player_x - (g->tile_size / 6) + i, \
-					player_y - (g->tile_size / 6) + j, 0x00FF00FF);
+		while (++j < g->cfg.tile_size / 3)
+			mlx_put_pixel(g->res.image, player_x - (g->cfg.tile_size / 6) + i, \
+					player_y - (g->cfg.tile_size / 6) + j, 0x00FF00FF);
 	}
 }

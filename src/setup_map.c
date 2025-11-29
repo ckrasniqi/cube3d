@@ -6,38 +6,33 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:52:02 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 20:28:54 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/29 19:24:55 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
 
-int	setup_game_variables(t_game *g, t_map_data *mdata, t_player player)
+int	setup_game_variables(t_game *g, t_map_data *mdata, t_player *player)
 {
 	int	prow;
 	int	pcol;
-
-	g->width = 1080;
-	g->height = 720;
-	g->tile_size = set_tile_size(mdata->map_cols, mdata->map_rows, \
-			g->width, g->height);
-	if (g->tile_size < 1)
-		g->tile_size = 1;
-	prow = player.py;
-	pcol = player.px;
+	(void)mdata;
+	g->cfg.width = 720;
+	g->cfg.height = 720;
+	g->cfg.tile_size = set_tile_size(mdata->map_cols, \
+			mdata->map_rows, g->cfg.width, g->cfg.height);
+	if (g->cfg.tile_size < 1)
+		g->cfg.tile_size = 1;
+	prow = player->posY;
+	pcol = player->posX;
 	if (prow >= 0 && pcol >= 0)
 	{
-		player.px = pcol * g->tile_size + g->tile_size / 2.0;
-		player.py = prow * g->tile_size + g->tile_size / 2.0;
+		player->posX = pcol * g->cfg.tile_size + g->cfg.tile_size / 2.0;
+		player->posY = prow * g->cfg.tile_size + g->cfg.tile_size / 2.0;
 	}
-	else
-	{
-		player.px = g->tile_size / 2.0;
-		player.py = g->tile_size / 2.0;
-	}
-	player.move_speed = (double)g->tile_size * 0.5;
-	g->last_time = get_time_seconds();
+	player->move_speed = (double)g->cfg.tile_size * 0.5;
+	g->time.last = get_time_seconds();
 	return (1);
 }
 
