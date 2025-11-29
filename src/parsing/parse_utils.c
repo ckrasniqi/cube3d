@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 20:48:36 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 22:05:13 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	map_data_init(t_map_data *map_data)
 	map_data->map_start_idx = 0;
 	map_data->map_rows = 0;
 	map_data->map_cols = 0;
-	map_data->pixels = malloc(sizeof(uint32_t) * 1080 * 720);
+	map_data->pixels = malloc(sizeof(uint32_t) * 720 * 720);
 	if (!map_data->pixels)
 	{
 		error_msg("Failed to allocate memory for map pixels.\n");
@@ -41,9 +41,12 @@ void	map_data_init(t_map_data *map_data)
 void	player_data_init(t_player *player)
 {
 	ft_memset(player, 0, sizeof(t_player));
-	player->px = -1.0;
-	player->py = -1.0;
-	player->angle = 0.0;
+	player->posX = -1.0;
+	player->posY = -1.0;
+	player->dirX = 0.0;
+	player->dirY = 0.0;
+	player->planeX = 0.0;
+	player->planeY = 0.0;
 	player->fov = 60.0;
 	player->move_speed = 0.1;
 	player->rot_speed = 5.0;

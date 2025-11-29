@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:44 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 20:55:17 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/28 22:03:04 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	validate_and_save(t_map_data *m, t_game *game, t_player *player)
 		return (error_msg("No map"), -1);
 	if (check_for_invalid_characters(m->map, m, game) != 1)
 		return (-1);
-	if (player->px == -1)
+	if (player->posX == -1)
 		return (error_msg("No player start position found in map.\n"), -1);
-	if (ft_is_map_closed(m->map_copy, player->py, player->px, m) != 1)
+	if (ft_is_map_closed(m->map_copy, player->posY, player->posX, m) != 1)
 			return (error_msg("Map is not closed.\n"), -1);
 	return (1);
 }
