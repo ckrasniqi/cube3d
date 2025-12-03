@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/29 19:11:10 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/03 17:06:44 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,10 @@ int	render_mini_map(t_game *game, t_map_data *m)
 {
 	if (!game || !game->res.image)
 		return (-1);
-	// printf("Player position (posX, py): (%.2f, %.2f)\n", game->player.posX, game->player.posY);
 	draw_map(game, m);
 	draw_grid2(game);
 	draw_player(game);
-	double rayDirX = game->player.dirX;
-	double rayDirY = game->player.dirY;
-
-	cast_single_ray(game, rayDirX, rayDirY);
+	raycaster(game, &game->raycast, game->raycast.rayDirX, game->raycast.rayDirY);
 	return (0);
 }
 

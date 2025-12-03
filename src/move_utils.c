@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 20:29:08 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/29 20:38:03 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/03 17:22:07 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	collision_detection(t_game *g, double newPosX, double newPosY)
 
 	if (mapX < 0 || mapX >= g->map_data.map_cols || mapY < 0 || mapY >= g->map_data.map_rows)
 		return (1);
-	if (g->map_data.map[mapY + 1][mapX] == '1')
+	if (g->map_data.map[mapY][mapX] == '1')
 		return (1);
 	return (0);
 }

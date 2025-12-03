@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:29:54 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/29 20:12:22 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/29 21:00:36 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,16 +34,17 @@ int	settings_data_init(t_settings *settings)
 	return (0);
 }
 
-int	input_data_init(t_input *input)
+int	raycaster_data_init(t_raycaster *raycast)
 {
-	if (ft_memset(input, 0, sizeof(t_input)) == NULL)
+	if (ft_memset(raycast, 0, sizeof(t_raycaster)) == NULL)
 		return (-1);
-	input->w_key = false;
-	input->a_key = false;
-	input->s_key = false;
-	input->d_key = false;
-	input->left_key = false;
-	input->right_key = false;
+	raycast->mapX = 0;
+	raycast->mapY = 0;
+	raycast->cameraX = 0.0;
+	raycast->rayDirX = 0.0;
+	raycast->rayDirY = 0.0;
+	raycast->hit = 0;
+	raycast->side = 0;
 	return (0);
 }
 
@@ -60,15 +61,17 @@ int	struct_init(t_game *game)
 {
 	if (ft_memset(game, 0, sizeof(t_game)) == NULL)
 		return (-1);
-	player_data_init(&game->player);
-	input_data_init(&game->input);
-	resources_init(&game->res);
-	if (ft_memset(&game->time, 0, sizeof(t_time)) == NULL)
+	if (player_data_init(&game->player) == -1)
 		return (-1);
-	if (ft_memset(&game->cfg, 0, sizeof(t_settings)) == NULL)
+	if (time_data_init(&game->time) == -1)
 		return (-1);
-	if (ft_memset(&game->map_data, 0, sizeof(t_map_data)) == NULL)
+	if (settings_data_init(&game->cfg) == -1)
 		return (-1);
+	if (raycaster_data_init(&game->raycast) == -1)
+		return (-1);
+	if (resources_init(&game->res) == -1)
+		return (-1);
+
 	return (0);
 }
 

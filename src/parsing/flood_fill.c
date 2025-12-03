@@ -6,29 +6,11 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:42:43 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/26 20:31:49 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/29 20:43:45 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
-
-void	print_map_only(char **map, int rows, int cols, int start_idx)
-{
-	int	i;
-	int	j;
-
-	printf("Map at start index %d:\n", start_idx);
-	for (i = 0; i < rows; i++)
-	{
-		for (j = 0; j < cols; j++)
-		{
-			if (map[i][j] == '\0')
-				break ;
-			printf("%c", map[i][j]);
-		}
-		printf("\n");
-	}
-}
 
 int	ft_is_map_closed(char **map, int x, int y, t_map_data *m)
 {

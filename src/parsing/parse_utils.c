@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/29 19:47:30 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/11/29 20:50:16 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	player_data_init(t_player *player)
 	player->dirX = 0.0;
 	player->dirY = 0.0;
 	player->planeX = 0.0;
-	player->planeY = 0.0;
+	player->planeY = 0.66;
 	player->fov = 60.0;
-	player->move_speed = 0.1;
-	player->rot_speed = 0.8;
+	player->move_speed = 0.5;
+	player->rot_speed = 0.2;
 	player->rot_angle = 0.0;
 	return (0);
 }
