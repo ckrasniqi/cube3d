@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:29:54 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/29 21:00:36 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/03 18:25:51 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,14 @@ int	raycaster_data_init(t_raycaster *raycast)
 	raycast->cameraX = 0.0;
 	raycast->rayDirX = 0.0;
 	raycast->rayDirY = 0.0;
+	raycast->deltaDistX = 0.0;
+	raycast->deltaDistY = 0.0;
+	raycast->sideDistX = 0.0;
+	raycast->sideDistY = 0.0;
+	raycast->stepX = 0;
+	raycast->stepY = 0;
+	raycast->posX = 0.0;
+	raycast->posY = 0.0;
 	raycast->hit = 0;
 	raycast->side = 0;
 	return (0);
