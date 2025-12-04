@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/03 17:06:44 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:57:42 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,26 @@
 
 int	render_mini_map(t_game *game, t_map_data *m)
 {
+	int			mm_x;
+	int			mm_y;
+	int			tile;
+	double		scale;
+	int			margin;
 	if (!game || !game->res.image)
 		return (-1);
-	draw_map(game, m);
-	draw_grid2(game);
-	draw_player(game);
-	raycaster(game, &game->raycast, game->raycast.rayDirX, game->raycast.rayDirY);
+	scale = 0.25;
+	margin = 20;
+	tile = game->cfg.tile_size * scale;
+	mm_x = game->cfg.width - (m->map_cols * tile) - margin;
+	mm_y = margin;
+	draw_minimap(game, mm_x, mm_y, tile, m);
+	draw_grid2(game, mm_x, mm_y, tile, m);
+	draw_player(game, mm_x, mm_y, tile, scale);
+	raycaster(game, &game->raycast);
 	return (0);
 }
 
-void	draw_map(t_game *game, t_map_data *m)
+void	draw_minimap(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m)
 {
 	int			x;
 	int			y;
@@ -39,66 +49,68 @@ void	draw_map(t_game *game, t_map_data *m)
 				color = 0x00008BFF;
 			else
 				color = 0xFFFFFFFF;
-			draw_map_unit(game, x * game->cfg.tile_size,\
-					y * game->cfg.tile_size, color);
+			draw_minimap_unit(game, mm_x + x * tile, mm_y + y * tile, tile, color);
 		}
 	}
 }
 
-void	draw_map_unit(t_game *game, int x, int y, uint32_t color)
+void	draw_minimap_unit(t_game *game, int x, int y, int tile,  uint32_t color)
 {
 	int			i;
 	int			j;
 
 	i = -1;
-	while (++i < game->cfg.tile_size)
+	while (++i < tile)
 	{
 		j = -1;
-		while (++j < game->cfg.tile_size)
+		while (++j < tile)
 			mlx_put_pixel(game->res.image, x + i, y + j, color);
 	}
 }
 
-void draw_grid2(t_game *game)
+void draw_grid2(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m)
 {
 	int	x;
 	int	y;
+	int	width;
+	int	height;
 
-	if (!game || game->cfg.tile_size <= 0)
-		return;
+	width = m->map_cols * tile;
+	height = m->map_rows * tile;
 	x = -1;
-	while (++x < game->cfg.width)
+	while (++x <= width)
 	{
 		y = -1;
-		while (++y < game->cfg.height)
-			mlx_put_pixel(game->res.image, x, y, 0x00FF00FF);
-		x += game->cfg.tile_size - 1;
+		while (++y <= height)
+			mlx_put_pixel(game->res.image, mm_x + x, mm_y + y, 0x00FF00FF);
+		x += tile - 1;
 	}
 	y = -1;
-	while (++y < game->cfg.height)
+	while (++y <= height)
 	{
 		x = -1;
-		while (++x < game->cfg.width)
-			mlx_put_pixel(game->res.image, x, y, 0x00FF00FF);
-		y += game->cfg.tile_size - 1;
+		while (++x <= width)
+			mlx_put_pixel(game->res.image,mm_x + x, mm_y + y, 0x00FF00FF);
+		y += tile - 1;
 	}
 }
 
-void	draw_player(t_game *g)
+void	draw_player(t_game *g, int mm_x, int mm_y, int tile, double scale)
 {
 	int		i;
 	int		j;
-	int		player_x;
-	int		player_y;
+	int		p_x;
+	int		p_y;
+	int 	size;
 
-	player_x = (int)g->player.posX;
-	player_y = (int)g->player.posY;
+	size = tile / 3;
+	p_x = mm_x + g->player.posX * scale;
+	p_y = mm_y + g->player.posY * scale;
 	i = -1;
-	while (++i < g->cfg.tile_size / 3)
+	while (++i < size)
 	{
 		j = -1;
-		while (++j < g->cfg.tile_size / 3)
-			mlx_put_pixel(g->res.image, player_x - (g->cfg.tile_size / 6) + i, \
-					player_y - (g->cfg.tile_size / 6) + j, 0x00FF00FF);
+		while (++j < size)
+			mlx_put_pixel(g->res.image, p_x + i, p_y + j, 0x0DFF00FF);
 	}
 }

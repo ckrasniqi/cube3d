@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:53:04 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 22:07:42 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:59:24 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,17 @@ void	set_player_direction(char identifier, t_player *player)
 
 void	set_player_position(char identifier, t_map_data *m, int x, int y, t_player *player)
 {
-	player->posX = x;
-	player->posY = y;
-	m->map[y][x] = '0';
+	player->posX = y;
+	player->posY = x;
+	m->map[x][y] = '0';
 	m->minimap_player_position = malloc(2 * sizeof(int));
 	if (m->minimap_player_position)
 	{
 		m->minimap_player_position[0] = x;
 		m->minimap_player_position[1] = y;
 	}
-	m->player_position_cub[0] = y;
-	m->player_position_cub[1] = x;
+	m->player_position_cub[0] = x;
+	m->player_position_cub[1] = y;
 	set_player_direction(identifier, player);
 }
 
