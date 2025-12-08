@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/04 18:57:42 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/04 19:01:37 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void draw_grid2(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m)
 	{
 		y = -1;
 		while (++y <= height)
-			mlx_put_pixel(game->res.image, mm_x + x, mm_y + y, 0x00FF00FF);
+			mlx_put_pixel(game->res.image, mm_x + x, mm_y + y, 0x000000FF);
 		x += tile - 1;
 	}
 	y = -1;
@@ -90,7 +90,7 @@ void draw_grid2(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m)
 	{
 		x = -1;
 		while (++x <= width)
-			mlx_put_pixel(game->res.image,mm_x + x, mm_y + y, 0x00FF00FF);
+			mlx_put_pixel(game->res.image,mm_x + x, mm_y + y, 0x000000FF);
 		y += tile - 1;
 	}
 }

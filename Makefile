@@ -6,7 +6,7 @@
 #    By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/11/28 20:39:25 by ckrasniq         ###   ########.fr        #
+#    Updated: 2025/12/03 19:21:08 by ckrasniq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,8 @@ LIBFT_A := $(LIBDIR)/libft.a
 
 SRCS := src/main.c src/parsing/parse_io.c src/parsing/parse_headers.c \
 	src/parsing/parse_map.c src/parsing/parse_utils.c src/parsing/parse_map_utils.c \
-	src/utils.c src/error_msg.c src/parsing/flood_fill.c src/clean_up.c src/render_map.c src/setup_map.c
+	src/utils.c src/error_msg.c src/parsing/flood_fill.c src/clean_up.c src/render_map.c src/setup_map.c \
+	src/raycaster.c src/movement.c src/struct_init.c src/move_utils.c src/raycaster_utils.c
 OBJS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 

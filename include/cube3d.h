@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 20:53:51 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/04 18:53:31 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
+# include <time.h>
+# include <sys/time.h>
+
 
 // #define WIDTH 400
 // #define HEIGHT 400
@@ -38,14 +41,53 @@
 # define MAX_COLORS 2
 
 
+typedef struct s_time
+{
+	double		delta_time;
+	double		now;
+	double		last;
+	double		acc;
+	double		fixed_dt;
+}	t_time;
+
+typedef struct s_settings
+{
+	int			tile_size;
+	int			width;
+	int			height;
+}	t_settings;
+
+typedef struct s_raycaster
+{
+	int			mapX;
+	int			mapY;
+	double		cameraX;
+	double		rayDirX;
+	double		rayDirY;
+	double		deltaDistX;
+	double		deltaDistY;
+	double		sideDistX;
+	double		sideDistY;
+	int			stepX;
+	int			stepY;
+	double		posX;
+	double		posY;
+	int			hit;
+	int			side;
+}	t_raycaster;
+
 typedef struct s_player
 {
-	double		px;
-	double		py;
-	double		angle;
+	double		posX;
+	double		posY;
+	double		dirX;
+	double		dirY;
+	double		planeX;
+	double		planeY;
 	double		fov;
 	double		move_speed;
 	double		rot_speed;
+	double		rot_angle;
 
 }				t_player;
 
@@ -73,22 +115,37 @@ typedef struct s_map_data
 
 }				t_map_data;
 
+
+typedef struct s_resources
+{
+	void		*mlx;
+	void		*image;
+}				t_resources;
+
 typedef struct s_game
 {
-	mlx_t		*mlx;
-	mlx_image_t	*image;
+	t_settings	cfg;
+	t_time		time;
 	t_map_data	map_data;
 	t_player	player;
-	int			width;
-	int			height;
-	int			tile_size;
-
-	/* added: time of previous frame for smooth movement */
-	double		last_time;
+	t_raycaster	raycast;
+	t_resources	res;
 
 }				t_game;
 
-double			get_time_seconds(void);
+//////////////////////////////////////////////////////////////////////////////
+//								INITIALIZING								//
+//////////////////////////////////////////////////////////////////////////////
+
+int			struct_init(t_game *game);
+int			raycaster_data_init(t_raycaster *raycast);
+int			resources_init(t_resources *res);
+int			time_data_init(t_time *time);
+int			settings_data_init(t_settings *settings);
+
+//////////////////////////////////////////////////////////////////////////////
+//								PARSING										//
+//////////////////////////////////////////////////////////////////////////////
 
 // Flood fill functions
 int				ft_is_map_closed(char **map, int x, int y, t_map_data *m);
@@ -111,7 +168,8 @@ int				parse_cub_file(const char *filename, t_map_data *map_data, t_game *game, 
 // void			debug_print_lines(char **lines, int line_count);
 
 // Parsing map utils
-void			set_player_start_position(char identifier, t_map_data *map_data,
+void			set_player_direction(char identifier, t_player *player);
+void			set_player_position(char identifier, t_map_data *map_data,
 					int x, int y, t_player *player);
 int				player_found(char c);
 int				check_for_invalid_characters(char **lines,
@@ -128,10 +186,67 @@ int				parse_map_data(t_map_data *map_data, char **lines,
 
 // Parsing utilities
 void			map_data_init(t_map_data *map_data);
-void			player_data_init(t_player *player);
+int				player_data_init(t_player *player);
 int				find_next_nonblank(char **lines, int start, int line_count);
 int				missing_color_texture(t_map_data *map_data);
 // void			print_everything_map_data(t_map_data *map_data, char **lines, \
+
+//////////////////////////////////////////////////////////////////////////////
+//								MOVEMENT									//
+//////////////////////////////////////////////////////////////////////////////
+
+// Collision detection and movement
+int				collision_detection(t_game *g, double newPosX, double newPosY);
+void			move_up(t_game *g, double dirX, double dirY, double move_step);
+void			move_down(t_game *g, double dirX, double dirY, double move_step);
+void			move_left(t_game *g, double dirX, double dirY, double move_step);
+void			move_right(t_game *g, double dirX, double dirY, double move_step);
+
+// Movement handlers
+void			handle_movement(t_game *game, double dirX, double dirY);
+void			handle_rotation(t_game *game, double rot_angle,
+					double rot_speed, double dt);
+void			rotate_player(t_player *player, double angle);
+
+//////////////////////////////////////////////////////////////////////////////
+//								RENDERING									//
+//////////////////////////////////////////////////////////////////////////////
+
+int				render_mini_map(t_game *game, t_map_data *m);
+void			draw_minimap(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m);
+void			draw_minimap_unit(t_game *game, int x, int y, int tile,  uint32_t color);
+void			draw_player(t_game *g, int mm_x, int mm_y, int tile, double scale);
+void			draw_grid2(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m);
+
+/////////////////////////////////////////////////////////////////////////////////
+//							RAYCASTING										//
+/////////////////////////////////////////////////////////////////////////////
+
+void			raycaster(t_game *game, t_raycaster *rc);
+void			cast_single_ray(t_game *game, t_raycaster *rc, t_settings *cfg, int x);
+void			preform_dda(t_game *game, t_raycaster *rc);
+
+// Raycaster utils
+void			init_raycaster_variables(t_game *game, t_raycaster *rc, t_settings *cfg);
+double			find_delta_dist(double rayDir);
+void			calculate_step_and_side_dist(t_raycaster *rc);
+
+//////////////////////////////////////////////////////////////////////////////
+//							GAME SETUP									//
+//////////////////////////////////////////////////////////////////////////////
+
+int				setup_game_variables(t_game *g, t_map_data *mdata,
+					t_player *player);
+int				set_tile_size(int cols, int rows, int window_w, int window_h);
+
+//////////////////////////////////////////////////////////////////////////////
+//								UTILS										//
+//////////////////////////////////////////////////////////////////////////////
+double			get_time_seconds(void);
+void			update_time(double *now, double *last, double *delta_time);
+int				ft_isspace(char c);
+char			*ft_skip_whitespace(const char *str);
+int				not_part_of_map(char c);
 
 // Clean up
 void			free_lines(char **lines, int line_count);
@@ -141,25 +256,6 @@ void			clean_up(t_map_data *map_data, char **lines);
 // Error handling
 void			ft_error(char *msg);
 void			error_msg(const char *msg);
-
-// Map Rendering and minimap
-void			render_mini_map(t_game *game, t_map_data *m);
-void			draw_map(t_game *game, t_map_data *m);
-void			draw_map_unit(t_game *game, int x, int y, uint32_t color);
-void			draw_grid2(t_game *game);
-void			draw_player(t_game *game);
-
-// Setup game variables
-int				setup_game_variables(t_game *g, t_map_data *mdata,
-					t_player player);
-int				set_tile_size(int cols, int rows, int window_w, int window_h);
-
-
-// Utility functions
-void			*ft_realloc(void *ptr, size_t new_size);
-int				ft_isspace(char c);
-char			*ft_skip_whitespace(const char *str);
-int				not_part_of_map(char c);
 
 //////////////////////////////////////////////////////////////////////////////
 // 								RENDERING									//
