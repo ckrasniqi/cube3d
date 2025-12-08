@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/04 19:01:37 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:17:05 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,10 @@ int	render_mini_map(t_game *game, t_map_data *m)
 	tile = game->cfg.tile_size * scale;
 	mm_x = game->cfg.width - (m->map_cols * tile) - margin;
 	mm_y = margin;
+	raycaster(game, &game->raycast);
 	draw_minimap(game, mm_x, mm_y, tile, m);
 	draw_grid2(game, mm_x, mm_y, tile, m);
 	draw_player(game, mm_x, mm_y, tile, scale);
-	raycaster(game, &game->raycast);
 	return (0);
 }
 

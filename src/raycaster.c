@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycaster.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/04 18:20:48 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:14:56 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,54 @@
 
 void	draw_vertical_line(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 {
-	int		lineHeight;
-	int		drawStart;
-	int		drawEnd;
-	uint32_t	color;
+    int		lineHeight;
+    int		drawStart;
+    int		drawEnd;
+    uint32_t	wall_color;
+    uint32_t	ceil_color;
+    uint32_t	floor_color;
+    int			i;
 
-	lineHeight = abs((int)(cfg->height / ((rc->side == 0) ?
-				(rc->mapX - rc->posX + (1 - rc->stepX) / 2) / rc->rayDirX :
-				(rc->mapY - rc->posY + (1 - rc->stepY) / 2) / rc->rayDirY)));
-	drawStart = -lineHeight / 2 + cfg->height / 2;
-	if (drawStart < 0)
-		drawStart = 0;
-	drawEnd = lineHeight / 2 + cfg->height / 2;
-	if (drawEnd >= cfg->height)
-		drawEnd = cfg->height - 1;
-	color = (rc->side == 1) ? 0xFFAAAAAA : 0xFF777777;
-	for (int y = drawStart; y < drawEnd; y++)
-		mlx_put_pixel(game->res.image, x, y, color);
+    lineHeight = abs((int)(cfg->height / ((rc->side == 0) ?
+                (rc->mapX - rc->posX + (1 - rc->stepX) / 2) / rc->rayDirX :
+                (rc->mapY - rc->posY + (1 - rc->stepY) / 2) / rc->rayDirY)));
+    drawStart = -lineHeight / 2 + cfg->height / 2;
+    if (drawStart < 0)
+        drawStart = 0;
+    drawEnd = lineHeight / 2 + cfg->height / 2;
+    if (drawEnd >= cfg->height)
+        drawEnd = cfg->height - 1;
+
+    wall_color = (rc->side == 1) ? 0xFFAAAAAA : 0xFF777777;
+    ceil_color = (game->map_data.ceiling_color);
+    floor_color = (game->map_data.floor_color);
+
+	i = 0;
+    while (i < drawStart)
+	{
+        mlx_put_pixel(game->res.image, x, i, ceil_color);
+		i++;
+	}
+	i = drawStart;
+    while (i <= drawEnd)
+	{
+        mlx_put_pixel(game->res.image, x, i, wall_color);
+		i++;
+	}
+    i = drawEnd + 1;
+    while (i < cfg->height)
+	{
+        mlx_put_pixel(game->res.image, x, i, floor_color);
+		i++;
+	}
 }
 
 void	cast_single_ray(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 {
-	double	perpWallDist;
-	int		lineHeight;
-	int		drawStart;
-	int		drawEnd;
+    double	perpWallDist;
+    int		lineHeight;
+    int		drawStart;
+    int		drawEnd;
 
 	if (rc->side == 0)
 		perpWallDist = (rc->mapX - rc->posX + (1 - rc->stepX) / 2) / rc->rayDirX;

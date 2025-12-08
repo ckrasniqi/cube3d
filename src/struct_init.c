@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   struct_init.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:29:54 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/03 18:25:51 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/08 20:13:12 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,8 @@ int	struct_init(t_game *game)
 	if (resources_init(&game->res) == -1)
 		return (-1);
 
+	game->map_data.ceiling_color = WHITE;
+	game->map_data.floor_color = BLACK;
 	return (0);
 }
 
