@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/28 15:08:53 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/12 17:35:22 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,25 +27,24 @@ int	reached_maximums(t_map_data *map_data)
 
 int	color_check(char *line, int *r, int *g, int *b)
 {
-	if (*line == '\0' || *line == '\n')
-		return ((error_msg("Color values missing after prefix.\n"), -1));
+	if (!line || *line == '\0' || *line == '\n')
+		return (error_msg("Color values missing.\n"), -1);
 	*r = ft_atoi(line);
-	while (*line != '\0' && *line != '\n' && *line != ',')
+	while (*line && *line != ',' && *line != '\n')
 		line++;
 	if (*line != ',')
-		return ((error_msg("Invalid color format. Expected R,G,B.\n"),
-				-1));
+		return (error_msg("Invalid color format (missing 1st comma).\n"), -1);
 	line++;
 	*g = ft_atoi(line);
-	while (*line != '\0' && *line != '\n' && *line != ',')
+	while (*line && *line != ',' && *line != '\n')
 		line++;
 	if (*line != ',')
-		return ((error_msg("Invalid color format. Expected R,G,B.\n"),
-				-1));
+		return (error_msg("Invalid color format (missing 2nd comma).\n"), -1);
 	line++;
 	*b = ft_atoi(line);
+
 	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
-		return (error_msg("Color values must be between 0 and 255"), -1);
+		return (error_msg("Color values must be 0-255.\n"), -1);
 	return (1);
 }
 
@@ -65,11 +64,10 @@ int	parse_color(char *line, const char *prefix, t_map_data *map_data,
 	line = ft_skip_whitespace(line);
 	if (color_check(line, &r, &g, &b) < 0)
 		return (-1);
-	*color = (r << 16) | (g << 8) | b;
+	*color = (r << 24) | (g << 16) | (b << 8) | 255;
 	map_data->parsed_colors++;
 	return (1);
 }
-
 int	parse_texture_path(char *line, const char *prefix, t_map_data *map_data,
 		char **path)
 {
@@ -93,6 +91,7 @@ int	parse_texture_path(char *line, const char *prefix, t_map_data *map_data,
 	if (!*path)
 		return (error_msg("Memory allocation failed.\n"), -1);
 	ft_memcpy(*path, start, (end - start));
+	(*path)[end - start] = '\0';
 	map_data->parsed_textures++;
 	return (1);
 }
