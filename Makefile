@@ -6,7 +6,7 @@
 #    By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/12/03 19:21:08 by ckrasniq         ###   ########.fr        #
+#    Updated: 2025/12/12 19:33:24 by ckrasniq         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,10 +32,30 @@ LIBDIR := build/lib
 
 LIBFT_A := $(LIBDIR)/libft.a
 
-SRCS := src/main.c src/parsing/parse_io.c src/parsing/parse_headers.c \
-	src/parsing/parse_map.c src/parsing/parse_utils.c src/parsing/parse_map_utils.c \
-	src/utils.c src/error_msg.c src/parsing/flood_fill.c src/clean_up.c src/render_map.c src/setup_map.c \
-	src/raycaster.c src/movement.c src/struct_init.c src/move_utils.c src/raycaster_utils.c
+SRC_CORE	=	src/core/main.c \
+				src/core/init.c \
+				src/core/free.c \
+				src/core/error.c \
+				src/core/utils.c
+
+SRC_PARSE	=	src/parse/load.c \
+				src/parse/validate.c \
+				src/parse/map.c \
+				src/parse/headers.c \
+				src/parse/io.c \
+				src/parse/map_utils.c \
+				src/parse/parse_utils.c
+
+SRC_RENDER	=	src/render/raycast.c \
+				src/render/rc_math.c \
+				src/render/minimap.c \
+				src/render/view.c
+
+SRC_INPUT	=	src/input/hooks.c \
+				src/input/move.c \
+				src/input/collision.c
+
+SRCS		= $(SRC_CORE) $(SRC_PARSE) $(SRC_RENDER) $(SRC_INPUT)
 OBJS := $(patsubst src/%.c,$(OBJDIR)/%.o,$(SRCS))
 
 
