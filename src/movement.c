@@ -5,54 +5,49 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/28 22:21:01 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/11/29 20:30:20 by ckrasniq         ###   ########.fr       */
+/*   Created: 2025/11/29 20:29:08 by ckrasniq          #+#    #+#             */
+/*   Updated: 2025/12/12 18:50:04 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-void	rotate_player(t_player *player, double angle)
+void	move_up(t_game *g, double dirX, double dirY, double speed)
 {
-	double	old_dir_x;
-	double	old_plane_x;
+	double	newX;
+	double	newY;
 
-	if (!player)
-		return ;
-	old_dir_x = player->dirX;
-	player->dirX = player->dirX * cos(angle) - player->dirY * sin(angle);
-	player->dirY = old_dir_x	* sin(angle) + player->dirY * cos(angle);
-	old_plane_x = player->planeX;
-	player->planeX = player->planeX * cos(angle) - player->planeY * sin(angle);
-	player->planeY = old_plane_x	* sin(angle) + player->planeY * cos(angle);
+	newX = g->player.posX + dirX * speed;
+	newY = g->player.posY + dirY * speed;
+	attempt_move(g, newX, newY);
 }
 
-void	handle_movement(t_game *g, double dirX, double dirY)
+void	move_down(t_game *g, double dirX, double dirY, double speed)
 {
-	double	move_step;
+	double	newX;
+	double	newY;
 
-	move_step = g->player.move_speed * g->time.delta_time;
-	if (mlx_is_key_down(g->res.mlx, MLX_KEY_W))
-		move_up(g, dirX, dirY, move_step);
-	if (mlx_is_key_down(g->res.mlx, MLX_KEY_S))
-		move_down(g, dirX, dirY, move_step);
-	if (mlx_is_key_down(g->res.mlx, MLX_KEY_A))
-		move_left(g, dirX, dirY, move_step);
-	if (mlx_is_key_down(g->res.mlx, MLX_KEY_D))
-		move_right(g, dirX, dirY, move_step);
+	newX = g->player.posX - dirX * speed;
+	newY = g->player.posY - dirY * speed;
+	attempt_move(g, newX, newY);
 }
 
-void	handle_rotation(t_game *g, double rot_angle, double rot_speed, double dt)
+void	move_left(t_game *g, double dirX, double dirY, double speed)
 {
-	rot_angle = rot_speed * g->cfg.tile_size * dt;
-	if (mlx_is_key_down(g->res.mlx, MLX_KEY_LEFT))
-	{
-		rotate_player(&g->player, -rot_angle);
-		render_mini_map(g, &g->map_data);
-	}
-	if (mlx_is_key_down(g->res.mlx, MLX_KEY_RIGHT))
-	{
-		rotate_player(&g->player, rot_angle);
-		render_mini_map(g, &g->map_data);
-	}
+	double	newX;
+	double	newY;
+
+	newX = g->player.posX + dirY * speed;
+	newY = g->player.posY - dirX * speed;
+	attempt_move(g, newX, newY);
+}
+
+void	move_right(t_game *g, double dirX, double dirY, double speed)
+{
+	double	newX;
+	double	newY;
+
+	newX = g->player.posX - dirY * speed;
+	newY = g->player.posY + dirX * speed;
+	attempt_move(g, newX, newY);
 }
