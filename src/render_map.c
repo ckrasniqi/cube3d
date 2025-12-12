@@ -3,42 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   render_map.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/08 20:17:05 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/12 19:04:26 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
+void	draw_minimap_square(t_game *game, int x, int y, int size, uint32_t color)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (i < size)
+	{
+		j = 0;
+		while (j < size)
+		{
+			if (x + i >= 0 && x + i < game->cfg.width && \
+				y + j >= 0 && y + j < game->cfg.height)
+				mlx_put_pixel(game->res.image, x + i, y + j, color);
+			j++;
+		}
+		i++;
+	}
+}
+
+ void	draw_minimap_player(t_game *game, int mm_x, int mm_y, int tile_size)
+{
+	int	p_screen_x;
+	int	p_screen_y;
+
+	p_screen_x = mm_x + (int)(game->player.posX * tile_size);
+	p_screen_y = mm_y + (int)(game->player.posY * tile_size);
+	draw_minimap_square(game, p_screen_x - 2, p_screen_y - 2, 4, 0xFF0000FF);
+}
+
 int	render_mini_map(t_game *game, t_map_data *m)
 {
 	int			mm_x;
 	int			mm_y;
-	int			tile;
-	double		scale;
-	int			margin;
-	if (!game || !game->res.image)
-		return (-1);
-	scale = 0.25;
-	margin = 20;
-	tile = game->cfg.tile_size * scale;
-	mm_x = game->cfg.width - (m->map_cols * tile) - margin;
-	mm_y = margin;
-	raycaster(game, &game->raycast);
-	draw_minimap(game, mm_x, mm_y, tile, m);
-	draw_grid2(game, mm_x, mm_y, tile, m);
-	draw_player(game, mm_x, mm_y, tile, scale);
-	return (0);
-}
-
-void	draw_minimap(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m)
-{
 	int			x;
 	int			y;
 	uint32_t	color;
 
+	mm_x = game->cfg.width - (m->map_cols * 12) - 10;
+	mm_y = 10;
 	y = -1;
 	while (++y < m->map_rows)
 	{
@@ -49,68 +62,10 @@ void	draw_minimap(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m)
 				color = 0x00008BFF;
 			else
 				color = 0xFFFFFFFF;
-			draw_minimap_unit(game, mm_x + x * tile, mm_y + y * tile, tile, color);
+			draw_minimap_square(game, mm_x + x * 12, \
+				mm_y + y * 12, 11, color);
 		}
 	}
-}
-
-void	draw_minimap_unit(t_game *game, int x, int y, int tile,  uint32_t color)
-{
-	int			i;
-	int			j;
-
-	i = -1;
-	while (++i < tile)
-	{
-		j = -1;
-		while (++j < tile)
-			mlx_put_pixel(game->res.image, x + i, y + j, color);
-	}
-}
-
-void draw_grid2(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m)
-{
-	int	x;
-	int	y;
-	int	width;
-	int	height;
-
-	width = m->map_cols * tile;
-	height = m->map_rows * tile;
-	x = -1;
-	while (++x <= width)
-	{
-		y = -1;
-		while (++y <= height)
-			mlx_put_pixel(game->res.image, mm_x + x, mm_y + y, 0x000000FF);
-		x += tile - 1;
-	}
-	y = -1;
-	while (++y <= height)
-	{
-		x = -1;
-		while (++x <= width)
-			mlx_put_pixel(game->res.image,mm_x + x, mm_y + y, 0x000000FF);
-		y += tile - 1;
-	}
-}
-
-void	draw_player(t_game *g, int mm_x, int mm_y, int tile, double scale)
-{
-	int		i;
-	int		j;
-	int		p_x;
-	int		p_y;
-	int 	size;
-
-	size = tile / 3;
-	p_x = mm_x + g->player.posX * scale;
-	p_y = mm_y + g->player.posY * scale;
-	i = -1;
-	while (++i < size)
-	{
-		j = -1;
-		while (++j < size)
-			mlx_put_pixel(g->res.image, p_x + i, p_y + j, 0x0DFF00FF);
-	}
+	draw_minimap_player(game, mm_x, mm_y, 12);
+	return (0);
 }
