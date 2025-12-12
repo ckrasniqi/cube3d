@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:53:04 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 17:06:34 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/12 19:09:21 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,29 @@ void	set_player_direction(char identifier, t_player *player)
 	{
 		player->dirX = 0.0;
 		player->dirY = -1.0;
+		player->planeX = 0.66;
+		player->planeY = 0.0;
 	}
 	else if (identifier == 'S')
 	{
 		player->dirX = 0.0;
 		player->dirY = 1.0;
+		player->planeX = -0.66;
+		player->planeY = 0.0;
 	}
 	else if (identifier == 'E')
 	{
 		player->dirX = 1.0;
 		player->dirY = 0.0;
+		player->planeX = 0.0;
+		player->planeY = 0.66;
 	}
 	else if (identifier == 'W')
 	{
 		player->dirX = -1.0;
 		player->dirY = 0.0;
+		player->planeX = 0.0;
+		player->planeY = -0.66;
 	}
 }
 
