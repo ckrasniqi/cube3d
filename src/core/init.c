@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   struct_init.c                                      :+:      :+:    :+:   */
+/*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:29:54 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/08 20:13:12 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/12 19:27:05 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	time_data_init(t_time *time)
 	time->now = 0.0;
 	time->last = 0.0;
 	time->acc = 0.0;
-	time->fixed_dt = 0.016; // Approx 60 FPS
+	time->fixed_dt = 0.016;
 	return (0);
 }
 
