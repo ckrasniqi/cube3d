@@ -6,7 +6,7 @@
 /*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/04 18:53:31 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/12 19:31:58 by ckrasniq         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@
 #define UNIT_AREA	UNIT_S * UNIT_S
 #define BACKGROUND	WHITE
 #define	PLAYER		GREEN
+#define TEX_NORTH	0
+#define TEX_SOUTH	1
+#define TEX_WEST	2
+#define TEX_EAST	3
 
-# define MAX_TEXTURES 4
 # define MAX_COLORS 2
 
 
@@ -57,6 +60,17 @@ typedef struct s_settings
 	int			height;
 }	t_settings;
 
+typedef struct s_draw
+{
+	int				tex_x;
+	int				tex_y;
+	double			step;
+	double			tex_pos;
+	int				y_start;
+	int				y_end;
+	mlx_texture_t	*tex;
+}	t_draw;
+
 typedef struct s_raycaster
 {
 	int			mapX;
@@ -74,6 +88,11 @@ typedef struct s_raycaster
 	double		posY;
 	int			hit;
 	int			side;
+	double		perpWallDist;
+	double		wallX;
+	int			drawStart;
+	int			drawEnd;
+	int 		lineHeight;
 }	t_raycaster;
 
 typedef struct s_player
@@ -110,16 +129,14 @@ typedef struct s_map_data
 	int			map_cols;
 	uint32_t	*pixels;
 
-	int			*minimap_player_position;
-	int			player_position_cub[2];
-
 }				t_map_data;
 
 
 typedef struct s_resources
 {
-	void		*mlx;
-	void		*image;
+	void			*mlx;
+	void			*image;
+	mlx_texture_t	*wall_textures[4];
 }				t_resources;
 
 typedef struct s_game
@@ -130,18 +147,21 @@ typedef struct s_game
 	t_player	player;
 	t_raycaster	raycast;
 	t_resources	res;
+	t_draw		draw;
 
 }				t_game;
+
+
 
 //////////////////////////////////////////////////////////////////////////////
 //								INITIALIZING								//
 //////////////////////////////////////////////////////////////////////////////
 
-int			struct_init(t_game *game);
-int			raycaster_data_init(t_raycaster *raycast);
-int			resources_init(t_resources *res);
-int			time_data_init(t_time *time);
-int			settings_data_init(t_settings *settings);
+int				struct_init(t_game *game);
+int				raycaster_data_init(t_raycaster *raycast);
+int				resources_init(t_resources *res);
+int				time_data_init(t_time *time);
+int				settings_data_init(t_settings *settings);
 
 //////////////////////////////////////////////////////////////////////////////
 //								PARSING										//
@@ -189,53 +209,70 @@ void			map_data_init(t_map_data *map_data);
 int				player_data_init(t_player *player);
 int				find_next_nonblank(char **lines, int start, int line_count);
 int				missing_color_texture(t_map_data *map_data);
-// void			print_everything_map_data(t_map_data *map_data, char **lines, \
+// void			print_everything_map_data(t_map_data *map_data, char **lines, int line_count);
+
+
+// Initializing textures
+uint32_t		get_texture_pixel(mlx_texture_t *texture, int x, int y);
+int				load_texture(const char *path, mlx_texture_t **texture);
+int				init_textures(t_map_data *map_data, t_resources *res);
+
+
 
 //////////////////////////////////////////////////////////////////////////////
 //								MOVEMENT									//
 //////////////////////////////////////////////////////////////////////////////
 
-// Collision detection and movement
-int				collision_detection(t_game *g, double newPosX, double newPosY);
+// Movement functions
 void			move_up(t_game *g, double dirX, double dirY, double move_step);
 void			move_down(t_game *g, double dirX, double dirY, double move_step);
 void			move_left(t_game *g, double dirX, double dirY, double move_step);
 void			move_right(t_game *g, double dirX, double dirY, double move_step);
+// Move utils
+void			attempt_move(t_game *g, double newX, double newY);
+int				collision_detection(t_game *g, double newPosX, double newPosY);
 
 // Movement handlers
 void			handle_movement(t_game *game, double dirX, double dirY);
-void			handle_rotation(t_game *game, double rot_angle,
-					double rot_speed, double dt);
+void			handle_rotation(t_game *game, double rot_speed);
 void			rotate_player(t_player *player, double angle);
 
 //////////////////////////////////////////////////////////////////////////////
 //								RENDERING									//
 //////////////////////////////////////////////////////////////////////////////
 
+void			draw_minimap_square(t_game *game, int x, int y,
+					int size, uint32_t color);
 int				render_mini_map(t_game *game, t_map_data *m);
-void			draw_minimap(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m);
-void			draw_minimap_unit(t_game *game, int x, int y, int tile,  uint32_t color);
-void			draw_player(t_game *g, int mm_x, int mm_y, int tile, double scale);
-void			draw_grid2(t_game *game, int mm_x, int mm_y, int tile, t_map_data *m);
+void			draw_minimap_player(t_game *game, int mm_x,
+					int mm_y, int tile_size);
 
 /////////////////////////////////////////////////////////////////////////////////
 //							RAYCASTING										//
 /////////////////////////////////////////////////////////////////////////////
 
+// Raycaster main functions
+
+mlx_texture_t	*get_texture(t_game *game, t_raycaster *rc);
+int				get_tex_x(t_raycaster *rc, mlx_texture_t *tex);
+void			draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc, mlx_texture_t *tex, int x);
+void			render_stripe(t_game *game, t_raycaster *rc,
+					t_settings *cfg, int x);
+
 void			raycaster(t_game *game, t_raycaster *rc);
-void			cast_single_ray(t_game *game, t_raycaster *rc, t_settings *cfg, int x);
-void			preform_dda(t_game *game, t_raycaster *rc);
 
 // Raycaster utils
-void			init_raycaster_variables(t_game *game, t_raycaster *rc, t_settings *cfg);
+void			preform_dda(t_game *game, t_raycaster *rc);
 double			find_delta_dist(double rayDir);
 void			calculate_step_and_side_dist(t_raycaster *rc);
+void			calculate_wall_projection(t_game *game, t_raycaster *rc);
+void			init_raycaster_variables(t_game *game, t_raycaster *rc);
 
 //////////////////////////////////////////////////////////////////////////////
 //							GAME SETUP									//
 //////////////////////////////////////////////////////////////////////////////
 
-int				setup_game_variables(t_game *g, t_map_data *mdata,
+void			setup_game_variables(t_game *g, t_map_data *mdata,
 					t_player *player);
 int				set_tile_size(int cols, int rows, int window_w, int window_h);
 
