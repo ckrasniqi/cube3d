@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:29:54 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:05 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 21:15:39 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ int	settings_data_init(t_settings *settings)
 	if (ft_memset(settings, 0, sizeof(t_settings)) == NULL)
 		return (-1);
 	settings->tile_size = 64;
-	settings->width = 720;
-	settings->height = 720;
+	settings->width = WIDTH;
+	settings->height = HEIGHT;
 	return (0);
 }
 
@@ -79,9 +79,6 @@ int	struct_init(t_game *game)
 		return (-1);
 	if (resources_init(&game->res) == -1)
 		return (-1);
-
-	game->map_data.ceiling_color = WHITE;
-	game->map_data.floor_color = BLACK;
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minimap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:36 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 19:37:42 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	draw_minimap_square(t_game *game, int x, int y, int size, uint32_t color)
 
 	p_screen_x = mm_x + (int)(game->player.posX * tile_size);
 	p_screen_y = mm_y + (int)(game->player.posY * tile_size);
-	draw_minimap_square(game, p_screen_x - 2, p_screen_y - 2, 4, 0xFF0000FF);
+	draw_minimap_square(game, p_screen_x - 2, p_screen_y - 2, 4, RED);
 }
 
 int	render_mini_map(t_game *game, t_map_data *m)
@@ -59,9 +59,9 @@ int	render_mini_map(t_game *game, t_map_data *m)
 		while (++x < m->map_cols)
 		{
 			if (m->map[y][x] == '1')
-				color = 0x00008BFF;
+				color = GRAY;
 			else
-				color = 0xFFFFFFFF;
+				color = YELLOW;
 			draw_minimap_square(game, mm_x + x * 12, \
 				mm_y + y * 12, 11, color);
 		}

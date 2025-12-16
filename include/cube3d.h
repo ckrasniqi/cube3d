@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cube3d.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:31:58 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 21:20:16 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,15 @@
 # include <time.h>
 # include <sys/time.h>
 
-
-// #define WIDTH 400
-// #define HEIGHT 400
+#define HEIGHT		720
+#define	WIDTH		720
 
 #define RED 		0xFF0000FF
 #define WHITE 		0xFFFFFFFF
 #define	GREEN		0x00FF00FF
 #define BLACK		0x000000FF
+#define YELLOW		0xDFC98AFF
+#define GRAY		0x48494BFF
 #define	UNIT_S		72
 #define UNIT_AREA	UNIT_S * UNIT_S
 #define BACKGROUND	WHITE
@@ -116,6 +117,7 @@ typedef struct s_map_data
 	char		*so_path;
 	char		*we_path;
 	char		*ea_path;
+	char		*ceiling_path;
 	int			parsed_textures;
 	uint32_t	floor_color;
 	uint32_t	ceiling_color;
@@ -137,6 +139,8 @@ typedef struct s_resources
 	void			*mlx;
 	void			*image;
 	mlx_texture_t	*wall_textures[4];
+	mlx_texture_t	*ceiling_texture;
+	mlx_texture_t	*floor_texture;
 }				t_resources;
 
 typedef struct s_game

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   raycast.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:32:35 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:49:25 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 			end = cfg->height;
 		while (y < end)
 		{
-			mlx_put_pixel(game->res.image, x, y, game->map_data.ceiling_color);
+			mlx_put_pixel(game->res.image, x, y, 
+				get_texture_pixel(game->res.ceiling_texture, x, y)); //game->map_data.ceiling_color
 			y++;
 		}
 	}
@@ -93,7 +94,6 @@ void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 		y = cfg->height;
 	while (y++ < cfg->height)
 		mlx_put_pixel(game->res.image, x, y, game->map_data.floor_color);
-
 }
 
 void	raycaster(t_game *game, t_raycaster *rc)

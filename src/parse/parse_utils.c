@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:31 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 21:15:11 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	map_data_init(t_map_data *map_data)
 	map_data->so_path = NULL;
 	map_data->we_path = NULL;
 	map_data->ea_path = NULL;
+	map_data->ceiling_path = NULL;
 	map_data->parsed_textures = 0;
 	map_data->floor_color = 0;
 	map_data->ceiling_color = 0;
@@ -30,7 +31,7 @@ void	map_data_init(t_map_data *map_data)
 	map_data->map_start_idx = 0;
 	map_data->map_rows = 0;
 	map_data->map_cols = 0;
-	map_data->pixels = malloc(sizeof(uint32_t) * 720 * 720);
+	map_data->pixels = malloc(sizeof(uint32_t) * HEIGHT * WIDTH);
 	if (!map_data->pixels)
 	{
 		error_msg("Failed to allocate memory for map pixels.\n");

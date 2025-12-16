@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   map.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:44 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:29 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 23:17:47 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	validate_and_save(t_map_data *m, t_game *game, t_player *player)
 	if (player->posX == -1)
 		return (error_msg("No player start position found in map.\n"), -1);
 	// if (ft_is_map_closed(m->map_copy, player->posY, player->posX, m) != 1)
-	// 		return (error_msg("Map is not closed.\n"), -1);
+			// return (error_msg("Map is not closed.\n"), -1);
 	return (1);
 }
 

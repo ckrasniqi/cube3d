@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 16:33:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:24 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:32:44 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ int	init_textures(t_map_data *map_data, t_resources *res)
 	if (load_texture(map_data->we_path, &res->wall_textures[TEX_WEST]) != 1)
 		return (-1);
 	if (load_texture(map_data->ea_path, &res->wall_textures[TEX_EAST]) != 1)
+		return (-1);
+	if (load_texture(map_data->ceiling_path, &res->ceiling_texture) != 1)
 		return (-1);
 	return (1);
 }

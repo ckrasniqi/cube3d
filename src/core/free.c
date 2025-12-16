@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 14:49:03 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:26:56 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/16 20:34:21 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void	free_map_data(t_map_data *map_data)
 		free(map_data->we_path);
 	if (map_data->ea_path)
 		free(map_data->ea_path);
+	if (map_data->ceiling_path)
+		free(map_data->ceiling_path);
 	if (map_data->map)
 	{
 		i = 0;
