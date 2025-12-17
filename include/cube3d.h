@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 21:20:16 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:45:58 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,22 +28,15 @@
 #define	WIDTH		720
 
 #define RED 		0xFF0000FF
-#define WHITE 		0xFFFFFFFF
-#define	GREEN		0x00FF00FF
-#define BLACK		0x000000FF
 #define YELLOW		0xDFC98AFF
 #define GRAY		0x48494BFF
 #define	UNIT_S		72
 #define UNIT_AREA	UNIT_S * UNIT_S
-#define BACKGROUND	WHITE
-#define	PLAYER		GREEN
 #define TEX_NORTH	0
 #define TEX_SOUTH	1
 #define TEX_WEST	2
 #define TEX_EAST	3
-
 # define MAX_COLORS 2
-
 
 typedef struct s_time
 {
@@ -133,7 +126,6 @@ typedef struct s_map_data
 
 }				t_map_data;
 
-
 typedef struct s_resources
 {
 	void			*mlx;
@@ -154,7 +146,6 @@ typedef struct s_game
 	t_draw		draw;
 
 }				t_game;
-
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -183,18 +174,21 @@ int				parse_color(char *line, const char *prefix,
 int				parse_texture_path(char *line, const char *prefix,
 					t_map_data *map_data, char **path);
 int				parse_line(char *line, t_map_data *map_data);
+int				parse_texture_bonus(char *line, const char *prefix,
+				t_map_data *map_data, char **path);
+int				parse_color_bonus(char *line, const char *prefix, t_map_data *map_data,
+				uint32_t *color);
 
 // Parsing io
 int				name_check(const char *filename);
 int				validate_filename(const char *filename);
 char			**get_all_lines(char const *filename, t_map_data *map_data);
 int				parse_cub_file(const char *filename, t_map_data *map_data, t_game *game, t_player *p);
-// void			debug_print_lines(char **lines, int line_count);
 
 // Parsing map utils
 void			set_player_direction(char identifier, t_player *player);
-void			set_player_position(char identifier, t_map_data *map_data,
-					int x, int y, t_player *player);
+// void			set_player_position(char identifier, t_map_data *map_data,
+					// int x, int y, t_player *player);
 int				player_found(char c);
 int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data, t_game *game);
@@ -213,8 +207,6 @@ void			map_data_init(t_map_data *map_data);
 int				player_data_init(t_player *player);
 int				find_next_nonblank(char **lines, int start, int line_count);
 int				missing_color_texture(t_map_data *map_data);
-// void			print_everything_map_data(t_map_data *map_data, char **lines, int line_count);
-
 
 // Initializing textures
 uint32_t		get_texture_pixel(mlx_texture_t *texture, int x, int y);
@@ -297,16 +289,5 @@ void			clean_up(t_map_data *map_data, char **lines);
 // Error handling
 void			ft_error(char *msg);
 void			error_msg(const char *msg);
-
-//////////////////////////////////////////////////////////////////////////////
-// 								RENDERING									//
-//////////////////////////////////////////////////////////////////////////////
-
-int				render_minimap(t_game *game, t_map_data	map);
-void			keys_hook(mlx_key_data_t keydata, void *param);
-void			arrow_hook(mlx_key_data_t keydata, void *g);
-int				draw_grid(t_map_data map_data, t_game *game);
-int				draw_rows(t_map_data map_data, t_game *game);
-void			find_player(t_game *game);
 
 #endif

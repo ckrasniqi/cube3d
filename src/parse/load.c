@@ -6,13 +6,13 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 16:33:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 20:32:44 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:54:49 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-uint32_t get_texture_pixel(mlx_texture_t *texture, int x, int y)
+uint32_t	get_texture_pixel(mlx_texture_t *texture, int x, int y)
 {
 	int		index;
 	uint8_t	r;
@@ -51,7 +51,8 @@ int	init_textures(t_map_data *map_data, t_resources *res)
 		return (-1);
 	if (load_texture(map_data->ea_path, &res->wall_textures[TEX_EAST]) != 1)
 		return (-1);
-	if (load_texture(map_data->ceiling_path, &res->ceiling_texture) != 1)
+
+	if (map_data->parsed_textures >= 5 && load_texture(map_data->ceiling_path, &res->ceiling_texture) != 1)
 		return (-1);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:44 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 23:17:47 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:33:34 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,13 @@ int	validate_and_save(t_map_data *m, t_game *game, t_player *player)
 		return (-1);
 	if (player->posX == -1)
 		return (error_msg("No player start position found in map.\n"), -1);
-	// if (ft_is_map_closed(m->map_copy, player->posY, player->posX, m) != 1)
-			// return (error_msg("Map is not closed.\n"), -1);
+	if (ft_is_map_closed(m->map_copy, player->posX, player->posY, m) != 1)
+		return (error_msg("Map is not closed.\n"), -1);
 	return (1);
 }
 
-int	parse_map_line(char **lines, t_map_data *map_data, int line_count, t_game *game)
+int	parse_map_line(char **lines, t_map_data *map_data, int line_count,
+	t_game *game)
 {
 	map_data->map_rows = count_rows(lines, map_data->map_start_idx, line_count);
 	map_data->map_cols = count_width(lines, map_data->map_start_idx,
@@ -71,7 +72,8 @@ int	parse_map_line(char **lines, t_map_data *map_data, int line_count, t_game *g
 	return (1);
 }
 
-int	parse_map_data(t_map_data *map_data, char **lines, int line_count, t_game *game)
+int	parse_map_data(t_map_data *map_data, char **lines,
+	int line_count, t_game *game)
 {
 	int		i;
 	char	*line;

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+         #
+#    By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/12/12 19:33:24 by ckrasniq         ###   ########.fr        #
+#    Updated: 2025/12/17 18:57:31 by msalangi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ SRC_PARSE	=	src/parse/load.c \
 				src/parse/headers.c \
 				src/parse/io.c \
 				src/parse/map_utils.c \
-				src/parse/parse_utils.c
+				src/parse/parse_utils.c \
+				src/parse/path_bonus.c
 
 SRC_RENDER	=	src/render/raycast.c \
 				src/render/rc_math.c \

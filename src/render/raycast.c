@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 20:49:25 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:49:24 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,7 @@ void	draw_wall_texture(t_game *game, t_settings *cfg,  t_raycaster *rc, \
 		if (tex_y < 0)
 			tex_y = 0;
 		tex_pos += step;
-		mlx_put_pixel(game->res.image, x, y, \
-			get_texture_pixel(tex, tex_x, tex_y));
+		mlx_put_pixel(game->res.image, x, y, get_texture_pixel(tex, tex_x, tex_y));
 	}
 }
 
@@ -80,8 +79,10 @@ void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 			end = cfg->height;
 		while (y < end)
 		{
-			mlx_put_pixel(game->res.image, x, y, 
-				get_texture_pixel(game->res.ceiling_texture, x, y)); //game->map_data.ceiling_color
+			if (game->map_data.parsed_textures >= 5)
+				mlx_put_pixel(game->res.image, x, y, get_texture_pixel(game->res.ceiling_texture, x, y));
+			else
+				mlx_put_pixel(game->res.image, x, y, game->map_data.ceiling_color);
 			y++;
 		}
 	}

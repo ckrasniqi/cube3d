@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:40:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 20:39:28 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 18:56:13 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ int	reached_maximums(t_map_data *map_data)
 		|| map_data->parsed_textures > 5)
 		return (error_msg("Exceeded maximum number of textures or colors.\n"),
 			-1);
-	if (((map_data->parsed_colors == 2 && map_data->parsed_textures == 4) ||
-		(map_data->parsed_colors == 1 && map_data->parsed_textures == 5))
+	if (((map_data->parsed_colors == 2 && map_data->parsed_textures == 4)
+			|| (map_data->parsed_colors == 1 && map_data->parsed_textures == 5))
 		&& map_data->no_path && map_data->so_path && map_data->we_path
 		&& map_data->ea_path)
 		return (1);
@@ -43,7 +43,6 @@ int	color_check(char *line, int *r, int *g, int *b)
 		return (error_msg("Invalid color format (missing 2nd comma).\n"), -1);
 	line++;
 	*b = ft_atoi(line);
-
 	if (*r < 0 || *r > 255 || *g < 0 || *g > 255 || *b < 0 || *b > 255)
 		return (error_msg("Color values must be 0-255.\n"), -1);
 	return (1);
@@ -117,8 +116,7 @@ int	parse_line(char *line, t_map_data *map_data)
 	ret = parse_color(line, "F", map_data, &map_data->floor_color);
 	if (ret != 0)
 		return (ret);
-	// ret = parse_color(line, "C", map_data, &map_data->ceiling_color);
-	ret = parse_texture_path(line, "C", map_data, &map_data->ceiling_path);
+	ret = parse_texture_bonus(line, "C", map_data, &map_data->ceiling_path);
 	if (ret != 0)
 		return (ret);
 	return (0);

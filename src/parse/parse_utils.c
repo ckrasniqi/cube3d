@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 21:15:11 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:18:04 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ int	missing_color_texture(t_map_data *map_data)
 	return (0);
 }
 
-// void	print_everything_map_data(t_map_data *map_data, char **lines, \
+// void	print_everything_map_data(t_map_data *map_data,
+// char **lines,
 // 	int line_count)
 // {
 // 	printf("NO Path: %s\n", map_data->no_path);
@@ -102,6 +103,4 @@ int	missing_color_texture(t_map_data *map_data)
 // 		printf("%s", map_data->file_contents[i]);
 // 		printf("\n");
 // 	}
-
-
 // }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rc_math.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:18:10 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:41 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 15:38:07 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,24 @@ void	calculate_step_and_side_dist(t_raycaster *rc)
 
 void	calculate_wall_projection(t_game *game, t_raycaster *rc)
 {
-
 	if (rc->side == 0)
 		rc->perpWallDist = (rc->sideDistX - rc->deltaDistX);
 	else
 		rc->perpWallDist = (rc->sideDistY - rc->deltaDistY);
-
 	if (rc->perpWallDist < 0.0001)
 		rc->perpWallDist = 0.0001;
 	rc->lineHeight = (int)(game->cfg.height / rc->perpWallDist);
-
 	rc->drawStart = -rc->lineHeight / 2 + game->cfg.height / 2;
 	if (rc->drawStart < 0)
 		rc->drawStart = 0;
-
 	rc->drawEnd = rc->lineHeight / 2 + game->cfg.height / 2;
 	if (rc->drawEnd >= game->cfg.height)
 		rc->drawEnd = game->cfg.height - 1;
-
 	if (rc->side == 0)
 		rc->wallX = rc->posY + rc->perpWallDist * rc->rayDirY;
 	else
 		rc->wallX = rc->posX + rc->perpWallDist * rc->rayDirX;
-
 	rc->wallX -= floor(rc->wallX);
-
 }
 
 void	init_raycaster_variables(t_game *game, t_raycaster *rc)
