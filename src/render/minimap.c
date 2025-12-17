@@ -6,13 +6,14 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:31:12 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 18:34:30 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:14:51 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-void	draw_minimap_square(t_game *game, int x, int y, int size, uint32_t color)
+void	draw_minimap_square(t_game *game, int x, int y,
+	int size, uint32_t color)
 {
 	int	i;
 	int	j;
@@ -32,7 +33,7 @@ void	draw_minimap_square(t_game *game, int x, int y, int size, uint32_t color)
 	}
 }
 
- void	draw_minimap_player(t_game *game, int mm_x, int mm_y, int tile_size)
+void	draw_minimap_player(t_game *game, int mm_x, int mm_y, int tile_size)
 {
 	int	p_screen_x;
 	int	p_screen_y;

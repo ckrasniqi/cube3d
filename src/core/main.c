@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:08 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:11:49 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,11 @@
 
 void	ft_hook(void *param)
 {
-	t_game	*g = param;
+	t_game	*g;
+
+	g = param;
 	if (mlx_is_key_down(g->res.mlx, MLX_KEY_ESCAPE))
 		mlx_close_window(g->res.mlx);
-
 	update_time(&g->time.now, &g->time.last, &g->time.delta_time);
 	handle_rotation(g, g->player.rot_speed);
 	handle_movement(g, g->player.dirX, g->player.dirY);
@@ -25,7 +26,7 @@ void	ft_hook(void *param)
 	render_mini_map(g, &g->map_data);
 }
 
-int game_init(t_game *game, const char *cub_file)
+int	game_init(t_game *game, const char *cub_file)
 {
 	if (struct_init(game) == -1)
 		return (error_msg("Initializing game structure.\n"), -1);
@@ -39,7 +40,8 @@ int game_init(t_game *game, const char *cub_file)
 	game->res.mlx = mlx_init(game->cfg.width, game->cfg.height, "Game", false);
 	if (!game->res.mlx)
 		return (error_msg("Initializing MLX.\n"), -1);
-	game->res.image = mlx_new_image(game->res.mlx, game->cfg.width, game->cfg.height);
+	game->res.image = mlx_new_image(game->res.mlx,
+			game->cfg.width, game->cfg.height);
 	if (!game->res.image)
 		return (error_msg("Creating new image.\n"), -1);
 	if (mlx_image_to_window(game->res.mlx, game->res.image, 0, 0) < 0)
@@ -68,4 +70,3 @@ int	main(int ac, char **av)
 	mlx_terminate(game.res.mlx);
 	return (EXIT_SUCCESS);
 }
-

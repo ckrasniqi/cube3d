@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 19:39:41 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:11 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:09:00 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,3 @@ char	*ft_skip_whitespace(const char *str)
 		str++;
 	return ((char *)str);
 }
-

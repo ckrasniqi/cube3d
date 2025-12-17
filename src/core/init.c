@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:29:54 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 21:15:39 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:11:25 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,3 @@ int	struct_init(t_game *game)
 		return (-1);
 	return (0);
 }
-

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   collision.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:49:53 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:13 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:08:49 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,19 +14,16 @@
 
 int	collision_detection(t_game *g, double newPosX, double newPosY)
 {
-	int	mapX;
-	int	mapY;
+	int	map_x;
+	int	map_y;
 
-	mapX = (int)newPosX;
-	mapY = (int)newPosY;
-
-	if (mapX < 0 || mapX >= g->map_data.map_cols || \
-		mapY < 0 || mapY >= g->map_data.map_rows)
+	map_x = (int)newPosX;
+	map_y = (int)newPosY;
+	if (map_x < 0 || map_x >= g->map_data.map_cols || \
+		map_y < 0 || map_y >= g->map_data.map_rows)
 		return (1);
-
-	if (g->map_data.map[mapY][mapX] == '1')
+	if (g->map_data.map[map_y][map_x] == '1')
 		return (1);
-
 	return (0);
 }
 
@@ -34,7 +31,6 @@ void	attempt_move(t_game *g, double newX, double newY)
 {
 	if (!collision_detection(g, newX, g->player.posY))
 		g->player.posX = newX;
-
 	if (!collision_detection(g, g->player.posX, newY))
 		g->player.posY = newY;
 }

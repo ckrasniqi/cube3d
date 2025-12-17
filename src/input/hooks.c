@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:59:59 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:15 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:07:18 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	rotate_player(t_player *p, double rot_speed)
 	p->planeY = old_plane_x * sin(rot_speed) + p->planeY * cos(rot_speed);
 }
 
-void	handle_rotation(t_game *game,double rot_speed)
+void	handle_rotation(t_game *game, double rot_speed)
 {
 	if (mlx_is_key_down(game->res.mlx, MLX_KEY_LEFT))
 		rotate_player(&game->player, -rot_speed);

@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 17:04:16 by msalangi          #+#    #+#             */
-/*   Updated: 2025/12/17 18:57:11 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:12:27 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,11 @@ int	parse_color_bonus(char *line, const char *prefix, t_map_data *map_data,
 int	parse_texture_bonus(char *line, const char *prefix, t_map_data *map_data,
 		char **path)
 {
-	int ret = parse_color_bonus(line, "C", map_data, &map_data->ceiling_color);
+	int	ret;
+
+	ret = parse_color_bonus(line, "C", map_data, &map_data->ceiling_color);
 	if (ret == 1)
-		return(1);
+		return (1);
 	ret = parse_texture_path(line, prefix, map_data, path);
 	return (ret);
 }

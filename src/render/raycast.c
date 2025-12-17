@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 18:49:24 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:15:07 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	get_tex_x(t_raycaster *rc, mlx_texture_t *tex)
 	return (tex_x);
 }
 
-void	draw_wall_texture(t_game *game, t_settings *cfg,  t_raycaster *rc, \
+void	draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc,
 	mlx_texture_t *tex, int x)
 {
 	int		y;
@@ -62,27 +62,31 @@ void	draw_wall_texture(t_game *game, t_settings *cfg,  t_raycaster *rc, \
 		if (tex_y < 0)
 			tex_y = 0;
 		tex_pos += step;
-		mlx_put_pixel(game->res.image, x, y, get_texture_pixel(tex, tex_x, tex_y));
+		mlx_put_pixel(game->res.image, x, y,
+			get_texture_pixel(tex, tex_x, tex_y));
 	}
 }
 
 void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 {
 	int				y;
+	int				end;
 	mlx_texture_t	*tex;
 
 	y = 0;
 	if (rc->drawStart > 0)
 	{
-		int end = rc->drawStart;
+		end = rc->drawStart;
 		if (end > cfg->height)
 			end = cfg->height;
 		while (y < end)
 		{
 			if (game->map_data.parsed_textures >= 5)
-				mlx_put_pixel(game->res.image, x, y, get_texture_pixel(game->res.ceiling_texture, x, y));
+				mlx_put_pixel(game->res.image, x, y,
+					get_texture_pixel(game->res.ceiling_texture, x, y));
 			else
-				mlx_put_pixel(game->res.image, x, y, game->map_data.ceiling_color);
+				mlx_put_pixel(game->res.image, x, y,
+					game->map_data.ceiling_color);
 			y++;
 		}
 	}

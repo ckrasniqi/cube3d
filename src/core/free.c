@@ -6,11 +6,27 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/16 14:49:03 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/16 20:34:21 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 19:11:08 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
+
+void	free_checks(t_map_data *map_data)
+{
+	if (map_data->pixels)
+		free(map_data->pixels);
+	if (map_data->no_path)
+		free(map_data->no_path);
+	if (map_data->so_path)
+		free(map_data->so_path);
+	if (map_data->we_path)
+		free(map_data->we_path);
+	if (map_data->ea_path)
+		free(map_data->ea_path);
+	if (map_data->ceiling_path)
+		free(map_data->ceiling_path);
+}
 
 void	free_lines(char **lines, int line_count)
 {
@@ -34,18 +50,7 @@ void	free_map_data(t_map_data *map_data)
 
 	if (!map_data)
 		return ;
-	if (map_data->pixels)
-		free(map_data->pixels);
-	if (map_data->no_path)
-		free(map_data->no_path);
-	if (map_data->so_path)
-		free(map_data->so_path);
-	if (map_data->we_path)
-		free(map_data->we_path);
-	if (map_data->ea_path)
-		free(map_data->ea_path);
-	if (map_data->ceiling_path)
-		free(map_data->ceiling_path);
+	free_checks(map_data);
 	if (map_data->map)
 	{
 		i = 0;
