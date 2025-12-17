@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   io.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:41:27 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:22 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 15:44:06 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ char	**get_all_lines(const char *filename, t_map_data *map_data)
 	return (map);
 }
 
-int	parse_cub_file(const char *filename, t_map_data *map_data, t_game *game, t_player *p)
+int	parse_cub_file(const char *filename, t_map_data *map_data, 
+	t_game *game, t_player *p)
 {
 	if (!validate_filename(filename))
 		return (-1);

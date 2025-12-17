@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   validate.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:42:43 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:34 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 17:15:20 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,7 @@ int	ft_is_map_closed(char **map, int x, int y, t_map_data *m)
 		return (0);
 	if (map[y][x] == '1' || map[y][x] == 'E')
 		return (1);
-
 	map[y][x] = 'E';
-
 	if (!ft_is_map_closed(map, x + 1, y, m))
 		return (0);
 	if (!ft_is_map_closed(map, x - 1, y, m))
@@ -29,7 +27,6 @@ int	ft_is_map_closed(char **map, int x, int y, t_map_data *m)
 		return (0);
 	if (!ft_is_map_closed(map, x, y - 1, m))
 		return (0);
-
 	return (1);
 }
 

@@ -3,14 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   map_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ckrasniq <ckrasniq@student.42.fr>          +#+  +:+       +#+        */
+/*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:53:04 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/12 19:27:49 by ckrasniq         ###   ########.fr       */
+/*   Updated: 2025/12/17 16:17:15 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
+
+void	set_player_dir_w(t_player *player)
+{
+	player->dirX = -1.0;
+	player->dirY = 0.0;
+	player->planeX = 0.0;
+	player->planeY = -0.66;
+}
 
 void	set_player_direction(char identifier, t_player *player)
 {
@@ -36,16 +44,16 @@ void	set_player_direction(char identifier, t_player *player)
 		player->planeY = 0.66;
 	}
 	else if (identifier == 'W')
-	{
-		player->dirX = -1.0;
-		player->dirY = 0.0;
-		player->planeX = 0.0;
-		player->planeY = -0.66;
-	}
+		set_player_dir_w(player);
 }
 
-void	set_player_position(char identifier, t_map_data *m, int x, int y, t_player *player)
+void	set_player_position(char identifier, int x, int y, t_game *game)
 {
+	t_player	*player;
+	t_map_data	*m;
+
+	player = &game->player;
+	m = &game->map_data;
 	player->posX = y;
 	player->posY = x;
 	m->map[x][y] = '0';
@@ -75,9 +83,8 @@ int	check_for_invalid_characters(char **lines, t_map_data *m, t_game *game)
 			else if (player_found(lines[i][j]))
 			{
 				if (game->player.posX != -1 && game->player.posY != -1)
-					return (error_msg("Multiple players.\n"), \
-							-1);
-				set_player_position(lines[i][j], m, i, j, &game->player);
+					return (error_msg("Multiple players.\n"), -1);
+				set_player_position(lines[i][j], i, j, game);
 			}
 		}
 	}
