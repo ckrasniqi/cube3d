@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 22:02:18 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/18 23:51:27 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,8 +243,10 @@ void			draw_minimap_square(t_game *game, int x, int y,
 int				render_mini_map(t_game *game, t_map_data *m);
 void			draw_minimap_player(t_game *game, int mm_x,
 					int mm_y, int tile_size);
-uint32_t		apply_mask(uint32_t color, float light);
-float get_light_factor(float dist);
+uint32_t		apply_mask(uint32_t color, float light, float f);
+float 			get_light_factor(float dist);
+float			vignette_factor(int x, int y, int w, int h, float radius);
+
 /////////////////////////////////////////////////////////////////////////////////
 //							RAYCASTING										//
 /////////////////////////////////////////////////////////////////////////////

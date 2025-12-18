@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 22:32:13 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/19 00:03:45 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void	draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc,
 	double	tex_pos;
 	
 	uint32_t	color;
-	float dist = rc->perpWallDist;
-	float light = get_light_factor(dist);
+	float		f;
 
 	tex_x = get_tex_x(rc, tex);
 	step = 1.0 * tex->height / rc->lineHeight;
@@ -60,6 +59,7 @@ void	draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc,
 		rc->drawEnd = cfg->height;
 	while (y++ < rc->drawEnd)
 	{
+		f = vignette_factor(x, y, cfg->width, cfg->height, 0.65f);
 		tex_y = (int)tex_pos;
 		if (tex_y >= (int)tex->height)
 			tex_y = tex->height - 1;
@@ -67,9 +67,8 @@ void	draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc,
 			tex_y = 0;
 		tex_pos += step;
 		color = get_texture_pixel(tex, tex_x, tex_y);
-		color = apply_mask(color, light);
-		mlx_put_pixel(game->res.image, x, y,
-			color);
+		color = apply_mask(color, get_light_factor(rc->perpWallDist), f);
+		mlx_put_pixel(game->res.image, x, y, color);
 	}
 }
 
@@ -78,7 +77,9 @@ void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 	int				y;
 	int				end;
 	mlx_texture_t	*tex;
-
+	uint32_t		color;
+	float			f;
+	
 	y = 0;
 	if (rc->drawStart > 0)
 	{
@@ -87,12 +88,13 @@ void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 			end = cfg->height;
 		while (y < end)
 		{
+			f = vignette_factor(x, y, cfg->width, cfg->height, 0.65f);
 			if (game->map_data.parsed_textures >= 5)
-				mlx_put_pixel(game->res.image, x, y,
-					get_texture_pixel(game->res.ceiling_texture, x, y));
+				color = get_texture_pixel(game->res.ceiling_texture, x, y);
 			else
-				mlx_put_pixel(game->res.image, x, y,
-					game->map_data.ceiling_color);
+				color = game->map_data.ceiling_color;
+			color = apply_mask(color, 10, f);
+			mlx_put_pixel(game->res.image, x, y, color);
 			y++;
 		}
 	}
@@ -104,7 +106,11 @@ void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 	if (y > cfg->height)
 		y = cfg->height;
 	while (y++ < cfg->height)
-		mlx_put_pixel(game->res.image, x, y, game->map_data.floor_color);
+	{
+		f = vignette_factor(x, y, cfg->width, cfg->height, 0.65f);
+		color = apply_mask(game->map_data.floor_color, 10, f);
+		mlx_put_pixel(game->res.image, x, y, color);
+	}
 }
 
 void	raycaster(t_game *game, t_raycaster *rc)
