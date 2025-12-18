@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 19:15:07 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/17 22:32:13 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,14 @@ void	draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc,
 	int		tex_x;
 	double	step;
 	double	tex_pos;
+	
+	uint32_t	color;
+	float dist = rc->perpWallDist;
+	float light = get_light_factor(dist);
 
 	tex_x = get_tex_x(rc, tex);
 	step = 1.0 * tex->height / rc->lineHeight;
-	tex_pos = (rc->drawStart - cfg->height / 2 \
+	tex_pos = (rc->drawStart - cfg->height / 2
 		+ rc->lineHeight / 2) * step;
 	y = rc->drawStart;
 	if (rc->drawStart < 0)
@@ -62,8 +66,10 @@ void	draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc,
 		if (tex_y < 0)
 			tex_y = 0;
 		tex_pos += step;
+		color = get_texture_pixel(tex, tex_x, tex_y);
+		color = apply_mask(color, light);
 		mlx_put_pixel(game->res.image, x, y,
-			get_texture_pixel(tex, tex_x, tex_y));
+			color);
 	}
 }
 
