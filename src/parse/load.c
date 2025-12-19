@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 16:33:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 22:09:13 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/19 00:41:12 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ int	load_texture(const char *path, mlx_texture_t **texture)
 
 int	init_textures(t_map_data *map_data, t_resources *res)
 {
+	if (load_texture("././pixel_art/hand_left.png", &res->left_hand) != 1)
+		return (-1);
 	if (load_texture(map_data->no_path, &res->wall_textures[TEX_NORTH]) != 1)
 		return (-1);
 	if (load_texture(map_data->so_path, &res->wall_textures[TEX_SOUTH]) != 1)

@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 21:02:20 by msalangi          #+#    #+#             */
-/*   Updated: 2025/12/18 23:51:21 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/19 00:08:14 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,14 @@ float	vignette_factor(int x, int y, int w, int h, float radius)
     float	nx = (2.0f * x) / (float)w - 1.0f;
     float	ny = (2.0f * y) / (float)h - 1.0f;
     float	d = sqrtf(nx * nx + ny * ny);
-    const float maxd = 1.41421356f; /* sqrt(2) ~ corner distance */
+    const float maxd = 1.41421356f;
     float	t;
 
-    /* radius is where vignette starts; normalized smoothing between radius and corner */
     t = (d - radius) / (maxd - radius);
     if (t <= 0.0f)
         return 1.0f;
     if (t >= 1.0f)
         return 0.0f;
-    /* smoothstep */
     t = t * t * (3.0f - 2.0f * t);
     return 1.0f - t;
 }

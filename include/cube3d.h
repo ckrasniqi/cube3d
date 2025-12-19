@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/18 23:51:27 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/19 00:39:43 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ typedef struct s_resources
 {
 	void			*mlx;
 	void			*image;
-	mlx_texture_t	*mask;
+	mlx_texture_t	*left_hand;
 	mlx_texture_t	*wall_textures[4];
 	mlx_texture_t	*ceiling_texture;
 	mlx_texture_t	*floor_texture;
@@ -246,6 +246,7 @@ void			draw_minimap_player(t_game *game, int mm_x,
 uint32_t		apply_mask(uint32_t color, float light, float f);
 float 			get_light_factor(float dist);
 float			vignette_factor(int x, int y, int w, int h, float radius);
+void			render_hand(t_game *game);
 
 /////////////////////////////////////////////////////////////////////////////////
 //							RAYCASTING										//

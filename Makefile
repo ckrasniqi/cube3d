@@ -6,7 +6,7 @@
 #    By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/13 12:35:23 by ckrasniq          #+#    #+#              #
-#    Updated: 2025/12/17 21:21:55 by msalangi         ###   ########.fr        #
+#    Updated: 2025/12/19 00:46:40 by msalangi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,7 +51,8 @@ SRC_RENDER	=	src/render/raycast.c \
 				src/render/rc_math.c \
 				src/render/minimap.c \
 				src/render/view.c \
-				src/render/mask.c
+				src/render/mask.c \
+				src/render/hand.c
 
 SRC_INPUT	=	src/input/hooks.c \
 				src/input/move.c \

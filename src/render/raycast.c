@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/19 00:03:45 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/19 01:04:05 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,5 @@ void	raycaster(t_game *game, t_raycaster *rc)
 		render_stripe(game, rc, &game->cfg, x);
 		x++;
 	}
+	render_hand(game);
 }
