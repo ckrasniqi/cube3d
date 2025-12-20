@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/19 00:39:43 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 01:16:06 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,7 @@ typedef struct s_resources
 	void			*mlx;
 	void			*image;
 	mlx_texture_t	*left_hand;
+	mlx_texture_t	*closed_hand;
 	mlx_texture_t	*wall_textures[4];
 	mlx_texture_t	*ceiling_texture;
 	mlx_texture_t	*floor_texture;
@@ -233,6 +234,7 @@ int				collision_detection(t_game *g, double newPosX, double newPosY);
 void			handle_movement(t_game *game, double dirX, double dirY);
 void			handle_rotation(t_game *game, double rot_speed);
 void			rotate_player(t_player *player, double angle);
+void			handle_hand(t_game *game);
 
 //////////////////////////////////////////////////////////////////////////////
 //								RENDERING									//
@@ -246,7 +248,8 @@ void			draw_minimap_player(t_game *game, int mm_x,
 uint32_t		apply_mask(uint32_t color, float light, float f);
 float 			get_light_factor(float dist);
 float			vignette_factor(int x, int y, int w, int h, float radius);
-void			render_hand(t_game *game);
+void			render_hand(t_game *game, int f);
+void			draw_hand(t_game *game, int offset, mlx_texture_t *texture);
 
 /////////////////////////////////////////////////////////////////////////////////
 //							RAYCASTING										//
