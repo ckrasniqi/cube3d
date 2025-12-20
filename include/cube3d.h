@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/20 21:03:33 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:41:15 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,15 @@
 # include <time.h>
 # include <sys/time.h>
 
-#define HEIGHT		720
-#define	WIDTH		720
-
-#define RED 		0xFF0000FF
-#define YELLOW		0xDFC98AFF
-#define GRAY		0x48494BFF
-#define	UNIT_S		72
-#define UNIT_AREA	UNIT_S * UNIT_S
-#define TEX_NORTH	0
-#define TEX_SOUTH	1
-#define TEX_WEST	2
-#define TEX_EAST	3
+# define HEIGHT		720
+# define WIDTH		720
+# define RED		0xFF0000FF
+# define YELLOW		0xDFC98AFF
+# define GRAY		0x48494BFF
+# define TEX_NORTH	0
+# define TEX_SOUTH	1
+# define TEX_WEST	2
+# define TEX_EAST	3
 # define MAX_COLORS 2
 
 typedef struct s_time
@@ -67,36 +64,36 @@ typedef struct s_draw
 
 typedef struct s_raycaster
 {
-	int			mapX;
-	int			mapY;
-	double		cameraX;
-	double		rayDirX;
-	double		rayDirY;
-	double		deltaDistX;
-	double		deltaDistY;
-	double		sideDistX;
-	double		sideDistY;
-	int			stepX;
-	int			stepY;
-	double		posX;
-	double		posY;
+	int			map_x;
+	int			map_y;
+	double		camera_x;
+	double		ray_dir_x;
+	double		ray_dir_y;
+	double		delta_dist_x;
+	double		delta_dist_y;
+	double		side_dist_x;
+	double		side_dist_y;
+	int			step_x;
+	int			step_y;
+	double		pos_x;
+	double		pos_y;
 	int			hit;
 	int			side;
-	double		perpWallDist;
-	double		wallX;
-	int			drawStart;
-	int			drawEnd;
-	int 		lineHeight;
+	double		perp_wall_dist;
+	double		wall_x;
+	int			draw_start;
+	int			draw_end;
+	int			line_height;
 }	t_raycaster;
 
 typedef struct s_player
 {
-	double		posX;
-	double		posY;
-	double		dirX;
-	double		dirY;
-	double		planeX;
-	double		planeY;
+	double		pos_x;
+	double		pos_y;
+	double		dir_x;
+	double		dir_y;
+	double		plane_x;
+	double		plane_y;
 	double		fov;
 	double		move_speed;
 	double		rot_speed;
@@ -149,10 +146,9 @@ typedef struct s_game
 
 }				t_game;
 
-
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //								INITIALIZING								//
-//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 int				struct_init(t_game *game);
 int				raycaster_data_init(t_raycaster *raycast);
@@ -160,9 +156,9 @@ int				resources_init(t_resources *res);
 int				time_data_init(t_time *time);
 int				settings_data_init(t_settings *settings);
 
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //								PARSING										//
-//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 // Flood fill functions
 int				ft_is_map_closed(char **map, int x, int y, t_map_data *m);
@@ -177,20 +173,19 @@ int				parse_texture_path(char *line, const char *prefix,
 					t_map_data *map_data, char **path);
 int				parse_line(char *line, t_map_data *map_data);
 int				parse_texture_bonus(char *line, const char *prefix,
-				t_map_data *map_data, char **path);
-int				parse_color_bonus(char *line, const char *prefix, t_map_data *map_data,
-				uint32_t *color);
+					t_map_data *map_data, char **path);
+int				parse_color_bonus(char *line, const char *prefix,
+					t_map_data *map_data, uint32_t *color);
 
 // Parsing io
 int				name_check(const char *filename);
 int				validate_filename(const char *filename);
 char			**get_all_lines(char const *filename, t_map_data *map_data);
-int				parse_cub_file(const char *filename, t_map_data *map_data, t_game *game, t_player *p);
+int				parse_cub_file(const char *filename, t_map_data *map_data,
+					t_game *game, t_player *p);
 
 // Parsing map utils
 void			set_player_direction(char identifier, t_player *player);
-// void			set_player_position(char identifier, t_map_data *map_data,
-					// int x, int y, t_player *player);
 int				player_found(char c);
 int				check_for_invalid_characters(char **lines,
 					t_map_data *map_data, t_game *game);
@@ -198,7 +193,8 @@ int				check_for_invalid_characters(char **lines,
 // Parsing map
 int				count_rows(char **lines, int start_idx, int line_count);
 int				count_width(char **lines, int start_idx, int rows);
-int				validate_and_save(t_map_data *map_data, t_game *game, t_player *player);
+int				validate_and_save(t_map_data *map_data, t_game *game,
+					t_player *player);
 int				parse_map_line(char **lines, t_map_data *map_data,
 					int line_count, t_game *game);
 int				parse_map_data(t_map_data *map_data, char **lines,
@@ -215,45 +211,48 @@ uint32_t		get_texture_pixel(mlx_texture_t *texture, int x, int y);
 int				load_texture(const char *path, mlx_texture_t **texture);
 int				init_textures(t_map_data *map_data, t_resources *res);
 
-
-
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //								MOVEMENT									//
-//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 // Movement functions
-void			move_up(t_game *g, double dirX, double dirY, double move_step);
-void			move_down(t_game *g, double dirX, double dirY, double move_step);
-void			move_left(t_game *g, double dirX, double dirY, double move_step);
-void			move_right(t_game *g, double dirX, double dirY, double move_step);
+void			move_up(t_game *g, double dir_x, double dir_y,
+					double move_step);
+void			move_down(t_game *g, double dir_x, double dir_y,
+					double move_step);
+void			move_left(t_game *g, double dir_x, double dir_y,
+					double move_step);
+void			move_right(t_game *g, double dir_x, double dir_y,
+					double move_step);
+
 // Move utils
 void			attempt_move(t_game *g, double newX, double newY);
-int				collision_detection(t_game *g, double newPosX, double newPosY);
+int				collision_detection(t_game *g, double newpos_x,
+					double newpos_y);
 
 // Movement handlers
-void			handle_movement(t_game *game, double dirX, double dirY);
+void			handle_movement(t_game *game, double dir_x, double dir_y);
 void			handle_rotation(t_game *game, double rot_speed);
 void			rotate_player(t_player *player, double angle);
 void			handle_hand(t_game *game);
 
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //								RENDERING									//
-//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 
 void			draw_minimap_square(t_game *game, int x, int y,
-					int size, uint32_t color);
+					uint32_t color);
 int				render_mini_map(t_game *game, t_map_data *m);
 void			draw_minimap_player(t_game *game, int mm_x,
 					int mm_y, int tile_size);
 uint32_t		apply_mask(uint32_t color, float light, float f);
-float 			get_light_factor(float dist);
+float			get_light_factor(float dist);
 float			vignette_factor(int x, int y, t_settings *cfg, float radius);
 void			render_hand(t_game *game, int f);
 void			draw_hand(t_game *game, int offset, mlx_texture_t *texture);
 int				check_yellow(uint32_t color);
-uint32_t		add_light(uint32_t color);
 
-/////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //							RAYCASTING										//
 /////////////////////////////////////////////////////////////////////////////
 
@@ -261,7 +260,8 @@ uint32_t		add_light(uint32_t color);
 
 mlx_texture_t	*get_texture(t_game *game, t_raycaster *rc);
 int				get_tex_x(t_raycaster *rc, mlx_texture_t *tex);
-void			draw_wall(t_game *game, t_raycaster *rc, mlx_texture_t *tex, int x);
+void			draw_wall(t_game *game, t_raycaster *rc,
+					mlx_texture_t *tex, int x);
 void			render_stripe(t_game *game, t_raycaster *rc,
 					t_settings *cfg, int x);
 void			wall_texture(t_game *game, int x, int y, uint32_t color);
@@ -274,17 +274,17 @@ void			calculate_step_and_side_dist(t_raycaster *rc);
 void			calculate_wall_projection(t_game *game, t_raycaster *rc);
 void			init_raycaster_variables(t_game *game, t_raycaster *rc);
 
-//////////////////////////////////////////////////////////////////////////////
-//							GAME SETUP									//
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
+//							GAME SETUP										//
+/////////////////////////////////////////////////////////////////////////////
 
 void			setup_game_variables(t_game *g, t_map_data *mdata,
 					t_player *player);
 int				set_tile_size(int cols, int rows, int window_w, int window_h);
 
-//////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 //								UTILS										//
-//////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////
 double			get_time_seconds(void);
 void			update_time(double *now, double *last, double *delta_time);
 int				ft_isspace(char c);

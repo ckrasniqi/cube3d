@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/03 18:18:10 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 15:38:07 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:28:02 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ void	preform_dda(t_game *game, t_raycaster *rc)
 {
 	while (rc->hit == 0)
 	{
-		if (rc->sideDistX < rc->sideDistY)
+		if (rc->side_dist_x < rc->side_dist_y)
 		{
-			rc->sideDistX += rc->deltaDistX;
-			rc->mapX += rc->stepX;
+			rc->side_dist_x += rc->delta_dist_x;
+			rc->map_x += rc->step_x;
 			rc->side = 0;
 		}
 		else
 		{
-			rc->sideDistY += rc->deltaDistY;
-			rc->mapY += rc->stepY;
+			rc->side_dist_y += rc->delta_dist_y;
+			rc->map_y += rc->step_y;
 			rc->side = 1;
 		}
-		if (game->map_data.map[rc->mapY][rc->mapX] == '1')
+		if (game->map_data.map[rc->map_y][rc->map_x] == '1')
 			rc->hit = 1;
 	}
 }
@@ -42,60 +42,60 @@ double	find_delta_dist(double rayDir)
 
 void	calculate_step_and_side_dist(t_raycaster *rc)
 {
-	if (rc->rayDirX < 0)
+	if (rc->ray_dir_x < 0)
 	{
-		rc->stepX = -1;
-		rc->sideDistX = (rc->posX - rc->mapX) * rc->deltaDistX;
+		rc->step_x = -1;
+		rc->side_dist_x = (rc->pos_x - rc->map_x) * rc->delta_dist_x;
 	}
 	else
 	{
-		rc->stepX = 1;
-		rc->sideDistX = (rc->mapX + 1.0 - rc->posX) * rc->deltaDistX;
+		rc->step_x = 1;
+		rc->side_dist_x = (rc->map_x + 1.0 - rc->pos_x) * rc->delta_dist_x;
 	}
-	if (rc->rayDirY < 0)
+	if (rc->ray_dir_y < 0)
 	{
-		rc->stepY = -1;
-		rc->sideDistY = (rc->posY - rc->mapY) * rc->deltaDistY;
+		rc->step_y = -1;
+		rc->side_dist_y = (rc->pos_y - rc->map_y) * rc->delta_dist_y;
 	}
 	else
 	{
-		rc->stepY = 1;
-		rc->sideDistY = (rc->mapY + 1.0 - rc->posY) * rc->deltaDistY;
+		rc->step_y = 1;
+		rc->side_dist_y = (rc->map_y + 1.0 - rc->pos_y) * rc->delta_dist_y;
 	}
 }
 
 void	calculate_wall_projection(t_game *game, t_raycaster *rc)
 {
 	if (rc->side == 0)
-		rc->perpWallDist = (rc->sideDistX - rc->deltaDistX);
+		rc->perp_wall_dist = (rc->side_dist_x - rc->delta_dist_x);
 	else
-		rc->perpWallDist = (rc->sideDistY - rc->deltaDistY);
-	if (rc->perpWallDist < 0.0001)
-		rc->perpWallDist = 0.0001;
-	rc->lineHeight = (int)(game->cfg.height / rc->perpWallDist);
-	rc->drawStart = -rc->lineHeight / 2 + game->cfg.height / 2;
-	if (rc->drawStart < 0)
-		rc->drawStart = 0;
-	rc->drawEnd = rc->lineHeight / 2 + game->cfg.height / 2;
-	if (rc->drawEnd >= game->cfg.height)
-		rc->drawEnd = game->cfg.height - 1;
+		rc->perp_wall_dist = (rc->side_dist_y - rc->delta_dist_y);
+	if (rc->perp_wall_dist < 0.0001)
+		rc->perp_wall_dist = 0.0001;
+	rc->line_height = (int)(game->cfg.height / rc->perp_wall_dist);
+	rc->draw_start = -rc->line_height / 2 + game->cfg.height / 2;
+	if (rc->draw_start < 0)
+		rc->draw_start = 0;
+	rc->draw_end = rc->line_height / 2 + game->cfg.height / 2;
+	if (rc->draw_end >= game->cfg.height)
+		rc->draw_end = game->cfg.height - 1;
 	if (rc->side == 0)
-		rc->wallX = rc->posY + rc->perpWallDist * rc->rayDirY;
+		rc->wall_x = rc->pos_y + rc->perp_wall_dist * rc->ray_dir_y;
 	else
-		rc->wallX = rc->posX + rc->perpWallDist * rc->rayDirX;
-	rc->wallX -= floor(rc->wallX);
+		rc->wall_x = rc->pos_x + rc->perp_wall_dist * rc->ray_dir_x;
+	rc->wall_x -= floor(rc->wall_x);
 }
 
 void	init_raycaster_variables(t_game *game, t_raycaster *rc)
 {
-	rc->posX = game->player.posX;
-	rc->posY = game->player.posY;
-	rc->mapX = (int)rc->posX;
-	rc->mapY = (int)rc->posY;
+	rc->pos_x = game->player.pos_x;
+	rc->pos_y = game->player.pos_y;
+	rc->map_x = (int)rc->pos_x;
+	rc->map_y = (int)rc->pos_y;
 	rc->hit = 0;
 	rc->side = 0;
-	rc->perpWallDist = 0.0;
-	rc->deltaDistX = find_delta_dist(rc->rayDirX);
-	rc->deltaDistY = find_delta_dist(rc->rayDirY);
+	rc->perp_wall_dist = 0.0;
+	rc->delta_dist_x = find_delta_dist(rc->ray_dir_x);
+	rc->delta_dist_y = find_delta_dist(rc->ray_dir_y);
 	calculate_step_and_side_dist(rc);
 }

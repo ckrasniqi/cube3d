@@ -6,19 +6,19 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/12 18:49:53 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/20 19:53:26 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:26:44 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
 
-int	collision_detection(t_game *g, double newPosX, double newPosY)
+int	collision_detection(t_game *g, double newpos_x, double newpos_y)
 {
 	int	map_x;
 	int	map_y;
 
-	map_x = (int)newPosX;
-	map_y = (int)newPosY;
+	map_x = (int)newpos_x;
+	map_y = (int)newpos_y;
 	if (map_x < 0 || map_x >= g->map_data.map_cols
 		|| map_y < 0 || map_y >= g->map_data.map_rows)
 		return (1);
@@ -29,8 +29,8 @@ int	collision_detection(t_game *g, double newPosX, double newPosY)
 
 void	attempt_move(t_game *g, double newX, double newY)
 {
-	if (!collision_detection(g, newX, g->player.posY))
-		g->player.posX = newX;
-	if (!collision_detection(g, g->player.posX, newY))
-		g->player.posY = newY;
+	if (!collision_detection(g, newX, g->player.pos_y))
+		g->player.pos_x = newX;
+	if (!collision_detection(g, g->player.pos_x, newY))
+		g->player.pos_y = newY;
 }

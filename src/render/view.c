@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 15:52:02 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 15:37:27 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:26:44 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ void	setup_game_variables(t_game *g, t_map_data *mdata, t_player *player)
 	g->cfg.height = HEIGHT;
 	g->cfg.tile_size = set_tile_size(mdata->map_cols, mdata->map_rows, \
 									g->cfg.width / 3, g->cfg.height / 3);
-	if (player->posY >= 0 && player->posX >= 0)
+	if (player->pos_y >= 0 && player->pos_x >= 0)
 	{
-		player->posX = (double)player->posX + 0.5;
-		player->posY = (double)player->posY + 0.5;
+		player->pos_x = (double)player->pos_x + 0.5;
+		player->pos_y = (double)player->pos_y + 0.5;
 	}
 	else
 	{
-		player->posX = 2.5;
-		player->posY = 2.5;
+		player->pos_x = 2.5;
+		player->pos_y = 2.5;
 	}
 	player->move_speed = 0.05;
 	player->rot_speed = 0.03;

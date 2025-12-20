@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 22:53:04 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 16:17:15 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:29:03 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,34 @@
 
 void	set_player_dir_w(t_player *player)
 {
-	player->dirX = -1.0;
-	player->dirY = 0.0;
-	player->planeX = 0.0;
-	player->planeY = -0.66;
+	player->dir_x = -1.0;
+	player->dir_y = 0.0;
+	player->plane_x = 0.0;
+	player->plane_y = -0.66;
 }
 
 void	set_player_direction(char identifier, t_player *player)
 {
 	if (identifier == 'N')
 	{
-		player->dirX = 0.0;
-		player->dirY = -1.0;
-		player->planeX = 0.66;
-		player->planeY = 0.0;
+		player->dir_x = 0.0;
+		player->dir_y = -1.0;
+		player->plane_x = 0.66;
+		player->plane_y = 0.0;
 	}
 	else if (identifier == 'S')
 	{
-		player->dirX = 0.0;
-		player->dirY = 1.0;
-		player->planeX = -0.66;
-		player->planeY = 0.0;
+		player->dir_x = 0.0;
+		player->dir_y = 1.0;
+		player->plane_x = -0.66;
+		player->plane_y = 0.0;
 	}
 	else if (identifier == 'E')
 	{
-		player->dirX = 1.0;
-		player->dirY = 0.0;
-		player->planeX = 0.0;
-		player->planeY = 0.66;
+		player->dir_x = 1.0;
+		player->dir_y = 0.0;
+		player->plane_x = 0.0;
+		player->plane_y = 0.66;
 	}
 	else if (identifier == 'W')
 		set_player_dir_w(player);
@@ -54,8 +54,8 @@ void	set_player_position(char identifier, int x, int y, t_game *game)
 
 	player = &game->player;
 	m = &game->map_data;
-	player->posX = y;
-	player->posY = x;
+	player->pos_x = y;
+	player->pos_y = x;
 	m->map[x][y] = '0';
 	set_player_direction(identifier, player);
 }
@@ -82,7 +82,7 @@ int	check_for_invalid_characters(char **lines, t_map_data *m, t_game *game)
 				return (error_msg("Invalid character in map.\n"), -1);
 			else if (player_found(lines[i][j]))
 			{
-				if (game->player.posX != -1 && game->player.posY != -1)
+				if (game->player.pos_x != -1 && game->player.pos_y != -1)
 					return (error_msg("Multiple players.\n"), -1);
 				set_player_position(lines[i][j], i, j, game);
 			}

@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:05 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/20 01:26:40 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:28:43 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_hook(void *param)
 		mlx_close_window(g->res.mlx);
 	update_time(&g->time.now, &g->time.last, &g->time.delta_time);
 	handle_rotation(g, g->player.rot_speed);
-	handle_movement(g, g->player.dirX, g->player.dirY);
+	handle_movement(g, g->player.dir_x, g->player.dir_y);
 	handle_hand(g);
 	raycaster(g, &g->raycast);
 	render_mini_map(g, &g->map_data);

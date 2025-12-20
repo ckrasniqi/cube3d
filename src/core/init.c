@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 19:29:54 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 19:11:25 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:26:44 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,19 +38,19 @@ int	raycaster_data_init(t_raycaster *raycast)
 {
 	if (ft_memset(raycast, 0, sizeof(t_raycaster)) == NULL)
 		return (-1);
-	raycast->mapX = 0;
-	raycast->mapY = 0;
-	raycast->cameraX = 0.0;
-	raycast->rayDirX = 0.0;
-	raycast->rayDirY = 0.0;
-	raycast->deltaDistX = 0.0;
-	raycast->deltaDistY = 0.0;
-	raycast->sideDistX = 0.0;
-	raycast->sideDistY = 0.0;
-	raycast->stepX = 0;
-	raycast->stepY = 0;
-	raycast->posX = 0.0;
-	raycast->posY = 0.0;
+	raycast->map_x = 0;
+	raycast->map_y = 0;
+	raycast->camera_x = 0.0;
+	raycast->ray_dir_x = 0.0;
+	raycast->ray_dir_y = 0.0;
+	raycast->delta_dist_x = 0.0;
+	raycast->delta_dist_y = 0.0;
+	raycast->side_dist_x = 0.0;
+	raycast->side_dist_y = 0.0;
+	raycast->step_x = 0;
+	raycast->step_y = 0;
+	raycast->pos_x = 0.0;
+	raycast->pos_y = 0.0;
 	raycast->hit = 0;
 	raycast->side = 0;
 	return (0);

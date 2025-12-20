@@ -6,11 +6,17 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 00:34:30 by msalangi          #+#    #+#             */
-/*   Updated: 2025/12/20 20:07:25 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:13:40 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/cube3d.h"
+
+void	check_frame(int *frame)
+{
+	if (*frame >= 1500)
+		*frame = 0;
+}
 
 void	handle_hand(t_game *game)
 {
@@ -36,7 +42,8 @@ void	draw_hand(t_game *game, int offset, mlx_texture_t *texture)
 			{
 				f = vignette_factor(600 + x, 280 + y, &game->cfg, 0.65f);
 				color = apply_mask(color, 10, f);
-				mlx_put_pixel(game->res.image, 600 + x, 280 + y + offset, color);
+				mlx_put_pixel(game->res.image, 600 + x, 280 + y + offset,
+					color);
 			}
 			y++;
 		}
@@ -47,9 +54,9 @@ void	draw_hand(t_game *game, int offset, mlx_texture_t *texture)
 
 void	render_hand(t_game *game, int f)
 {
-	static int		offset = 0;
-	static int		frame = 0;
-	static int		flag = 0;
+	static int	offset = 0;
+	static int	frame = 0;
+	static int	flag = 0;
 
 	if (frame % 2)
 	{
@@ -59,7 +66,7 @@ void	render_hand(t_game *game, int f)
 			if (offset == 0)
 				flag = 0;
 		}
-		else if (flag == 0)
+		else
 		{
 			offset++;
 			if (offset == 20)
@@ -71,6 +78,5 @@ void	render_hand(t_game *game, int f)
 		draw_hand(game, offset, game->res.closed_hand);
 	else
 		draw_hand(game, offset, game->res.left_hand);
-	if (frame >= 1500)
-		frame = 0;
+	check_frame(&frame);
 }

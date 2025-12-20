@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/17 21:02:20 by msalangi          #+#    #+#             */
-/*   Updated: 2025/12/20 20:00:03 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:43:12 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,27 @@ float	get_light_factor(float dist)
 {
 	if (dist < 0.0f)
 		dist = 0.0f;
-	return (1.0f / (1.0f + dist * 0.11f));
+	return (1.0f / (1.0f + dist * 0.15f));
 }
 
 uint32_t	apply_mask(uint32_t color, float light, float fl)
-{	
+{
+	uint8_t	r;
+	uint8_t	g;
+	uint8_t	b;
+	uint8_t	a;
+
 	if (light < 0.0f)
 		light = 0.0f;
 	if (light > 1.0f)
 		light = 1.0f;
-
-	uint8_t	r = (color >> 24) & 0xFF;
-	uint8_t	g = (color >> 16) & 0xFF;
-	uint8_t	b = (color >> 8) & 0xFF;
-	uint8_t	a = color & 0xFF;
+	r = (color >> 24) & 0xFF;
+	g = (color >> 16) & 0xFF;
+	b = (color >> 8) & 0xFF;
+	a = color & 0xFF;
 	r = (uint8_t)fminf(255.0f, r * light * fl);
 	g = (uint8_t)fminf(255.0f, g * light * fl);
 	b = (uint8_t)fminf(255.0f, b * light * fl);
 	return (((uint32_t)r << 24) | ((uint32_t)g << 16)
-			| ((uint32_t)b << 8) | (uint32_t)a);
+		| ((uint32_t)b << 8) | (uint32_t)a);
 }

@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/14 14:39:29 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/17 16:18:04 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:29:03 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,12 @@ int	player_data_init(t_player *player)
 {
 	if (ft_memset(player, 0, sizeof(t_player)) == NULL)
 		return (-1);
-	player->posX = -1.0;
-	player->posY = -1.0;
-	player->dirX = 0.0;
-	player->dirY = 0.0;
-	player->planeX = 0.0;
-	player->planeY = 0.66;
+	player->pos_x = -1.0;
+	player->pos_y = -1.0;
+	player->dir_x = 0.0;
+	player->dir_y = 0.0;
+	player->plane_x = 0.0;
+	player->plane_y = 0.66;
 	player->fov = 60.0;
 	player->move_speed = 0.5;
 	player->rot_speed = 0.2;

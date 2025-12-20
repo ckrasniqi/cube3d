@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/28 22:15:13 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/20 20:49:28 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 23:29:03 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,15 @@ void	draw_wall(t_game *game, t_raycaster *rc,
 	double	tex_pos;
 
 	tex_x = get_tex_x(rc, tex);
-	step = 1.0 * tex->height / rc->lineHeight;
-	tex_pos = (rc->drawStart - game->cfg.height / 2
-			+ rc->lineHeight / 2) * step;
-	y = rc->drawStart;
-	if (rc->drawStart < 0)
+	step = 1.0 * tex->height / rc->line_height;
+	tex_pos = (rc->draw_start - game->cfg.height / 2
+			+ rc->line_height / 2) * step;
+	y = rc->draw_start;
+	if (rc->draw_start < 0)
 		y = 0;
-	if (rc->drawEnd > game->cfg.height)
-		rc->drawEnd = game->cfg.height;
-	while (y++ < rc->drawEnd)
+	if (rc->draw_end > game->cfg.height)
+		rc->draw_end = game->cfg.height;
+	while (y++ < rc->draw_end)
 	{
 		tex_y = (int)tex_pos;
 		if (tex_y >= (int)tex->height)
@@ -82,16 +82,16 @@ void	render_stripe(t_game *game, t_raycaster *rc, t_settings *cfg, int x)
 	mlx_texture_t	*tex;
 
 	y = 0;
-	if (rc->drawStart > 0)
+	if (rc->draw_start > 0)
 	{
-		end = rc->drawStart;
+		end = rc->draw_start;
 		if (end > cfg->height)
 			end = cfg->height;
 		draw_sky(game, end, x);
 	}
 	tex = get_texture(game, rc);
 	draw_wall(game, rc, tex, x);
-	y = rc->drawEnd;
+	y = rc->draw_end;
 	if (y < 0)
 		y = 0;
 	if (y > cfg->height)
@@ -106,9 +106,9 @@ void	raycaster(t_game *game, t_raycaster *rc)
 	x = 0;
 	while (x < game->cfg.width)
 	{
-		rc->cameraX = 2 * x / (double)(game->cfg.width) - 1;
-		rc->rayDirX = game->player.dirX + game->player.planeX * rc->cameraX;
-		rc->rayDirY = game->player.dirY + game->player.planeY * rc->cameraX;
+		rc->camera_x = 2 * x / (double)(game->cfg.width) - 1;
+		rc->ray_dir_x = game->player.dir_x + game->player.plane_x * rc->camera_x;
+		rc->ray_dir_y = game->player.dir_y + game->player.plane_y * rc->camera_x;
 		init_raycaster_variables(game, rc);
 		preform_dda(game, rc);
 		calculate_wall_projection(game, rc);
