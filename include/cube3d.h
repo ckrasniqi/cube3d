@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/13 12:35:18 by ckrasniq          #+#    #+#             */
-/*   Updated: 2025/12/20 01:16:06 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 20:53:59 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -247,9 +247,11 @@ void			draw_minimap_player(t_game *game, int mm_x,
 					int mm_y, int tile_size);
 uint32_t		apply_mask(uint32_t color, float light, float f);
 float 			get_light_factor(float dist);
-float			vignette_factor(int x, int y, int w, int h, float radius);
+float			vignette_factor(int x, int y, t_settings *cfg, float radius);
 void			render_hand(t_game *game, int f);
 void			draw_hand(t_game *game, int offset, mlx_texture_t *texture);
+int				check_yellow(uint32_t color);
+uint32_t		add_light(uint32_t color);
 
 /////////////////////////////////////////////////////////////////////////////////
 //							RAYCASTING										//
@@ -259,10 +261,10 @@ void			draw_hand(t_game *game, int offset, mlx_texture_t *texture);
 
 mlx_texture_t	*get_texture(t_game *game, t_raycaster *rc);
 int				get_tex_x(t_raycaster *rc, mlx_texture_t *tex);
-void			draw_wall_texture(t_game *game, t_settings *cfg, t_raycaster *rc, mlx_texture_t *tex, int x);
+void			draw_wall(t_game *game, t_raycaster *rc, mlx_texture_t *tex, int x);
 void			render_stripe(t_game *game, t_raycaster *rc,
 					t_settings *cfg, int x);
-
+void			wall_texture(t_game *game, int x, int y, uint32_t color);
 void			raycaster(t_game *game, t_raycaster *rc);
 
 // Raycaster utils

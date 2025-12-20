@@ -6,7 +6,7 @@
 /*   By: msalangi <msalangi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/19 00:34:30 by msalangi          #+#    #+#             */
-/*   Updated: 2025/12/20 01:23:57 by msalangi         ###   ########.fr       */
+/*   Updated: 2025/12/20 20:07:25 by msalangi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	draw_hand(t_game *game, int offset, mlx_texture_t *texture)
 			color = get_texture_pixel(texture, x, y);
 			if (color != 0x000000FF)
 			{
-				f = vignette_factor(600 + x, 280 + y, game->cfg.width, game->cfg.height, 0.65f);
+				f = vignette_factor(600 + x, 280 + y, &game->cfg, 0.65f);
 				color = apply_mask(color, 10, f);
 				mlx_put_pixel(game->res.image, 600 + x, 280 + y + offset, color);
 			}
@@ -67,8 +67,8 @@ void	render_hand(t_game *game, int f)
 		}
 	}
 	frame++;
-	if (f == 1 || frame < 300) 
-		draw_hand(game, offset - 50, game->res.closed_hand);
+	if (f == 1 || frame < 300)
+		draw_hand(game, offset, game->res.closed_hand);
 	else
 		draw_hand(game, offset, game->res.left_hand);
 	if (frame >= 1500)
